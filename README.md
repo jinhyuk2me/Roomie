@@ -6,7 +6,7 @@
 
 ```
 
-roomie_project/
+Roomie/
 ├── ros2_ws/                            # ROS2 공통 워크스페이스
 │   ├── build/                          # colcon build 시 자동 생성
 │   ├── install/
@@ -57,3 +57,4 @@ roomie_project/
 └── LICENSE
 
 ```
+
