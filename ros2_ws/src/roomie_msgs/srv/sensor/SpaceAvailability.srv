@@ -1,0 +1,7 @@
+# SpaceAvailability.srv
+# Request
+int32 robot_id
+---
+# Response
+int32 robot_id
+bool space_availability 

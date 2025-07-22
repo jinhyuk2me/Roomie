@@ -1,0 +1,14 @@
+# SetVSMode.srv
+# Request
+int32 robot_id
+int32 mode_id
+---
+# Response
+int32 robot_id
+bool success
+
+# mode_id values:
+# 0: 대기모드
+# 1: 등록모드
+# 2: 추적모드
+# 3: 엘리베이터모드 
