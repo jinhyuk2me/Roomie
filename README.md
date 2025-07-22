@@ -2,10 +2,9 @@
 
 
 
-### 폴더 구조 
+### 프로젝트 구조
 
 ```
-
 Roomie/
 ├── ros2_ws/                            # ROS2 공통 워크스페이스
 │   ├── build/                          # colcon build 시 자동 생성
@@ -19,42 +18,27 @@ Roomie/
 │       ├── roomie_rms/                # Main Server 노드 (RMS)
 │       └── bringup/                   # 통합 launch 파일 모음
 │
-├── esp32_firmware/                 # Micro-ROS 전용 ESP32 펌웨어 개발 디렉토리
-│   ├── arm_unit/                   # Arm 서보 제어용 펌웨어
+├── esp32_firmware/                     # Micro-ROS 전용 ESP32 펌웨어 개발
+│   ├── arm_unit/                      # Arm 서보 제어용 펌웨어
 │   │   └── src/
-│   └── io_controller/              # 센서, 서랍, LED 제어
+│   └── io_controller/                 # 센서, 서랍, LED 제어
 │       └── src/
-├── gui/                                # TCP GUI 앱들 (비 ROS 영역)
-│   ├── admin_gui/
-│   ├── staff_gui/
-│   └── guest_gui/
 │
-├── config/                             # 공통 설정 파일 (.yaml, .json 등)
-│   └── robot_model_config.yaml
+├── gui/                               # GUI 애플리케이션들
+│   ├── admin_gui/                     # 관리자용 GUI
+│   ├── staff_gui/                     # 직원용 GUI
+│   └── guest_gui/                     # 투숙객용 GUI
 │
-├── scripts/                            # 빌드 및 런치 자동화 스크립트
-│   ├── build_all.sh
-│   └── launch_all.sh
+├── assets/                            # 이미지 및 리소스 파일
+│   └── images/
 │
-├── docker/                             # Docker 환경 구성 (선택)
-│   ├── Dockerfile
-│   └── docker-compose.yml
-│
-├── simulation/                         # 시뮬레이션 환경 (Gazebo, RViz 등)
-│   ├── gazebo_worlds/
-│   └── rviz/
-│       └── roomie_config.rviz
-│
-├── docs/                               # 설계 문서
-│   ├── architecture/
-│   ├── interface/
-│   ├── user_requirements.md
-│   ├── system_requirements.md
-│   └── README.md
+├── docs/                              # 설계 문서
+│   ├── architecture/                  # 시스템 아키텍처
+│   ├── interface.md                   # 통신 인터페이스 정의
+│   └── state_diagram/                 # 상태 다이어그램
 │
 ├── .gitignore
 ├── README.md
 └── LICENSE
-
 ```
 
