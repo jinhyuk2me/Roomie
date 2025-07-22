@@ -4,7 +4,7 @@
 
 ### 폴더 구조 
 
-'''
+```
 roomie_system/
 ├── clients/
 │   ├── admin_gui/
@@ -20,4 +20,4 @@ roomie_system/
     ├── vision_service/
     └── robot_gui/
 
-'''
+```
