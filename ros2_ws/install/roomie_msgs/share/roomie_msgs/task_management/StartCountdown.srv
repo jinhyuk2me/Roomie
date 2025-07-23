@@ -1,0 +1,9 @@
+# StartCountdown.srv (StartDeparture)
+# Request
+int32 robot_id
+int32 task_id
+---
+# Response
+int32 robot_id
+bool success
+int32 reason 

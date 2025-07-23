@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/sensor/CheckItemLoaded.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "CheckItemLoaded.srv" "\n"
+      "Request")
+    struct CheckItemLoaded_Request {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct CheckItemLoaded_Response {
+      int32 robot_id;
+
+      boolean item_loaded;
+    };
+  };
+};

@@ -1,0 +1,11 @@
+# CheckItemLoaded.srv
+# Request
+int32 robot_id
+---
+# Response
+int32 robot_id
+bool item_loaded
+
+# item_loaded values:
+# true: 물품이 감지된 상태
+# false: 없는 상태 

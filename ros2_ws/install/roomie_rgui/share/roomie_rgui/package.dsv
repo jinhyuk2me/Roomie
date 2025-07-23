@@ -1,0 +1,12 @@
+source;share/roomie_rgui/hook/path.ps1
+source;share/roomie_rgui/hook/path.dsv
+source;share/roomie_rgui/hook/path.sh
+source;share/roomie_rgui/hook/pythonpath.ps1
+source;share/roomie_rgui/hook/pythonpath.dsv
+source;share/roomie_rgui/hook/pythonpath.sh
+source;share/roomie_rgui/hook/pythonscriptspath.ps1
+source;share/roomie_rgui/hook/pythonscriptspath.dsv
+source;share/roomie_rgui/hook/pythonscriptspath.sh
+source;share/roomie_rgui/hook/ament_prefix_path.ps1
+source;share/roomie_rgui/hook/ament_prefix_path.dsv
+source;share/roomie_rgui/hook/ament_prefix_path.sh

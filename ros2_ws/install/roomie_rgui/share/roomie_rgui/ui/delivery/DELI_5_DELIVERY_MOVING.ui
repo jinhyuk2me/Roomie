@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DeliveryProgress</class>
+ <widget class="QWidget" name="DeliveryProgress">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Delivery Progress</string>
+  </property>
+  <property name="styleSheet">
+   <string>QWidget {
+    background-color: #3a4a5c;
+}
+
+QLabel {
+    color: white;
+    font-family: "Malgun Gothic", "Arial", sans-serif;
+    background-color: transparent;
+    border: none;
+}</string>
+  </property>
+  
+  <!-- 상단 상태 인디케이터 1 -->
+  <widget class="QLabel" name="statusIndicator1">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 상단 상태 인디케이터 2 -->
+  <widget class="QLabel" name="statusIndicator2">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 메인 메시지 -->
+  <widget class="QLabel" name="mainMessage">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>450</y>
+     <width>700</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>배송중입니다.</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 64px; 
+font-weight: bold; 
+color: white; 
+letter-spacing: 1px;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  
+  <!-- 로딩 애니메이션 점들 -->
+  <widget class="QLabel" name="loadingDot1">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>620</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 8px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <widget class="QLabel" name="loadingDot2">
+   <property name="geometry">
+    <rect>
+     <x>920</x>
+     <y>620</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 8px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <widget class="QLabel" name="loadingDot3">
+   <property name="geometry">
+    <rect>
+     <x>960</x>
+     <y>620</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 8px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <widget class="QLabel" name="loadingDot4">
+   <property name="geometry">
+    <rect>
+     <x>1000</x>
+     <y>620</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 8px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <widget class="QLabel" name="loadingDot5">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>620</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 8px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 배송 아이콘 -->
+  <widget class="QLabel" name="deliveryIcon">
+   <property name="geometry">
+    <rect>
+     <x>960</x>
+     <y>300</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>🚚</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 60px;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  
+  <!-- 진행률 표시바 -->
+  <widget class="QFrame" name="progressFrame">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>700</y>
+     <width>500</width>
+     <height>8</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>QFrame {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    border: none;
+}</string>
+   </property>
+   
+   <!-- 진행률 바 -->
+   <widget class="QLabel" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>200</width>
+      <height>8</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string>background-color: #00CED1; border-radius: 4px;</string>
+    </property>
+    <property name="text">
+     <string></string>
+    </property>
+   </widget>
+  </widget>
+  
+  <!-- 하단 상태 텍스트 -->
+  <widget class="QLabel" name="statusText">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>800</y>
+     <width>500</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>목적지로 이동 중...</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 24px; 
+color: rgba(255, 255, 255, 0.6); 
+font-weight: normal;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
