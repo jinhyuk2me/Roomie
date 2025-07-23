@@ -103,6 +103,8 @@ class TestServiceClient(Node):
         print("  14 : 배송장소 이동 시작") 
         print("  15 : 배송장소 도착 완료")
         print("  16 : 서랍 열림")
+        print("  19 : 충전 시작")
+        print("  20 : 충전 종료")
         print("  24 : 배송 수령 완료")
         print("  25 : 배송 수령 미완료")
         print()
@@ -155,7 +157,7 @@ class TestServiceClient(Node):
                     self.call_departure_countdown()
                 elif cmd == "2":
                     self.call_return_countdown()
-                elif cmd in ["12", "13", "14", "15", "16", "24", "25"]:
+                elif cmd in ["12", "13", "14", "15", "16", "19", "20", "24", "25"]:
                     event_id = int(cmd)
                     self.publish_event(event_id)
                 else:
