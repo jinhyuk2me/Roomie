@@ -151,7 +151,10 @@ line-height: 1.3;</string>
     <string>적재완료</string>
    </property>
    <property name="styleSheet">
-    <string>font-size: 18px; font-weight: bold;</string>
+    <string>background-color: #7f8c8d; font-size: 18px; font-weight: bold;</string>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
   </widget>
 

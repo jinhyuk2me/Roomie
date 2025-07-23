@@ -13,6 +13,9 @@ class ScreenManager(QStackedWidget):
         self.node = node
         self.setWindowTitle("Roomie RGUI")
         
+        # 창 크기 설정 (UI 파일들이 1920x1080으로 설계됨)
+        self.setFixedSize(1920, 1080)
+        
         # 스타일 설정
         self.setStyleSheet("""
             QStackedWidget {
@@ -36,6 +39,8 @@ class ScreenManager(QStackedWidget):
             # 공통 화면
             "TOUCH_SCREEN": "ui/common/TOUCH_SCREEN.ui",
             "COUNTDOWN": "ui/countdown/COUNTDOWN.ui",
+            "RETURN_TO_BASE": "ui/common/RETURN_TO_BASE.ui",
+            "CHARGING": "ui/common/CHARGING.ui",
             
             # 배송 화면들
             "PICKUP_MOVING": "ui/delivery/DELI_1_PICKUP_MOVING.ui",
@@ -52,6 +57,8 @@ class ScreenManager(QStackedWidget):
         self.controller_map = {
             "TOUCH_SCREEN": CommonController,
             "COUNTDOWN": CommonController,
+            "RETURN_TO_BASE": CommonController,
+            "CHARGING": CommonController,
             "PICKUP_MOVING": DeliveryController,
             "PICKUP_ARRIVED": DeliveryController,
             "CHECKING_ORDER": DeliveryController,
@@ -70,6 +77,9 @@ class ScreenManager(QStackedWidget):
         # 초기 화면 표시
         self.show_screen("TOUCH_SCREEN")
         self.show()
+        
+        # 개발용: 전체화면으로 하려면 아래 주석 해제
+        # self.showFullScreen()
 
     def preload_all_screens(self):
         """모든 화면을 미리 로드하고 스택에 추가"""
@@ -138,3 +148,15 @@ class ScreenManager(QStackedWidget):
     def get_screen_controller(self, screen_name):
         """특정 화면의 컨트롤러 반환"""
         return self.screen_controllers.get(screen_name)
+    
+    def get_current_controller(self):
+        """현재 활성화된 화면의 컨트롤러 반환"""
+        if self.current_screen_name and self.current_screen_name in self.screen_controllers:
+            return self.screen_controllers[self.current_screen_name]
+        return None
+    
+    def notify_drawer_opened(self, detail=""):
+        """현재 컨트롤러에 서랍 열림 알림"""
+        controller = self.get_current_controller()
+        if controller and hasattr(controller, 'on_drawer_opened'):
+            controller.on_drawer_opened(detail)
