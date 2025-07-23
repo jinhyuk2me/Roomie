@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/security/ControlLock.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "ControlLock.srv" "\n"
+      "Request")
+    struct ControlLock_Request {
+      int32 robot_id;
+
+      boolean locked;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ControlLock_Response {
+      int32 robot_id;
+
+      boolean success;
+    };
+  };
+};

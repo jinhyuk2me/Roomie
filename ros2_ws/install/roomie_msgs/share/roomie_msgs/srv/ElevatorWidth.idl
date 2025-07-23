@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/door_elevator/ElevatorWidth.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "ElevatorWidth.srv" "\n"
+      "Request")
+    struct ElevatorWidth_Request {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ElevatorWidth_Response {
+      int32 robot_id;
+
+      float left_boundary;
+
+      float right_boundary;
+    };
+  };
+};
