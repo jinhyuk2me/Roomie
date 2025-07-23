@@ -1,0 +1,11 @@
+# CheckDoorState.srv
+# Request
+int32 robot_id
+---
+# Response
+int32 robot_id
+bool is_opened
+
+# is_opened values:
+# true: 열린 상태
+# false: 닫힌 상태 

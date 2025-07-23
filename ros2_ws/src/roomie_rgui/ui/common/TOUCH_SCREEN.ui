@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TouchScreen</class>
+ <widget class="QWidget" name="TouchScreen">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Touch Screen</string>
+  </property>
+  <property name="styleSheet">
+   <string>QWidget {
+    background-color: #3a4a5c;
+}
+
+QLabel {
+    color: white;
+    font-family: "Malgun Gothic", "Arial", sans-serif;
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+QPushButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 150px;
+}
+
+QPushButton:pressed {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 150px;
+}</string>
+  </property>
+  
+  <!-- 상단 상태 인디케이터 1 -->
+  <widget class="QLabel" name="statusIndicator1">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 상단 상태 인디케이터 2 -->
+  <widget class="QLabel" name="statusIndicator2">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- Touch Screen 타이틀 -->
+  <widget class="QLabel" name="titleLabel">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>300</y>
+     <width>400</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Touch Screen</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 72px; 
+font-weight: bold; 
+color: white; 
+letter-spacing: 2px;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  
+  <!-- 터치 영역 (원형 버튼) -->
+  <widget class="QPushButton" name="touchButton">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>480</y>
+     <width>300</width>
+     <height>300</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>👆</string>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: transparent; 
+border: 4px solid #00CED1; 
+border-radius: 150px; 
+font-size: 80px;</string>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

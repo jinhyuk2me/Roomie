@@ -15,6 +15,7 @@ Roomie/
 │       ├── roomie_rgui/               # 로봇 GUI 노드 (RGUI)
 │       ├── roomie_vs/                 # Vision Service 노드 (VS)
 │       ├── roomie_rms/                # Main Server 노드 (RMS)
+│       ├── roomie_agui/               # 관리자 GUI 노드 (Admin GUI)
 │       └── bringup/                   # 통합 launch 파일 모음
 │
 ├── esp32_firmware/                     # Micro-ROS 전용 ESP32 펌웨어 개발
@@ -23,8 +24,7 @@ Roomie/
 │   └── io_controller/                 # 센서, 서랍, LED 제어
 │       └── src/
 │
-├── gui/                               # GUI 애플리케이션들
-│   ├── admin_gui/                     # 관리자용 GUI
+├── gui/                               # GUI 애플리케이션들 (비 ROS)
 │   ├── staff_gui/                     # 직원용 GUI
 │   └── guest_gui/                     # 투숙객용 GUI
 │
@@ -40,4 +40,3 @@ Roomie/
 ├── README.md
 └── LICENSE
 ```
-
