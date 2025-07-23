@@ -11,10 +11,10 @@ roomie_msgs__srv__StartCountdown__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xc7, 0xa9, 0x65, 0x4d, 0x6d, 0xaa, 0x29, 0xfb,
-      0x11, 0xe0, 0xce, 0x4d, 0x82, 0x13, 0x63, 0x0c,
-      0x53, 0x83, 0x24, 0xe1, 0x49, 0x25, 0x5e, 0xbb,
-      0x60, 0x80, 0x16, 0x02, 0x4a, 0x59, 0x51, 0xbb,
+      0xba, 0x48, 0xda, 0x03, 0xe0, 0x6d, 0xa5, 0x0a,
+      0xb6, 0x61, 0xaf, 0x26, 0x72, 0x66, 0x39, 0x4d,
+      0x79, 0x81, 0x20, 0x5f, 0xc6, 0x4e, 0x0d, 0x6c,
+      0xfe, 0x24, 0x87, 0x54, 0xdd, 0x9b, 0x3d, 0x6b,
     }};
   return &hash;
 }
@@ -26,10 +26,10 @@ roomie_msgs__srv__StartCountdown_Request__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x82, 0xf8, 0xfb, 0xfe, 0x22, 0xf3, 0x13, 0x4b,
-      0xc8, 0x39, 0x75, 0x36, 0xce, 0x7d, 0x14, 0xb7,
-      0x61, 0xd6, 0x76, 0x3f, 0xf8, 0xde, 0xbc, 0x0a,
-      0xac, 0x59, 0x86, 0xda, 0x0c, 0x81, 0xa8, 0xf6,
+      0x94, 0x02, 0x16, 0x0f, 0xa1, 0x2d, 0x96, 0x08,
+      0x17, 0xf0, 0x22, 0xa5, 0xb4, 0xa3, 0x7c, 0x9f,
+      0xa4, 0x7a, 0x9f, 0x61, 0x41, 0xb3, 0x57, 0x68,
+      0x49, 0x55, 0xc7, 0x71, 0x33, 0xd0, 0xee, 0x66,
     }};
   return &hash;
 }
@@ -56,10 +56,10 @@ roomie_msgs__srv__StartCountdown_Event__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x4d, 0xfc, 0xa9, 0xa3, 0xad, 0x42, 0xde, 0x87,
-      0x1b, 0x47, 0xd7, 0xb8, 0x76, 0x96, 0x3e, 0x75,
-      0xf0, 0x80, 0x58, 0x54, 0xf7, 0x0f, 0x1d, 0x42,
-      0x6d, 0xb2, 0xe0, 0xd0, 0xad, 0xca, 0x12, 0x2f,
+      0x7d, 0xd3, 0x31, 0xdf, 0x37, 0xdb, 0x9c, 0x3a,
+      0x8a, 0xc1, 0x39, 0x54, 0xf8, 0xaa, 0x7a, 0x19,
+      0xc9, 0x65, 0x52, 0xe6, 0xdc, 0xa2, 0xf0, 0x83,
+      0x94, 0x85, 0xfb, 0xa3, 0x33, 0x3e, 0x0a, 0x43,
     }};
   return &hash;
 }
@@ -68,8 +68,8 @@ roomie_msgs__srv__StartCountdown_Event__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "service_msgs/msg/detail/service_event_info__functions.h"
 #include "builtin_interfaces/msg/detail/time__functions.h"
+#include "service_msgs/msg/detail/service_event_info__functions.h"
 
 // Hashes for external referenced types
 #ifndef NDEBUG
@@ -183,6 +183,7 @@ roomie_msgs__srv__StartCountdown__get_type_description(
 // Define type names, field names, and default values
 static char roomie_msgs__srv__StartCountdown_Request__FIELD_NAME__robot_id[] = "robot_id";
 static char roomie_msgs__srv__StartCountdown_Request__FIELD_NAME__task_id[] = "task_id";
+static char roomie_msgs__srv__StartCountdown_Request__FIELD_NAME__task_type_id[] = "task_type_id";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__srv__StartCountdown_Request__FIELDS[] = {
   {
@@ -205,6 +206,16 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__srv__StartCountdow
     },
     {NULL, 0, 0},
   },
+  {
+    {roomie_msgs__srv__StartCountdown_Request__FIELD_NAME__task_type_id, 12, 12},
+    {
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
+      0,
+      0,
+      {NULL, 0, 0},
+    },
+    {NULL, 0, 0},
+  },
 };
 
 const rosidl_runtime_c__type_description__TypeDescription *
@@ -216,7 +227,7 @@ roomie_msgs__srv__StartCountdown_Request__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__srv__StartCountdown_Request__TYPE_NAME, 38, 38},
-      {roomie_msgs__srv__StartCountdown_Request__FIELDS, 2, 2},
+      {roomie_msgs__srv__StartCountdown_Request__FIELDS, 3, 3},
     },
     {NULL, 0, 0},
   };
@@ -368,6 +379,7 @@ static char toplevel_type_raw_source[] =
   "# Request\n"
   "int32 robot_id\n"
   "int32 task_id\n"
+  "int32 task_type_id\n"
   "---\n"
   "# Response\n"
   "int32 robot_id\n"
@@ -387,7 +399,7 @@ roomie_msgs__srv__StartCountdown__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__srv__StartCountdown__TYPE_NAME, 30, 30},
     {srv_encoding, 3, 3},
-    {toplevel_type_raw_source, 133, 133},
+    {toplevel_type_raw_source, 152, 152},
   };
   return &source;
 }

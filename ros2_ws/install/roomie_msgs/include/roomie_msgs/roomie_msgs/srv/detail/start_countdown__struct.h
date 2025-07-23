@@ -25,6 +25,7 @@ typedef struct roomie_msgs__srv__StartCountdown_Request
 {
   int32_t robot_id;
   int32_t task_id;
+  int32_t task_type_id;
 } roomie_msgs__srv__StartCountdown_Request;
 
 // Struct for a sequence of roomie_msgs__srv__StartCountdown_Request.

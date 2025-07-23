@@ -20,13 +20,11 @@
 
 QLabel {
     color: white;
-    font-family: "Malgun Gothic", "Arial", sans-serif;
+    font-family: &quot;Malgun Gothic&quot;, &quot;Arial&quot;, sans-serif;
     background-color: transparent;
     border: none;
 }</string>
   </property>
-  
-  <!-- 상단 상태 인디케이터 1 -->
   <widget class="QLabel" name="statusIndicator1">
    <property name="geometry">
     <rect>
@@ -40,11 +38,9 @@ QLabel {
     <string>background-color: #00CED1; border-radius: 40px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
-  <!-- 상단 상태 인디케이터 2 -->
   <widget class="QLabel" name="statusIndicator2">
    <property name="geometry">
     <rect>
@@ -58,11 +54,9 @@ QLabel {
     <string>background-color: #00CED1; border-radius: 40px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
-  <!-- 메인 메시지 -->
   <widget class="QLabel" name="mainMessage">
    <property name="geometry">
     <rect>
@@ -72,21 +66,19 @@ QLabel {
      <height>120</height>
     </rect>
    </property>
-   <property name="text">
-    <string>배송중입니다.</string>
-   </property>
    <property name="styleSheet">
     <string>font-size: 64px; 
 font-weight: bold; 
 color: white; 
 letter-spacing: 1px;</string>
    </property>
+   <property name="text">
+    <string>배송중입니다.</string>
+   </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  
-  <!-- 로딩 애니메이션 점들 -->
   <widget class="QLabel" name="loadingDot1">
    <property name="geometry">
     <rect>
@@ -100,10 +92,9 @@ letter-spacing: 1px;</string>
     <string>background-color: #00CED1; border-radius: 8px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
   <widget class="QLabel" name="loadingDot2">
    <property name="geometry">
     <rect>
@@ -117,10 +108,9 @@ letter-spacing: 1px;</string>
     <string>background-color: #00CED1; border-radius: 8px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
   <widget class="QLabel" name="loadingDot3">
    <property name="geometry">
     <rect>
@@ -134,10 +124,9 @@ letter-spacing: 1px;</string>
     <string>background-color: #00CED1; border-radius: 8px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
   <widget class="QLabel" name="loadingDot4">
    <property name="geometry">
     <rect>
@@ -151,10 +140,9 @@ letter-spacing: 1px;</string>
     <string>background-color: #00CED1; border-radius: 8px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
   <widget class="QLabel" name="loadingDot5">
    <property name="geometry">
     <rect>
@@ -168,11 +156,9 @@ letter-spacing: 1px;</string>
     <string>background-color: #00CED1; border-radius: 8px;</string>
    </property>
    <property name="text">
-    <string></string>
+    <string/>
    </property>
   </widget>
-  
-  <!-- 배송 아이콘 -->
   <widget class="QLabel" name="deliveryIcon">
    <property name="geometry">
     <rect>
@@ -182,18 +168,16 @@ letter-spacing: 1px;</string>
      <height>80</height>
     </rect>
    </property>
-   <property name="text">
-    <string>🚚</string>
-   </property>
    <property name="styleSheet">
     <string>font-size: 60px;</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  
-  <!-- 진행률 표시바 -->
   <widget class="QFrame" name="progressFrame">
    <property name="geometry">
     <rect>
@@ -210,8 +194,6 @@ letter-spacing: 1px;</string>
     border: none;
 }</string>
    </property>
-   
-   <!-- 진행률 바 -->
    <widget class="QLabel" name="progressBar">
     <property name="geometry">
      <rect>
@@ -225,12 +207,10 @@ letter-spacing: 1px;</string>
      <string>background-color: #00CED1; border-radius: 4px;</string>
     </property>
     <property name="text">
-     <string></string>
+     <string/>
     </property>
    </widget>
   </widget>
-  
-  <!-- 하단 상태 텍스트 -->
   <widget class="QLabel" name="statusText">
    <property name="geometry">
     <rect>
@@ -240,13 +220,13 @@ letter-spacing: 1px;</string>
      <height>60</height>
     </rect>
    </property>
-   <property name="text">
-    <string>목적지로 이동 중...</string>
-   </property>
    <property name="styleSheet">
     <string>font-size: 24px; 
 color: rgba(255, 255, 255, 0.6); 
 font-weight: normal;</string>
+   </property>
+   <property name="text">
+    <string>목적지로 이동 중...</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

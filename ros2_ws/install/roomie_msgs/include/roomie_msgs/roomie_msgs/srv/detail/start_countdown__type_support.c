@@ -31,7 +31,7 @@ void roomie_msgs__srv__StartCountdown_Request__rosidl_typesupport_introspection_
   roomie_msgs__srv__StartCountdown_Request__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__StartCountdown_Request__rosidl_typesupport_introspection_c__StartCountdown_Request_message_member_array[2] = {
+static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__StartCountdown_Request__rosidl_typesupport_introspection_c__StartCountdown_Request_message_member_array[3] = {
   {
     "robot_id",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
@@ -67,13 +67,31 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__Start
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "task_type_id",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs__srv__StartCountdown_Request, task_type_id),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers roomie_msgs__srv__StartCountdown_Request__rosidl_typesupport_introspection_c__StartCountdown_Request_message_members = {
   "roomie_msgs__srv",  // message namespace
   "StartCountdown_Request",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(roomie_msgs__srv__StartCountdown_Request),
   false,  // has_any_key_member_
   roomie_msgs__srv__StartCountdown_Request__rosidl_typesupport_introspection_c__StartCountdown_Request_message_member_array,  // message members

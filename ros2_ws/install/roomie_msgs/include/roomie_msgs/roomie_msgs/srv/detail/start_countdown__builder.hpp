@@ -24,16 +24,32 @@ namespace srv
 namespace builder
 {
 
+class Init_StartCountdown_Request_task_type_id
+{
+public:
+  explicit Init_StartCountdown_Request_task_type_id(::roomie_msgs::srv::StartCountdown_Request & msg)
+  : msg_(msg)
+  {}
+  ::roomie_msgs::srv::StartCountdown_Request task_type_id(::roomie_msgs::srv::StartCountdown_Request::_task_type_id_type arg)
+  {
+    msg_.task_type_id = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::roomie_msgs::srv::StartCountdown_Request msg_;
+};
+
 class Init_StartCountdown_Request_task_id
 {
 public:
   explicit Init_StartCountdown_Request_task_id(::roomie_msgs::srv::StartCountdown_Request & msg)
   : msg_(msg)
   {}
-  ::roomie_msgs::srv::StartCountdown_Request task_id(::roomie_msgs::srv::StartCountdown_Request::_task_id_type arg)
+  Init_StartCountdown_Request_task_type_id task_id(::roomie_msgs::srv::StartCountdown_Request::_task_id_type arg)
   {
     msg_.task_id = std::move(arg);
-    return std::move(msg_);
+    return Init_StartCountdown_Request_task_type_id(msg_);
   }
 
 private:
