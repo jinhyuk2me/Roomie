@@ -18,6 +18,7 @@ roomie_msgs__srv__StartCountdown_Request__init(roomie_msgs__srv__StartCountdown_
   }
   // robot_id
   // task_id
+  // task_type_id
   return true;
 }
 
@@ -29,6 +30,7 @@ roomie_msgs__srv__StartCountdown_Request__fini(roomie_msgs__srv__StartCountdown_
   }
   // robot_id
   // task_id
+  // task_type_id
 }
 
 bool
@@ -43,6 +45,10 @@ roomie_msgs__srv__StartCountdown_Request__are_equal(const roomie_msgs__srv__Star
   }
   // task_id
   if (lhs->task_id != rhs->task_id) {
+    return false;
+  }
+  // task_type_id
+  if (lhs->task_type_id != rhs->task_type_id) {
     return false;
   }
   return true;
@@ -60,6 +66,8 @@ roomie_msgs__srv__StartCountdown_Request__copy(
   output->robot_id = input->robot_id;
   // task_id
   output->task_id = input->task_id;
+  // task_type_id
+  output->task_type_id = input->task_type_id;
   return true;
 }
 

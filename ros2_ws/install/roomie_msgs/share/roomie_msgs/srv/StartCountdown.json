@@ -118,6 +118,16 @@
               "nested_type_name": ""
             },
             "default_value": ""
+          },
+          {
+            "name": "task_type_id",
+            "type": {
+              "type_id": 6,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
           }
         ]
       },
@@ -206,7 +216,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/StartCountdown",
-      "hash_string": "RIHS01_c7a9654d6daa29fb11e0ce4d8213630c538324e149255ebb608016024a5951bb"
+      "hash_string": "RIHS01_ba48da03e06da50ab661af267266394d7981205fc64e0d6cfe248754dd9b3d6b"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -214,11 +224,11 @@
     },
     {
       "type_name": "roomie_msgs/srv/StartCountdown_Event",
-      "hash_string": "RIHS01_4dfca9a3ad42de871b47d7b876963e75f0805854f70f1d426db2e0d0adca122f"
+      "hash_string": "RIHS01_7dd331df37db9c3a8ac13954f8aa7a19c96552e6dca2f0839485fba3333e0a43"
     },
     {
       "type_name": "roomie_msgs/srv/StartCountdown_Request",
-      "hash_string": "RIHS01_82f8fbfe22f3134bc8397536ce7d14b761d6763ff8debc0aac5986da0c81a8f6"
+      "hash_string": "RIHS01_9402160fa12d960817f022a5b4a37c9fa47a9f6141b357684955c77133d0ee66"
     },
     {
       "type_name": "roomie_msgs/srv/StartCountdown_Response",

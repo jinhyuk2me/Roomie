@@ -43,6 +43,7 @@ struct StartCountdown_Request_
     {
       this->robot_id = 0l;
       this->task_id = 0l;
+      this->task_type_id = 0l;
     }
   }
 
@@ -54,6 +55,7 @@ struct StartCountdown_Request_
     {
       this->robot_id = 0l;
       this->task_id = 0l;
+      this->task_type_id = 0l;
     }
   }
 
@@ -64,6 +66,9 @@ struct StartCountdown_Request_
   using _task_id_type =
     int32_t;
   _task_id_type task_id;
+  using _task_type_id_type =
+    int32_t;
+  _task_type_id_type task_type_id;
 
   // setters for named parameter idiom
   Type & set__robot_id(
@@ -76,6 +81,12 @@ struct StartCountdown_Request_
     const int32_t & _arg)
   {
     this->task_id = _arg;
+    return *this;
+  }
+  Type & set__task_type_id(
+    const int32_t & _arg)
+  {
+    this->task_type_id = _arg;
     return *this;
   }
 
@@ -125,6 +136,9 @@ struct StartCountdown_Request_
       return false;
     }
     if (this->task_id != other.task_id) {
+      return false;
+    }
+    if (this->task_type_id != other.task_type_id) {
       return false;
     }
     return true;

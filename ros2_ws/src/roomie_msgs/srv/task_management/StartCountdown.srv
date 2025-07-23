@@ -2,6 +2,7 @@
 # Request
 int32 robot_id
 int32 task_id
+int32 task_type_id
 ---
 # Response
 int32 robot_id

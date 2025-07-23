@@ -12,6 +12,8 @@ module roomie_msgs {
       int32 robot_id;
 
       int32 task_id;
+
+      int32 task_type_id;
     };
     @verbatim (language="comment", text=
       "Response")

@@ -38,7 +38,7 @@ void StartCountdown_Request_fini_function(void * message_memory)
   typed_message->~StartCountdown_Request();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember StartCountdown_Request_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember StartCountdown_Request_message_member_array[3] = {
   {
     "robot_id",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
@@ -74,13 +74,31 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember StartCountdow
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "task_type_id",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs::srv::StartCountdown_Request, task_type_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers StartCountdown_Request_message_members = {
   "roomie_msgs::srv",  // message namespace
   "StartCountdown_Request",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(roomie_msgs::srv::StartCountdown_Request),
   false,  // has_any_key_member_
   StartCountdown_Request_message_member_array,  // message members
