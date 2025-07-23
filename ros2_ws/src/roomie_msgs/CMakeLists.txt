@@ -33,6 +33,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/robot_control/CreateTask.srv"
   "srv/robot_control/SetVSMode.srv"
   "srv/robot_control/Location.srv"
+  "srv/robot_control/GetLocations.srv"
   
   # Services - Door/Elevator
   "srv/door_elevator/UnlockDoor.srv"
