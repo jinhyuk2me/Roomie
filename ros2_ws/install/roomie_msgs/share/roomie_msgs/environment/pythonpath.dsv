@@ -1,1 +1,1 @@
-prepend-non-duplicate;PYTHONPATH;lib/python3.12/site-packages
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/build/roomie_msgs/ament_cmake_environment_hooks/pythonpath.dsv

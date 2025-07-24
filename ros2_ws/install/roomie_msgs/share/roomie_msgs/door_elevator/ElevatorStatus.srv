@@ -1,13 +1,1 @@
-# ElevatorStatus.srv
-# Request
-int32 robot_id
----
-# Response
-int32 robot_id
-int32 direction
-int32 position
-
-# direction values:
-# 0: upward
-# 1: downward
-# position: 현재 층 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/door_elevator/ElevatorStatus.srv

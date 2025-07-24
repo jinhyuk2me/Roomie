@@ -1,4 +1,1 @@
-source;share/roomie_msgs/environment/ament_prefix_path.sh
-source;share/roomie_msgs/environment/library_path.sh
-source;share/roomie_msgs/environment/path.sh
-source;share/roomie_msgs/environment/pythonpath.sh
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/build/roomie_msgs/ament_cmake_environment_hooks/local_setup.dsv

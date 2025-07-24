@@ -1,16 +1,1 @@
-// generated from rosidl_adapter/resource/msg.idl.em
-// with input from roomie_msgs/msg/task_management/TaskState.msg
-// generated code does not contain a copyright notice
-
-
-module roomie_msgs {
-  module msg {
-    @verbatim (language="comment", text=
-      "TaskState.msg")
-    struct TaskState {
-      int32 task_id;
-
-      int32 task_state_id;
-    };
-  };
-};
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/build/roomie_msgs/rosidl_adapter/roomie_msgs/msg/TaskState.idl

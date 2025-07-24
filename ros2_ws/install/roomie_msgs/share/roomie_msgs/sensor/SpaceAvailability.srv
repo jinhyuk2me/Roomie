@@ -1,7 +1,1 @@
-# SpaceAvailability.srv
-# Request
-int32 robot_id
----
-# Response
-int32 robot_id
-bool space_availability 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/sensor/SpaceAvailability.srv

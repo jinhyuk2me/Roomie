@@ -1,4 +1,1 @@
-# RoomiePose.msg
-int32 robot_id
-int32 floor
-geometry_msgs/Pose pose 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/msg/robot_status/RoomiePose.msg
