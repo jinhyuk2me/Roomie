@@ -1,0 +1,6 @@
+source;share/roomie_agui/hook/pythonpath.ps1
+source;share/roomie_agui/hook/pythonpath.dsv
+source;share/roomie_agui/hook/pythonpath.sh
+source;share/roomie_agui/hook/ament_prefix_path.ps1
+source;share/roomie_agui/hook/ament_prefix_path.dsv
+source;share/roomie_agui/hook/ament_prefix_path.sh

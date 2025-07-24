@@ -1,0 +1,64 @@
+# PerformTask.action
+# Goal
+int32 robot_id
+int32 task_id
+int32 task_type_id
+int32 task_status_id
+int32 target_location_id
+int32 pickup_location_id
+string order_info        # 주문 정보 (JSON)
+---
+# Result (RCS -> RMS 최종 결과)
+int32 robot_id
+int32 task_id
+bool success
+string message
+---
+# Feedback (RCS(수행중) -> RMS 진행 상황)
+int32 robot_id
+int32 task_id
+int32 task_status_id
+
+# task_type_id values:
+# 0: 음식배송
+# 1: 비품배송
+# 2: 호출
+# 3: 길안내
+
+# task_status_id values:
+# 0: 접수됨
+# 1: 준비 완료
+# 2: 로봇 할당됨
+# 3: 픽업 장소로 이동
+# 4: 픽업 대기 중
+# 5: 배송 중
+# 6: 픽업 도착
+# 7: 수령 완료
+# 10: 호출 이동 중
+# 11: 호출 도착
+# 20: 길안내 중
+# 21: 길안내 도착
+
+# location_id values:
+# 0: LOB_1
+# 1: LOB_2
+# 2: RES_1
+# 3: RES_2
+# 4: SUP_1
+# 5: ELE_1
+# 6: ELE_2
+# 101: ROOM_101
+
+# order_info example:
+# "{
+#     "items": [
+#       {
+#         "name": "스파게티",
+#         "quantity": 2
+#       },
+#       {
+#         "name": "피자",
+#         "quantity": 1
+#       }
+#     ]
+# }" 

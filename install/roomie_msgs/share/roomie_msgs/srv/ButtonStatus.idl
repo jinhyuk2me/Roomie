@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/sensor/ButtonStatus.srv
+// generated code does not contain a copyright notice
+
+#include "builtin_interfaces/msg/Time.idl"
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "ButtonStatus.srv" "\n"
+      "Request")
+    struct ButtonStatus_Request {
+      int32 robot_id;
+
+      sequence<int32> button_ids;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ButtonStatus_Response {
+      int32 robot_id;
+
+      sequence<float> xs;
+
+      sequence<float> ys;
+
+      sequence<float> depths;
+
+      sequence<boolean> is_pressed;
+
+      sequence<builtin_interfaces::msg::Time> timestamp;
+    };
+  };
+};

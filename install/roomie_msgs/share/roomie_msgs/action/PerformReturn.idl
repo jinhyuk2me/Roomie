@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from roomie_msgs/action/PerformReturn.action
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module action {
+    @verbatim (language="comment", text=
+      "PerformReturn.action" "\n"
+      "Goal")
+    struct PerformReturn_Goal {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Result")
+    struct PerformReturn_Result {
+      int32 robot_id;
+
+      string message;
+    };
+    @verbatim (language="comment", text=
+      "Feedback" "\n"
+      "(없음) ")
+    struct PerformReturn_Feedback {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};

@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/sensor/CheckDoorState.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "CheckDoorState.srv" "\n"
+      "Request")
+    struct CheckDoorState_Request {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct CheckDoorState_Response {
+      int32 robot_id;
+
+      boolean is_opened;
+    };
+  };
+};
