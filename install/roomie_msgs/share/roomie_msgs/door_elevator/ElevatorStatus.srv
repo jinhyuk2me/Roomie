@@ -1,0 +1,13 @@
+# ElevatorStatus.srv
+# Request
+int32 robot_id
+---
+# Response
+int32 robot_id
+int32 direction
+int32 position
+
+# direction values:
+# 0: upward
+# 1: downward
+# position: 현재 층 

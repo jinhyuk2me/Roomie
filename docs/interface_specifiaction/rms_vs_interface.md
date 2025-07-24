@@ -5,7 +5,7 @@
 ### 1.1 인식 모드 전환 요청
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/set_vs_mode`
+- **Topic**: `/vs/command/set_vs_mode`
 
 ```srv
 # SetVSMode.srv
@@ -29,7 +29,7 @@ bool success
 ### 1.2 엘리베이터 입구 너비 감지 요청
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/elevator_width`
+- **Topic**: `/vs/command/elevator_width`
 
 ```srv
 # ElevatorWidth.srv
@@ -47,7 +47,7 @@ float32 right_boundary
 ### 1.3 버튼 상태 감지 요청
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/button_status`
+- **Topic**: `/vs/command/button_status`
 
 ```srv
 # ButtonStatus.srv
@@ -76,7 +76,7 @@ builtin_interfaces/Time[] timestamp
 ### 1.4 엘리베이터 위치 및 방향 감지 요청
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/elevator_status`
+- **Topic**: `/vs/command/elevator_status`
 
 ```srv
 # ElevatorStatus.srv
@@ -101,7 +101,7 @@ int32 position
 ### 1.5 문 열림 감지 요청
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/door_status`
+- **Topic**: `/vs/command/door_status`
 
 ```srv
 # DoorStatus.srv
@@ -122,7 +122,7 @@ bool door_opened
 ### 1.6 엘리베이터 탑승/하차시 공간 확보 여부 감지
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/space_availability`
+- **Topic**: `/vs/command/space_availability`
 
 ```srv
 # SpaceAvailability.srv
@@ -139,7 +139,7 @@ bool space_availability
 ### 1.7 현재 위치 감지 결과
 - **From**: RC → VS
 - **Protocol**: ROS2 Service
-- **Topic**: `/roomie/command/location`
+- **Topic**: `/vs/command/location`
 
 ```srv
 # Location.srv

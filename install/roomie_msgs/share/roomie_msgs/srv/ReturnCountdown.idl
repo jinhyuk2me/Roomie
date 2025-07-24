@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/task_management/ReturnCountdown.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "ReturnCountdown.srv" "\n"
+      "Request")
+    struct ReturnCountdown_Request {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ReturnCountdown_Response {
+      int32 robot_id;
+
+      boolean success;
+
+      int32 reason;
+    };
+  };
+};

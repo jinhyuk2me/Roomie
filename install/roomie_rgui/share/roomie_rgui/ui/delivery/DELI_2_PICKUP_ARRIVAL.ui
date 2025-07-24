@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ArrivalComplete</class>
+ <widget class="QWidget" name="ArrivalComplete">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Arrival Complete</string>
+  </property>
+  <property name="styleSheet">
+   <string>QWidget {
+    background-color: #3a4a5c;
+}
+
+QLabel {
+    color: white;
+    font-family: "Malgun Gothic", "Arial", sans-serif;
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: PointingHandCursor;
+}</string>
+  </property>
+  
+  <!-- 상단 상태 인디케이터 1 -->
+  <widget class="QLabel" name="statusIndicator1">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 상단 상태 인디케이터 2 -->
+  <widget class="QLabel" name="statusIndicator2">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>120</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: #00CED1; border-radius: 40px;</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+  </widget>
+  
+  <!-- 도착 완료 타이틀 -->
+  <widget class="QLabel" name="arrivalTitle">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>400</y>
+     <width>500</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>도착 완료</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 64px; 
+font-weight: bold; 
+color: white; 
+letter-spacing: 1px;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  
+  <!-- 터치 안내 메시지 -->
+  <widget class="QLabel" name="touchMessage">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>520</y>
+     <width>700</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>화면을 터치해주세요.</string>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 48px; 
+font-weight: normal; 
+color: white; 
+letter-spacing: 1px;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  
+  <!-- 전체 화면 터치 영역 -->
+  <widget class="QPushButton" name="fullScreenTouchArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+   <property name="styleSheet">
+    <string>background-color: transparent;</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

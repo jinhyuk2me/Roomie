@@ -1,0 +1,30 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from roomie_msgs/srv/robot_control/GetLocations.srv
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "GetLocations.srv" "\n"
+      "Request")
+    struct GetLocations_Request {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct GetLocations_Response {
+      int32 robot_id;
+
+      boolean success;
+
+      sequence<int32> location_ids;
+
+      sequence<int32> floor_ids;
+
+      sequence<float> location_xs;
+
+      sequence<float> location_ys;
+    };
+  };
+};
