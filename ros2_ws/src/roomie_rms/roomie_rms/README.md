@@ -43,24 +43,8 @@
 ```
 
 🔄 데이터 흐름:
-GUI → HTTP → RMS Node (FastAPI) → 내부 처리 → RMS Node (ROS2) → Topics → Robot Controller
-Robot Controller → Topics → RMS Node (ROS2) → 내부 처리 → RMS Node (FastAPI) → WebSocket → GUI
-
-### 2.1 노드 유형별 특징
-
-#### RMS Node (중앙 서버) - Hybrid Architecture
-- **ROS2 Node**: rclpy 기반 노드 (Topics, Services, Actions)
-- **FastAPI Server**: HTTP API + WebSocket 서버
-- **이중 역할**: 
-  1. GUI와 HTTP/WebSocket 통신
-  2. Robot Controller와 ROS2 통신
-- **실행 방식**: 단일 프로세스에서 멀티스레드로 실행
-
-#### Robot Controller - Pure ROS2
-- **순수 ROS2 Node**: rclpy만 사용
-- **단일 역할**: 로봇 제어 로직만 담당
-- **통신 방식**: ROS2 Topics/Services만 사용
-- **실행 방식**: 표준 ROS2 노드
+- GUI → HTTP → RMS Node (FastAPI) → 내부 처리 → RMS Node (ROS2) → Topics → Robot Controller
+- Robot Controller → Topics → RMS Node (ROS2) → 내부 처리 → RMS Node (FastAPI) → WebSocket → GUI
 
 ## 3. 기술 스택
 
@@ -101,7 +85,8 @@ roomie_rms/
         │
         ├── services/       # 비즈니스 로직
         │   ├── __init__.py
-        │   └── websocket_manager.py  # WebSocket 관리자
+        │   ├── websocket_manager.py  # WebSocket 관리자
+        │   └── db_manager.py         # 데이터베이스 관리자
         │
         ├── schemas/        # 데이터 모델 (Pydantic)
         │   ├── __init__.py
@@ -109,6 +94,7 @@ roomie_rms/
         │   └── gui_models.py   # GUI 데이터 모델 (요청-응답 json 구조)
         │
         └── utils/          # 기타 유틸리티
-            ├── __init__.py #
+            ├── __init__.py
             └── logger.py
 ```
+

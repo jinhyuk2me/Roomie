@@ -61,14 +61,34 @@ CREATE TABLE robot (
     id INT PRIMARY KEY,
     name VARCHAR(16),
     model_name VARCHAR(16),
+    installation_date DATE
+);
+
+CREATE TABLE robot_current_state (
+    robot_id INT PRIMARY KEY,
+    robot_status_id INT,
+    location_id INT,
+    battery_level FLOAT,
+    error_id INT,
+    last_updated_time DATETIME,
+    FOREIGN KEY (robot_id) REFERENCES robot(id),
+    FOREIGN KEY (robot_status_id) REFERENCES robot_status(id),
+    FOREIGN KEY (location_id) REFERENCES location(id),
+    FOREIGN KEY (error_id) REFERENCES error(id)
+);
+
+CREATE TABLE robot_log (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    robot_id INT,
     robot_status_id INT,
     task_id INT,
-    floor_id INT,
-    battery_status INT,
+    location_id INT,
     error_id INT,
+    record_time DATETIME,
+    FOREIGN KEY (robot_id) REFERENCES robot(id),
     FOREIGN KEY (robot_status_id) REFERENCES robot_status(id),
     FOREIGN KEY (task_id) REFERENCES task(id),
-    FOREIGN KEY (floor_id) REFERENCES floor(id),
+    FOREIGN KEY (location_id) REFERENCES location(id),
     FOREIGN KEY (error_id) REFERENCES error(id)
 );
 

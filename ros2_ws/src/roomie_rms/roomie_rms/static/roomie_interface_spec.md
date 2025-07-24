@@ -43,7 +43,6 @@ float32[] location_ys
 # RobotState.msg
 
 int32 robot_id
-int32 task_id
 int32 robot_state_id
 ```
 
@@ -78,7 +77,7 @@ bool is_charging
 # RoomiePose.msg
 
 int32 robot_id
-int32 floor
+int32 floor_id
 geometry_msgs/Pose pose
 ```
 
