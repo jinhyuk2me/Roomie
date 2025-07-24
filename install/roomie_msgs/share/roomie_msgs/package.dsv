@@ -1,0 +1,14 @@
+source;share/roomie_msgs/hook/cmake_prefix_path.ps1
+source;share/roomie_msgs/hook/cmake_prefix_path.dsv
+source;share/roomie_msgs/hook/cmake_prefix_path.sh
+source;share/roomie_msgs/hook/ld_library_path_lib.ps1
+source;share/roomie_msgs/hook/ld_library_path_lib.dsv
+source;share/roomie_msgs/hook/ld_library_path_lib.sh
+source;share/roomie_msgs/hook/pythonpath.ps1
+source;share/roomie_msgs/hook/pythonpath.dsv
+source;share/roomie_msgs/hook/pythonpath.sh
+source;share/roomie_msgs/local_setup.bash
+source;share/roomie_msgs/local_setup.dsv
+source;share/roomie_msgs/local_setup.ps1
+source;share/roomie_msgs/local_setup.sh
+source;share/roomie_msgs/local_setup.zsh

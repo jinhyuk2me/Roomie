@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Countdown</class>
+ <widget class="QWidget" name="Countdown">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Countdown</string>
+  </property>
+  <property name="styleSheet">
+   <string>QWidget {
+    background-color: #3a4a5c;
+}
+
+QLabel {
+    color: white;
+    font-family: &quot;Malgun Gothic&quot;, &quot;Arial&quot;, sans-serif;
+    background-color: transparent;
+    border: none;
+}</string>
+  </property>
+  <widget class="QLabel" name="countdownTitle">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>240</y>
+     <width>1000</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Malgun Gothic</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font-size: 60px; 
+font-weight: bold; 
+color: white;</string>
+   </property>
+   <property name="text">
+    <string>5초후에 [...]합니다.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="countdownSubtitle">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>400</y>
+     <width>1000</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 36px; 
+color: white;</string>
+   </property>
+   <property name="text">
+    <string>안전을 위해 뒤로 한걸음 물러나 주세요.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="countdownNumber">
+   <property name="geometry">
+    <rect>
+     <x>885</x>
+     <y>550</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>font-size: 96px; 
+font-weight: bold; 
+color: white; 
+border: 4px solid white; 
+border-radius: 75px;</string>
+   </property>
+   <property name="text">
+    <string>5</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
