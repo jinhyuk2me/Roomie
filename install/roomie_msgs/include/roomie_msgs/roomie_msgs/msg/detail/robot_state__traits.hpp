@@ -35,13 +35,6 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: task_id
-  {
-    out << "task_id: ";
-    rosidl_generator_traits::value_to_yaml(msg.task_id, out);
-    out << ", ";
-  }
-
   // member: robot_state_id
   {
     out << "robot_state_id: ";
@@ -61,16 +54,6 @@ inline void to_block_style_yaml(
     }
     out << "robot_id: ";
     rosidl_generator_traits::value_to_yaml(msg.robot_id, out);
-    out << "\n";
-  }
-
-  // member: task_id
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "task_id: ";
-    rosidl_generator_traits::value_to_yaml(msg.task_id, out);
     out << "\n";
   }
 

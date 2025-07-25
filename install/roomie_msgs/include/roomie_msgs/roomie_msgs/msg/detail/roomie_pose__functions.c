@@ -22,7 +22,7 @@ roomie_msgs__msg__RoomiePose__init(roomie_msgs__msg__RoomiePose * msg)
     return false;
   }
   // robot_id
-  // floor
+  // floor_id
   // pose
   if (!geometry_msgs__msg__Pose__init(&msg->pose)) {
     roomie_msgs__msg__RoomiePose__fini(msg);
@@ -38,7 +38,7 @@ roomie_msgs__msg__RoomiePose__fini(roomie_msgs__msg__RoomiePose * msg)
     return;
   }
   // robot_id
-  // floor
+  // floor_id
   // pose
   geometry_msgs__msg__Pose__fini(&msg->pose);
 }
@@ -53,8 +53,8 @@ roomie_msgs__msg__RoomiePose__are_equal(const roomie_msgs__msg__RoomiePose * lhs
   if (lhs->robot_id != rhs->robot_id) {
     return false;
   }
-  // floor
-  if (lhs->floor != rhs->floor) {
+  // floor_id
+  if (lhs->floor_id != rhs->floor_id) {
     return false;
   }
   // pose
@@ -76,8 +76,8 @@ roomie_msgs__msg__RoomiePose__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
-  // floor
-  output->floor = input->floor;
+  // floor_id
+  output->floor_id = input->floor_id;
   // pose
   if (!geometry_msgs__msg__Pose__copy(
       &(input->pose), &(output->pose)))

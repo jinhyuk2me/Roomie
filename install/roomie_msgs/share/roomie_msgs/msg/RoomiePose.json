@@ -14,7 +14,7 @@
           "default_value": ""
         },
         {
-          "name": "floor",
+          "name": "floor_id",
           "type": {
             "type_id": 6,
             "capacity": 0,
@@ -146,7 +146,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/msg/RoomiePose",
-      "hash_string": "RIHS01_7a79898a265cfd218c12549dcfad621bf5934adbef8eee77956f4c10d75ab5ed"
+      "hash_string": "RIHS01_f4ee2bf3ab2f8172c102eb3b955f40a30e4b187078fc9a362d8c254f953f7fee"
     },
     {
       "type_name": "geometry_msgs/msg/Point",

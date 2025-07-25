@@ -40,15 +40,15 @@ private:
   ::roomie_msgs::msg::RoomiePose msg_;
 };
 
-class Init_RoomiePose_floor
+class Init_RoomiePose_floor_id
 {
 public:
-  explicit Init_RoomiePose_floor(::roomie_msgs::msg::RoomiePose & msg)
+  explicit Init_RoomiePose_floor_id(::roomie_msgs::msg::RoomiePose & msg)
   : msg_(msg)
   {}
-  Init_RoomiePose_pose floor(::roomie_msgs::msg::RoomiePose::_floor_type arg)
+  Init_RoomiePose_pose floor_id(::roomie_msgs::msg::RoomiePose::_floor_id_type arg)
   {
-    msg_.floor = std::move(arg);
+    msg_.floor_id = std::move(arg);
     return Init_RoomiePose_pose(msg_);
   }
 
@@ -62,10 +62,10 @@ public:
   Init_RoomiePose_robot_id()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_RoomiePose_floor robot_id(::roomie_msgs::msg::RoomiePose::_robot_id_type arg)
+  Init_RoomiePose_floor_id robot_id(::roomie_msgs::msg::RoomiePose::_robot_id_type arg)
   {
     msg_.robot_id = std::move(arg);
-    return Init_RoomiePose_floor(msg_);
+    return Init_RoomiePose_floor_id(msg_);
   }
 
 private:

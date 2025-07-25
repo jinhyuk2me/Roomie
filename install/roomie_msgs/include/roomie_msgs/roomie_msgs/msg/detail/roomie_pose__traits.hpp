@@ -39,10 +39,10 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: floor
+  // member: floor_id
   {
-    out << "floor: ";
-    rosidl_generator_traits::value_to_yaml(msg.floor, out);
+    out << "floor_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.floor_id, out);
     out << ", ";
   }
 
@@ -68,13 +68,13 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
-  // member: floor
+  // member: floor_id
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "floor: ";
-    rosidl_generator_traits::value_to_yaml(msg.floor, out);
+    out << "floor_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.floor_id, out);
     out << "\n";
   }
 

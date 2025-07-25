@@ -18,7 +18,6 @@ roomie_msgs__msg__RobotState__init(roomie_msgs__msg__RobotState * msg)
     return false;
   }
   // robot_id
-  // task_id
   // robot_state_id
   return true;
 }
@@ -30,7 +29,6 @@ roomie_msgs__msg__RobotState__fini(roomie_msgs__msg__RobotState * msg)
     return;
   }
   // robot_id
-  // task_id
   // robot_state_id
 }
 
@@ -42,10 +40,6 @@ roomie_msgs__msg__RobotState__are_equal(const roomie_msgs__msg__RobotState * lhs
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
-    return false;
-  }
-  // task_id
-  if (lhs->task_id != rhs->task_id) {
     return false;
   }
   // robot_state_id
@@ -65,8 +59,6 @@ roomie_msgs__msg__RobotState__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
-  // task_id
-  output->task_id = input->task_id;
   // robot_state_id
   output->robot_state_id = input->robot_state_id;
   return true;

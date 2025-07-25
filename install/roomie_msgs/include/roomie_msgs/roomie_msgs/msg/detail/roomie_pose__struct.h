@@ -30,7 +30,7 @@ extern "C"
 typedef struct roomie_msgs__msg__RoomiePose
 {
   int32_t robot_id;
-  int32_t floor;
+  int32_t floor_id;
   geometry_msgs__msg__Pose pose;
 } roomie_msgs__msg__RoomiePose;
 
