@@ -57,7 +57,7 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__Roomi
     NULL  // resize(index) function pointer
   },
   {
-    "floor",  // name
+    "floor_id",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
@@ -65,7 +65,7 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__Roomi
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(roomie_msgs__msg__RoomiePose, floor),  // bytes offset in struct
+    offsetof(roomie_msgs__msg__RoomiePose, floor_id),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer

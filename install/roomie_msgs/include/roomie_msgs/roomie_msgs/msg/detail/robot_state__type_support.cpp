@@ -38,7 +38,7 @@ void RobotState_fini_function(void * message_memory)
   typed_message->~RobotState();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember RobotState_message_member_array[3] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember RobotState_message_member_array[2] = {
   {
     "robot_id",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
@@ -49,24 +49,6 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember RobotState_me
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs::msg::RobotState, robot_id),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "task_id",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is key
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(roomie_msgs::msg::RobotState, task_id),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -98,7 +80,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember RobotState_me
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers RobotState_message_members = {
   "roomie_msgs::msg",  // message namespace
   "RobotState",  // message name
-  3,  // number of fields
+  2,  // number of fields
   sizeof(roomie_msgs::msg::RobotState),
   false,  // has_any_key_member_
   RobotState_message_member_array,  // message members

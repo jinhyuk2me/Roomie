@@ -14,16 +14,6 @@
           "default_value": ""
         },
         {
-          "name": "task_id",
-          "type": {
-            "type_id": 6,
-            "capacity": 0,
-            "string_capacity": 0,
-            "nested_type_name": ""
-          },
-          "default_value": ""
-        },
-        {
           "name": "robot_state_id",
           "type": {
             "type_id": 6,
@@ -40,7 +30,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/msg/RobotState",
-      "hash_string": "RIHS01_2449fd0fed1dae65745bd7fedf6731ada66aad376a55b7e996adb7bb63a9c862"
+      "hash_string": "RIHS01_afd5f546c8fba1040ad15ae5bcef090aa03a226e2c77b4e284a0270fa7699fee"
     }
   ]
 }

@@ -42,7 +42,6 @@ struct RobotState_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
-      this->task_id = 0l;
       this->robot_state_id = 0l;
     }
   }
@@ -54,7 +53,6 @@ struct RobotState_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
-      this->task_id = 0l;
       this->robot_state_id = 0l;
     }
   }
@@ -63,9 +61,6 @@ struct RobotState_
   using _robot_id_type =
     int32_t;
   _robot_id_type robot_id;
-  using _task_id_type =
-    int32_t;
-  _task_id_type task_id;
   using _robot_state_id_type =
     int32_t;
   _robot_state_id_type robot_state_id;
@@ -75,12 +70,6 @@ struct RobotState_
     const int32_t & _arg)
   {
     this->robot_id = _arg;
-    return *this;
-  }
-  Type & set__task_id(
-    const int32_t & _arg)
-  {
-    this->task_id = _arg;
     return *this;
   }
   Type & set__robot_state_id(
@@ -133,9 +122,6 @@ struct RobotState_
   bool operator==(const RobotState_ & other) const
   {
     if (this->robot_id != other.robot_id) {
-      return false;
-    }
-    if (this->task_id != other.task_id) {
       return false;
     }
     if (this->robot_state_id != other.robot_state_id) {

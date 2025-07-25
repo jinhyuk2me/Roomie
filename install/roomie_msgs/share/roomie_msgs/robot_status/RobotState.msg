@@ -1,7 +1,7 @@
 # RobotState.msg
 int32 robot_id
-int32 task_id
 int32 robot_state_id
+# int32 task_id
 
 # robot_state_id values:
 # 0: 작업 불가능

@@ -1,8 +1,1 @@
-# ReadCardInfo.srv
-# Request
-int32 robot_id
----
-# Response
-int32 robot_id
-bool success
-int32 location_id 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/sensor/ReadCardInfo.srv

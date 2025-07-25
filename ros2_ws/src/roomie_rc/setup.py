@@ -7,6 +7,7 @@ setup(
     version='0.0.0',
     packages=[package_name],
     data_files=[
+        ('share/ament_index/resource_index/packages', ['resource/roomie_rc']),
         ('share/' + package_name, ['package.xml']),
     ],
     install_requires=['setuptools'],

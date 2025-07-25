@@ -1,3 +1,1 @@
-# Registered.msg
-int32 robot_id
-builtin_interfaces/Time timestamp 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/msg/user_interface/Registered.msg

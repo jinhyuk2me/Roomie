@@ -1,10 +1,1 @@
-# StartCountdown.srv (StartDeparture)
-# Request
-int32 robot_id
-int32 task_id
-int32 task_type_id
----
-# Response
-int32 robot_id
-bool success
-int32 reason 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/task_management/StartCountdown.srv

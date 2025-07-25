@@ -11,10 +11,10 @@ roomie_msgs__msg__RobotState__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x24, 0x49, 0xfd, 0x0f, 0xed, 0x1d, 0xae, 0x65,
-      0x74, 0x5b, 0xd7, 0xfe, 0xdf, 0x67, 0x31, 0xad,
-      0xa6, 0x6a, 0xad, 0x37, 0x6a, 0x55, 0xb7, 0xe9,
-      0x96, 0xad, 0xb7, 0xbb, 0x63, 0xa9, 0xc8, 0x62,
+      0xaf, 0xd5, 0xf5, 0x46, 0xc8, 0xfb, 0xa1, 0x04,
+      0x0a, 0xd1, 0x5a, 0xe5, 0xbc, 0xef, 0x09, 0x0a,
+      0xa0, 0x3a, 0x22, 0x6e, 0x2c, 0x77, 0xb4, 0xe2,
+      0x84, 0xa0, 0x27, 0x0f, 0xa7, 0x69, 0x9f, 0xee,
     }};
   return &hash;
 }
@@ -32,22 +32,11 @@ static char roomie_msgs__msg__RobotState__TYPE_NAME[] = "roomie_msgs/msg/RobotSt
 
 // Define type names, field names, and default values
 static char roomie_msgs__msg__RobotState__FIELD_NAME__robot_id[] = "robot_id";
-static char roomie_msgs__msg__RobotState__FIELD_NAME__task_id[] = "task_id";
 static char roomie_msgs__msg__RobotState__FIELD_NAME__robot_state_id[] = "robot_state_id";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__msg__RobotState__FIELDS[] = {
   {
     {roomie_msgs__msg__RobotState__FIELD_NAME__robot_id, 8, 8},
-    {
-      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
-      0,
-      0,
-      {NULL, 0, 0},
-    },
-    {NULL, 0, 0},
-  },
-  {
-    {roomie_msgs__msg__RobotState__FIELD_NAME__task_id, 7, 7},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
       0,
@@ -77,7 +66,7 @@ roomie_msgs__msg__RobotState__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__msg__RobotState__TYPE_NAME, 26, 26},
-      {roomie_msgs__msg__RobotState__FIELDS, 3, 3},
+      {roomie_msgs__msg__RobotState__FIELDS, 2, 2},
     },
     {NULL, 0, 0},
   };
@@ -90,8 +79,8 @@ roomie_msgs__msg__RobotState__get_type_description(
 static char toplevel_type_raw_source[] =
   "# RobotState.msg\n"
   "int32 robot_id\n"
-  "int32 task_id\n"
   "int32 robot_state_id\n"
+  "# int32 task_id\n"
   "\n"
   "# robot_state_id values:\n"
   "# 0: \\xec\\x9e\\x91\\xec\\x97\\x85 \\xeb\\xb6\\x88\\xea\\xb0\\x80\\xeb\\x8a\\xa5\n"
@@ -115,7 +104,7 @@ roomie_msgs__msg__RobotState__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__msg__RobotState__TYPE_NAME, 26, 26},
     {msg_encoding, 3, 3},
-    {toplevel_type_raw_source, 188, 188},
+    {toplevel_type_raw_source, 190, 190},
   };
   return &source;
 }

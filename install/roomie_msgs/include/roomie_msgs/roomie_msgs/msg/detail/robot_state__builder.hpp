@@ -40,32 +40,16 @@ private:
   ::roomie_msgs::msg::RobotState msg_;
 };
 
-class Init_RobotState_task_id
-{
-public:
-  explicit Init_RobotState_task_id(::roomie_msgs::msg::RobotState & msg)
-  : msg_(msg)
-  {}
-  Init_RobotState_robot_state_id task_id(::roomie_msgs::msg::RobotState::_task_id_type arg)
-  {
-    msg_.task_id = std::move(arg);
-    return Init_RobotState_robot_state_id(msg_);
-  }
-
-private:
-  ::roomie_msgs::msg::RobotState msg_;
-};
-
 class Init_RobotState_robot_id
 {
 public:
   Init_RobotState_robot_id()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_RobotState_task_id robot_id(::roomie_msgs::msg::RobotState::_robot_id_type arg)
+  Init_RobotState_robot_state_id robot_id(::roomie_msgs::msg::RobotState::_robot_id_type arg)
   {
     msg_.robot_id = std::move(arg);
-    return Init_RobotState_task_id(msg_);
+    return Init_RobotState_robot_state_id(msg_);
   }
 
 private:

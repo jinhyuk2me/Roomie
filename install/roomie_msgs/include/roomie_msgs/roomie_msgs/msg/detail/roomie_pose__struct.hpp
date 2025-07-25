@@ -47,7 +47,7 @@ struct RoomiePose_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
-      this->floor = 0l;
+      this->floor_id = 0l;
     }
   }
 
@@ -58,7 +58,7 @@ struct RoomiePose_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
-      this->floor = 0l;
+      this->floor_id = 0l;
     }
   }
 
@@ -66,9 +66,9 @@ struct RoomiePose_
   using _robot_id_type =
     int32_t;
   _robot_id_type robot_id;
-  using _floor_type =
+  using _floor_id_type =
     int32_t;
-  _floor_type floor;
+  _floor_id_type floor_id;
   using _pose_type =
     geometry_msgs::msg::Pose_<ContainerAllocator>;
   _pose_type pose;
@@ -80,10 +80,10 @@ struct RoomiePose_
     this->robot_id = _arg;
     return *this;
   }
-  Type & set__floor(
+  Type & set__floor_id(
     const int32_t & _arg)
   {
-    this->floor = _arg;
+    this->floor_id = _arg;
     return *this;
   }
   Type & set__pose(
@@ -138,7 +138,7 @@ struct RoomiePose_
     if (this->robot_id != other.robot_id) {
       return false;
     }
-    if (this->floor != other.floor) {
+    if (this->floor_id != other.floor_id) {
       return false;
     }
     if (this->pose != other.pose) {

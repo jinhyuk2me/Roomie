@@ -11,7 +11,7 @@ module roomie_msgs {
     struct RoomiePose {
       int32 robot_id;
 
-      int32 floor;
+      int32 floor_id;
 
       geometry_msgs::msg::Pose pose;
     };

@@ -31,7 +31,7 @@ void roomie_msgs__msg__RobotState__rosidl_typesupport_introspection_c__RobotStat
   roomie_msgs__msg__RobotState__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__RobotState__rosidl_typesupport_introspection_c__RobotState_message_member_array[3] = {
+static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__RobotState__rosidl_typesupport_introspection_c__RobotState_message_member_array[2] = {
   {
     "robot_id",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
@@ -42,24 +42,6 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__Robot
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs__msg__RobotState, robot_id),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
-  },
-  {
-    "task_id",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is key
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(roomie_msgs__msg__RobotState, task_id),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -91,7 +73,7 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__msg__Robot
 static const rosidl_typesupport_introspection_c__MessageMembers roomie_msgs__msg__RobotState__rosidl_typesupport_introspection_c__RobotState_message_members = {
   "roomie_msgs__msg",  // message namespace
   "RobotState",  // message name
-  3,  // number of fields
+  2,  // number of fields
   sizeof(roomie_msgs__msg__RobotState),
   false,  // has_any_key_member_
   roomie_msgs__msg__RobotState__rosidl_typesupport_introspection_c__RobotState_message_member_array,  // message members

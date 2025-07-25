@@ -26,7 +26,6 @@ extern "C"
 typedef struct roomie_msgs__msg__RobotState
 {
   int32_t robot_id;
-  int32_t task_id;
   int32_t robot_state_id;
 } roomie_msgs__msg__RobotState;
 

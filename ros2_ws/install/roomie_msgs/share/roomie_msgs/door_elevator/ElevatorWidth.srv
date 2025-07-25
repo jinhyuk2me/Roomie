@@ -1,8 +1,1 @@
-# ElevatorWidth.srv
-# Request
-int32 robot_id
----
-# Response
-int32 robot_id
-float32 left_boundary
-float32 right_boundary 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/door_elevator/ElevatorWidth.srv

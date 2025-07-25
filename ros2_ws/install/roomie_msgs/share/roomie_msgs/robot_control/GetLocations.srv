@@ -1,11 +1,1 @@
-# GetLocations.srv
-# Request
-int32 robot_id
----
-# Response
-int32 robot_id
-bool success
-int32[] location_ids
-int32[] floor_ids
-float32[] location_xs
-float32[] location_ys 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/srv/robot_control/GetLocations.srv

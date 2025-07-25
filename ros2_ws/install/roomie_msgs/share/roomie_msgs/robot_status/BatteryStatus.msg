@@ -1,4 +1,1 @@
-# BatteryStatus.msg
-int32 robot_id
-float32 charge_percentage
-bool is_charging 
+/home/jinhyuk2me/project_ws/Roomie/ros2_ws/src/roomie_msgs/msg/robot_status/BatteryStatus.msg

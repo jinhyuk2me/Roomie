@@ -11,10 +11,10 @@ roomie_msgs__msg__RoomiePose__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x7a, 0x79, 0x89, 0x8a, 0x26, 0x5c, 0xfd, 0x21,
-      0x8c, 0x12, 0x54, 0x9d, 0xcf, 0xad, 0x62, 0x1b,
-      0xf5, 0x93, 0x4a, 0xdb, 0xef, 0x8e, 0xee, 0x77,
-      0x95, 0x6f, 0x4c, 0x10, 0xd7, 0x5a, 0xb5, 0xed,
+      0xf4, 0xee, 0x2b, 0xf3, 0xab, 0x2f, 0x81, 0x72,
+      0xc1, 0x02, 0xeb, 0x3b, 0x95, 0x5f, 0x40, 0xa3,
+      0x0e, 0x4b, 0x18, 0x70, 0x78, 0xfc, 0x9a, 0x36,
+      0x2d, 0x8c, 0x25, 0x4f, 0x95, 0x3f, 0x7f, 0xee,
     }};
   return &hash;
 }
@@ -23,8 +23,8 @@ roomie_msgs__msg__RoomiePose__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "geometry_msgs/msg/detail/point__functions.h"
 #include "geometry_msgs/msg/detail/pose__functions.h"
+#include "geometry_msgs/msg/detail/point__functions.h"
 #include "geometry_msgs/msg/detail/quaternion__functions.h"
 
 // Hashes for external referenced types
@@ -56,7 +56,7 @@ static char geometry_msgs__msg__Quaternion__TYPE_NAME[] = "geometry_msgs/msg/Qua
 
 // Define type names, field names, and default values
 static char roomie_msgs__msg__RoomiePose__FIELD_NAME__robot_id[] = "robot_id";
-static char roomie_msgs__msg__RoomiePose__FIELD_NAME__floor[] = "floor";
+static char roomie_msgs__msg__RoomiePose__FIELD_NAME__floor_id[] = "floor_id";
 static char roomie_msgs__msg__RoomiePose__FIELD_NAME__pose[] = "pose";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__msg__RoomiePose__FIELDS[] = {
@@ -71,7 +71,7 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__msg__RoomiePose__F
     {NULL, 0, 0},
   },
   {
-    {roomie_msgs__msg__RoomiePose__FIELD_NAME__floor, 5, 5},
+    {roomie_msgs__msg__RoomiePose__FIELD_NAME__floor_id, 8, 8},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
       0,
@@ -135,8 +135,14 @@ roomie_msgs__msg__RoomiePose__get_type_description(
 static char toplevel_type_raw_source[] =
   "# RoomiePose.msg\n"
   "int32 robot_id\n"
-  "int32 floor\n"
-  "geometry_msgs/Pose pose ";
+  "int32 floor_id\n"
+  "geometry_msgs/Pose pose \n"
+  "\n"
+  "# floor_id values:\n"
+  "# 0: 1\\xec\\xb8\\xb5\n"
+  "# 1: 2\\xec\\xb8\\xb5\n"
+  "# 2: 3\\xec\\xb8\\xb5\n"
+  "# 3: 4\\xec\\xb8\\xb5";
 
 static char msg_encoding[] = "msg";
 
@@ -150,7 +156,7 @@ roomie_msgs__msg__RoomiePose__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__msg__RoomiePose__TYPE_NAME, 26, 26},
     {msg_encoding, 3, 3},
-    {toplevel_type_raw_source, 68, 68},
+    {toplevel_type_raw_source, 123, 123},
   };
   return &source;
 }
