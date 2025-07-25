@@ -18,7 +18,9 @@ setup(
         ('share/' + package_name + '/config', glob.glob('config/*.yaml')),
         # Static 파일들 포함
         ('share/' + package_name + '/static', glob.glob('roomie_rms/static/*.*')),
-        ('share/' + package_name + '/static/images', glob.glob('roomie_rms/static/images/*')),
+        ('share/' + package_name + '/static/images', glob.glob('roomie_rms/static/images/*.*')),
+        ('share/' + package_name + '/static/images/food', glob.glob('roomie_rms/static/images/food/*')),
+        ('share/' + package_name + '/static/images/supply', glob.glob('roomie_rms/static/images/supply/*')),
         ('share/' + package_name + '/static/sql', glob.glob('roomie_rms/static/sql/*')),
     ],
     install_requires=['setuptools'],

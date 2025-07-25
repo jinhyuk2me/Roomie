@@ -228,53 +228,173 @@ class OpenNI2Camera:
         except Exception as e:
             self.logger.warning(f"카메라 정리 중 에러: {e}")
 
-class ButtonDetector:
-    """OpenCV 기반 버튼 탐지 클래스"""
+class YOLOButtonDetector:
+    """YOLO 기반 엘리베이터 객체 탐지 클래스 (training/best.pt 모델 사용)"""
     
     def __init__(self, logger):
         self.logger = logger
+        self.yolo_model = None
         
-    def detect_buttons(self, color_image: np.ndarray, depth_image: np.ndarray) -> List[dict]:
-        """이미지에서 버튼들을 탐지하고 정보 반환"""
-        if color_image is None:
+        # 4개 클래스 정의 (새로운 YOLO 모델과 동일한 순서)
+        self.class_names = [
+            'button', 'direction_light', 'display', 'door'
+        ]
+        
+        # 🎯 새로운 모델의 클래스별 ID 매핑
+        self.button_id_map = {
+            # 'button': 모든 버튼을 포괄하는 클래스 (일반 버튼 ID)
+            'button': 'BUTTON',
+            
+            # 나머지는 버튼이 아닌 엘리베이터 환경 객체들
+            # 'direction_light': 방향 표시등 (버튼 아님)
+            # 'display': 디스플레이 (버튼 아님)  
+            # 'door': 문 (버튼 아님)
+        }
+        
+        # YOLO 모델 초기화
+        self._initialize_yolo_model()
+        
+    def _initialize_yolo_model(self):
+        """YOLO 모델 초기화 및 로딩"""
+        try:
+            from ultralytics import YOLO
+            
+            # 훈련된 모델 찾기
+            model_path = self._find_best_model()
+            if model_path:
+                self.yolo_model = YOLO(model_path)
+                self.logger.info(f"✅ 엘리베이터 감지 모델 로딩 성공: {model_path}")
+                return True
+            else:
+                self.logger.error("❌ 엘리베이터 감지 YOLO 모델을 찾을 수 없습니다")
+                self.logger.error("training/best.pt 파일이 있는지 확인하세요")
+                raise FileNotFoundError("엘리베이터 감지 YOLO 모델 파일 (training/best.pt)을 찾을 수 없습니다")
+                
+        except ImportError:
+            self.logger.error("❌ ultralytics 패키지가 필요합니다: pip install ultralytics")
+            raise ImportError("ultralytics 패키지를 설치하세요")
+        except Exception as e:
+            self.logger.error(f"❌ YOLO 모델 초기화 실패: {e}")
+            raise RuntimeError(f"YOLO 모델 로딩 실패: {e}")
+    
+    def _find_best_model(self):
+        """엘리베이터 감지 YOLO 모델 찾기 (training/best.pt)"""
+        
+        # training 디렉토리에서 best.pt 엘리베이터 감지 모델 찾기
+        # 현재 패키지가 설치된 경우와 개발 중인 경우 모두 고려
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # 1. 개발 환경: ros2_ws/src/roomie_vs/roomie_vs/vs_node.py
+        # 2. 설치 환경: install/.../roomie_vs/vs_node.py
+        
+        possible_training_dirs = [
+            # 개발 환경에서 training 찾기
+            os.path.join(script_dir, "..", "training"),
+            # 소스에서 직접 찾기 (colcon workspace)
+            os.path.join(os.path.expanduser("~"), "project_ws", "Roomie", "ros2_ws", "src", "roomie_vs", "training"),
+            # 현재 working directory 기준
+            os.path.join(os.getcwd(), "ros2_ws", "src", "roomie_vs", "training"),
+            # 상대 경로
+            "ros2_ws/src/roomie_vs/training"
+        ]
+        
+        training_dir = None
+        for candidate in possible_training_dirs:
+            if os.path.exists(candidate):
+                training_dir = candidate
+                break
+        
+        if training_dir is None:
+            self.logger.error("❌ training 디렉토리를 찾을 수 없습니다")
+            return None
+            
+        self.logger.info(f"🔍 엘리베이터 감지 모델 검색: {training_dir}")
+        
+        # 🎯 training/best.pt 엘리베이터 감지 모델만 사용
+        best_model_path = os.path.join(training_dir, "best.pt")
+        if os.path.exists(best_model_path):
+            self.logger.info(f"✅ 엘리베이터 감지 모델 발견: {best_model_path}")
+            return best_model_path
+        
+        self.logger.error(f"❌ 엘리베이터 감지 모델을 찾을 수 없습니다: {best_model_path}")
+        return None
+        
+    def detect_buttons(self, color_image: np.ndarray, depth_image: np.ndarray, conf_threshold: float = 0.7) -> List[dict]:
+        """YOLO로 이미지에서 엘리베이터 객체들(button, direction_light, display, door)을 탐지하고 정보 반환"""
+        if color_image is None or self.yolo_model is None:
             return []
             
         try:
-            # HoughCircles로 원형 버튼 탐지
-            gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
-            circles = cv2.HoughCircles(
-                gray,
-                cv2.HOUGH_GRADIENT,
-                dp=1,
-                minDist=60,
-                param1=50,
-                param2=30,
-                minRadius=20,
-                maxRadius=60
+            return self._detect_with_yolo(color_image, depth_image, conf_threshold)
+        except Exception as e:
+            self.logger.error(f"YOLO 버튼 탐지 에러: {e}")
+            return []
+    
+    def _detect_with_yolo(self, color_image: np.ndarray, depth_image: np.ndarray, conf_threshold: float = 0.7) -> List[dict]:
+        """YOLO 모델을 사용한 버튼 탐지"""
+        try:
+            # YOLO 예측 실행
+            results = self.yolo_model.predict(
+                color_image, 
+                conf=conf_threshold,  # 높은 신뢰도 임계값 (0.7+)
+                verbose=False
             )
             
             buttons = []
-            if circles is not None:
-                circles = np.round(circles[0, :]).astype("int")
-                for (x, y, r) in circles[:5]:  # 최대 5개
-                    # Depth 정보
-                    depth_value = depth_image[y, x] if depth_image is not None else 1000
+            if results and len(results) > 0:
+                result = results[0]
+                
+                if result.boxes is not None and len(result.boxes) > 0:
+                    boxes = result.boxes.xyxy.cpu().numpy()  # x1, y1, x2, y2
+                    confs = result.boxes.conf.cpu().numpy()  # confidence
+                    classes = result.boxes.cls.cpu().numpy()  # class
                     
-                    # 버튼 눌림 상태 추정
-                    is_pressed = self._check_button_pressed(depth_image, x, y, r) if depth_image is not None else False
-                    
-                    buttons.append({
-                        'center': (x, y),
-                        'radius': r,
-                        'depth_mm': int(depth_value),
-                        'is_pressed': is_pressed
-                    })
+                    for box, conf, cls in zip(boxes, confs, classes):
+                        x1, y1, x2, y2 = box.astype(int)
+                        center_x = int((x1 + x2) / 2)
+                        center_y = int((y1 + y2) / 2)
+                        width = x2 - x1
+                        height = y2 - y1
+                        radius = int(max(width, height) / 2)
+                        
+                        # 클래스 정보
+                        class_id = int(cls)
+                        class_name = self.class_names[class_id] if class_id < len(self.class_names) else f"unknown_{class_id}"
+                        
+                        # Depth 정보
+                        depth_value = depth_image[center_y, center_x] if depth_image is not None else 1000
+                        
+                        # 버튼 눌림 상태 추정 ('button' 클래스만)
+                        is_pressed = False
+                        button_id = None
+                        
+                        # 'button' 클래스인 경우에만 눌림 상태 확인
+                        if class_name == 'button':
+                            button_id = self.button_id_map.get(class_name, 'BUTTON')
+                            if depth_image is not None:
+                                is_pressed = self._check_button_pressed(depth_image, center_x, center_y, radius)
+                        
+                        buttons.append({
+                            'center': (center_x, center_y),
+                            'radius': radius,
+                            'depth_mm': int(depth_value),
+                            'is_pressed': is_pressed,
+                            'class_name': class_name,
+                            'class_id': class_id,
+                            'button_id': button_id,
+                            'confidence': float(conf),
+                            'bbox': (x1, y1, x2, y2),
+                            'is_button': class_name == 'button'  # 'button' 클래스만 실제 버튼
+                        })
             
+            self.logger.debug(f"🎯 엘리베이터 객체 탐지 결과: {len(buttons)}개 (button, direction_light, display, door)")
             return buttons
             
         except Exception as e:
-            self.logger.error(f"버튼 탐지 에러: {e}")
+            self.logger.error(f"YOLO 탐지 에러: {e}")
             return []
+    
+
     
     def _check_button_pressed(self, depth_image: np.ndarray, cx: int, cy: int, radius: int) -> bool:
         """버튼 눌림 상태 확인 (주변 깊이와 비교)"""
@@ -311,7 +431,11 @@ class VSNodeV2(Node):
         
         # 카메라와 버튼 탐지기 초기화
         self.camera = OpenNI2Camera(self.get_logger())
-        self.button_detector = ButtonDetector(self.get_logger())
+        self.button_detector = YOLOButtonDetector(self.get_logger())
+        
+        # 🔄 이미지 처리 옵션
+        self.flip_horizontal = False  # 좌우반전 기본값: 끄기
+        self.confidence_threshold = 0.7  # YOLO 신뢰도 임계값 (높은 정확도)
         
         # 🔧 VS 모드 상태 관리
         self.current_mode_id = 0  # 기본값: 대기모드
@@ -422,7 +546,7 @@ class VSNodeV2(Node):
         self.get_logger().info("🚀 OpenNI2 기반 VS Node 초기화 완료! (GUI는 메인쓰레드에서 실행)")
     
     def button_status_callback(self, request, response):
-        """버튼 상태 요청 처리"""
+        """버튼 상태 요청 처리 (YOLO 기반)"""
         try:
             self.get_logger().info(f"버튼 상태 요청: robot_id={request.robot_id}, button_ids={request.button_ids}")
             
@@ -438,31 +562,92 @@ class VSNodeV2(Node):
                 response.timestamp = []
                 return response
 
-            # 🔧 통신 테스트용: 요청된 버튼 개수만큼 더미값 생성
+            # 🎯 실제 카메라에서 버튼 탐지 실행
             xs, ys, depths, is_pressed, timestamps = [], [], [], [], []
             
-            for i, button_id in enumerate(request.button_ids):
-                # 더미 좌표값 (버튼 ID에 따라 약간씩 다르게)
-                dummy_x = 0.1 + (i * 0.05)  # 0.1, 0.15, 0.2, ...
-                dummy_y = 0.2 + (i * 0.03)  # 0.2, 0.23, 0.26, ...
-                dummy_z = 0.8 + (i * 0.1)   # 0.8, 0.9, 1.0, ...
-                dummy_pressed = (i % 2 == 0)  # 짝수 인덱스는 눌림
+            try:
+                # 현재 프레임 획득
+                with self.camera.frame_lock:
+                    current_depth = self.camera.current_depth
+                    current_color = self.camera.current_color
                 
-                xs.append(float(dummy_x))
-                ys.append(float(dummy_y))
-                depths.append(float(dummy_z))
-                is_pressed.append(dummy_pressed)
-                timestamps.append(self.get_clock().now().to_msg())
+                # 🔄 이미지 좌우반전 (GUI와 일관성 유지)
+                if self.flip_horizontal:
+                    if current_color is not None:
+                        current_color = cv2.flip(current_color, 1)
+                    if current_depth is not None:
+                        current_depth = cv2.flip(current_depth, 1)
                 
-                self.get_logger().info(f"더미 버튼 {button_id}: x={dummy_x:.3f}, y={dummy_y:.3f}, z={dummy_z:.3f}, pressed={dummy_pressed}")
-            
+                if current_color is not None:
+                    # YOLO로 엘리베이터 객체 탐지 (반전된 이미지로, 높은 신뢰도 0.7+ 사용)
+                    detected_objects = self.button_detector.detect_buttons(current_color, current_depth, self.confidence_threshold)
+                    
+                    # 탐지된 'button' 클래스 객체들만 필터링
+                    detected_buttons = [obj for obj in detected_objects if obj.get('class_name') == 'button']
+                    
+                    for i, button_id in enumerate(request.button_ids):
+                        timestamp = self.get_clock().now().to_msg()
+                        
+                        if i < len(detected_buttons):
+                            # 탐지된 버튼 중 i번째 버튼 사용
+                            btn = detected_buttons[i]
+                            center = btn['center']
+                            
+                            # 3D 좌표로 변환 (간단한 투영)
+                            x_3d = (center[0] - 320.0) / 570.3 * (btn['depth_mm'] / 1000.0)
+                            y_3d = (center[1] - 240.0) / 570.3 * (btn['depth_mm'] / 1000.0)
+                            z_3d = btn['depth_mm'] / 1000.0
+                            
+                            xs.append(float(x_3d))
+                            ys.append(float(y_3d))
+                            depths.append(float(z_3d))
+                            is_pressed.append(btn['is_pressed'])
+                            timestamps.append(timestamp)
+                            
+                            confidence = btn.get('confidence', 1.0)
+                            self.get_logger().info(f"✅ 버튼 탐지 - button #{i+1}: "
+                                                 f"x={x_3d:.3f}, y={y_3d:.3f}, z={z_3d:.3f}, "
+                                                 f"pressed={btn['is_pressed']}, conf={confidence:.2f}")
+                        else:
+                            # 탐지된 버튼 수보다 요청된 버튼이 많은 경우 더미값 사용
+                            dummy_x = 0.1 + (len(xs) * 0.05)
+                            dummy_y = 0.2 + (len(xs) * 0.03)
+                            dummy_z = 1.0
+                            
+                            xs.append(float(dummy_x))
+                            ys.append(float(dummy_y))
+                            depths.append(float(dummy_z))
+                            is_pressed.append(False)
+                            timestamps.append(timestamp)
+                            
+                            self.get_logger().info(f"⚠️ 요청된 버튼 #{i+1} 미탐지 - 더미값 사용")
+                else:
+                    # 카메라 프레임이 없는 경우 더미값 사용
+                    self.get_logger().warning("카메라 프레임이 없음 - 더미값 사용")
+                    for i, button_id in enumerate(request.button_ids):
+                        xs.append(float(0.1 + i * 0.05))
+                        ys.append(float(0.2 + i * 0.03))
+                        depths.append(float(0.8 + i * 0.1))
+                        is_pressed.append(i % 2 == 0)
+                        timestamps.append(self.get_clock().now().to_msg())
+                        
+            except Exception as detection_error:
+                self.get_logger().error(f"버튼 탐지 중 에러: {detection_error}")
+                # 탐지 실패 시 더미값 사용
+                for i, button_id in enumerate(request.button_ids):
+                    xs.append(float(0.1 + i * 0.05))
+                    ys.append(float(0.2 + i * 0.03))
+                    depths.append(float(0.8 + i * 0.1))
+                    is_pressed.append(False)
+                    timestamps.append(self.get_clock().now().to_msg())
+                    
             response.xs = xs
             response.ys = ys
             response.depths = depths
             response.is_pressed = is_pressed
             response.timestamp = timestamps
             
-            self.get_logger().info(f"✅ 통신 테스트용 더미값 반환 완료: {len(xs)}개 버튼")
+            self.get_logger().info(f"✅ 엘리베이터 버튼 상태 응답 완료: {len(xs)}개 버튼")
                 
         except Exception as e:
             self.get_logger().error(f"버튼 상태 서비스 에러: {e}")
@@ -634,7 +819,6 @@ class VSNodeV2(Node):
             elif request.mode_id == 104:  # 엘리베이터 시뮬레이션
                 self.simulation_counters[104] = 0  # 카운터 초기화
                 self.get_logger().info("🎯 엘리베이터 시뮬레이션 모드 활성화 - 엘리베이터 작업 시뮬레이션 준비")
-                self.get_logger().info("   📍 시나리오: 엘리베이터 탑승/하차 시뮬레이션")
             else:  # 대기모드
                 self.get_logger().info("🎯 대기모드 활성화 - 모든 추적/등록 중지")
                 
@@ -777,24 +961,6 @@ class VSNodeV2(Node):
                 self.simulation_counters[103] += 1
                 response.location_id = location_id
                 
-            elif self.current_mode_id == 104:  # 엘리베이터 시뮬레이션
-                counter = self.simulation_counters[104]
-                if counter == 0:  # 첫 번째 호출
-                    location_id = 1  # ELE_1 (탑승 위치)
-                    location_name = "ELE_1"
-                    self.get_logger().info("📍 엘리베이터 시뮬레이션: 탑승 위치 도착")
-                elif counter == 1:  # 두 번째 호출
-                    location_id = 2  # ELE_2 (하차 위치)
-                    location_name = "ELE_2"
-                    self.get_logger().info("📍 엘리베이터 시뮬레이션: 하차 위치 도착")
-                else:  # 세 번째 호출 이후
-                    location_id = 1  # ELE_1 유지
-                    location_name = "ELE_1"
-                    self.get_logger().info("📍 엘리베이터 시뮬레이션: 탑승 위치 대기 중")
-                
-                self.simulation_counters[104] += 1
-                response.location_id = location_id
-                
             else:  # 일반 모드 (기존 랜덤 로직)
                 # 더미 위치 (랜덤 선택)
                 import random
@@ -821,55 +987,85 @@ class VSNodeV2(Node):
     # 🗑️ GUI 쓰레드 메소드들 제거됨 - 메인 쓰레드에서 GUI 처리
 
     def _draw_buttons_on_image(self, image: np.ndarray, buttons: List[dict]) -> np.ndarray:
-        """이미지에 탐지된 버튼들을 그립니다"""
+        """YOLO로 탐지된 객체들을 이미지에 시각화합니다"""
         import cv2
         
         for i, button in enumerate(buttons):
             center = button['center']
-            radius = button['radius']
             is_pressed = button['is_pressed']
             depth_mm = button['depth_mm']
+            class_name = button.get('class_name', f'btn_{i+1}')
+            confidence = button.get('confidence', 1.0)
+            bbox = button.get('bbox', None)
             
-            # 버튼 원 그리기
-            color = (0, 255, 0) if not is_pressed else (255, 0, 0)  # 초록색/빨간색
-            cv2.circle(image, center, radius, color, 3)
-            
-            # 버튼 번호 표시
-            cv2.putText(image, str(i+1), (center[0]-10, center[1]+5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-            
-            # 거리 정보 표시
-            distance_text = f"{depth_mm}mm"
-            cv2.putText(image, distance_text, (center[0]-20, center[1]+25), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
+            # YOLO 바운딩박스 그리기
+            if bbox and len(bbox) == 4:
+                x1, y1, x2, y2 = bbox
+                color = (0, 255, 0) if not is_pressed else (255, 0, 0)
+                cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
+                
+                # 클래스 이름과 신뢰도 표시
+                label = f"{class_name}: {confidence:.2f}"
+                cv2.putText(image, label, (x1, y1-10), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+                
+                # 거리 정보 표시
+                distance_text = f"{depth_mm}mm"
+                cv2.putText(image, distance_text, (center[0]-20, center[1]+30), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
+                
+                # 눌림 상태 표시
+                if is_pressed:
+                    pressed_text = "PRESSED"
+                    cv2.putText(image, pressed_text, (center[0]-30, center[1]+50), 
+                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         
         return image
 
     def _add_info_text(self, image: np.ndarray, buttons: List[dict]):
-        """영상에 정보 텍스트 추가"""
+        """YOLO 탐지 결과 및 시스템 정보를 영상에 표시"""
         import cv2
         
         # 상단에 제목
-        cv2.putText(image, "Roomie Vision System v2", (10, 30), 
+        cv2.putText(image, "Roomie Vision System v2 (Elevator Objects)", (10, 30), 
                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 2)
         
-        # 실제 카메라 상태만 표시
-        cv2.putText(image, "Status: Real Camera Active", (10, 60), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        # YOLO 모델 상태 및 설정 표시
+        model_status = "✅" if self.button_detector.yolo_model else "❌"
+        flip_status = "ON" if self.flip_horizontal else "OFF"
+        cv2.putText(image, f"YOLO {model_status} | Flip:{flip_status} | Conf:{self.confidence_threshold}(High)", (10, 60), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         
-        # 탐지된 버튼 수
-        cv2.putText(image, f"Buttons Detected: {len(buttons)}", (10, 85), 
+        # 탐지된 객체 수
+        cv2.putText(image, f"Objects Detected: {len(buttons)}", (10, 85), 
                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
         
-        # 눌린 버튼 표시
-        pressed_buttons = [i+1 for i, btn in enumerate(buttons) if btn['is_pressed']]
+        # 탐지된 엘리베이터 객체 분류 표시
+        if buttons:
+            object_counts = {}
+            for btn in buttons:
+                class_name = btn.get('class_name', 'unknown')
+                object_counts[class_name] = object_counts.get(class_name, 0) + 1
+            
+            if object_counts:
+                counts_text = ", ".join([f"{k}:{v}" for k, v in object_counts.items()])
+                cv2.putText(image, f"Objects: {counts_text}", (10, 110), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (128, 255, 128), 1)
+        
+        # 눌린 버튼 표시 ('button' 클래스만)
+        pressed_buttons = []
+        for btn in buttons:
+            if btn['is_pressed'] and btn.get('class_name') == 'button':
+                pressed_buttons.append("BUTTON")
+        
         if pressed_buttons:
-            cv2.putText(image, f"Pressed: {pressed_buttons}", (10, 110), 
+            pressed_text = f"Pressed: {len(pressed_buttons)} button(s)"
+            cv2.putText(image, pressed_text, (10, 135), 
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
         
         # 종료 안내
-        cv2.putText(image, "Press ESC to exit", (10, image.shape[0]-20), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
+        cv2.putText(image, "ESC:Exit, B:Info, M:Status, F:Flip, C:Conf", (10, image.shape[0]-20), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.4, (200, 200, 200), 1)
 
     def __del__(self):
         """소멸자 - 카메라 정리"""
@@ -897,9 +1093,28 @@ def main(args=None):
                     # 프레임 획득 (openni2_test.py와 동일한 방식)
                     depth_image, color_image = node.camera.get_frames()
                     
-                    # 🎯 GUI 표시 (openni2_test.py와 완전히 동일한 방식!)
+                    # 🔄 이미지 좌우반전 (토글 가능)
+                    if node.flip_horizontal:
+                        if color_image is not None:
+                            color_image = cv2.flip(color_image, 1)  # 좌우반전
+                        if depth_image is not None:
+                            depth_image = cv2.flip(depth_image, 1)  # 좌우반전
+                    
+                    # 🎯 버튼 탐지 및 시각화
+                    buttons = []
                     if color_image is not None:
-                        cv2.imshow('Roomie VS RGB', color_image)
+                        # 엘리베이터 객체 탐지 실행 (반전된 이미지로, 높은 신뢰도 0.7+ 사용)
+                        buttons = node.button_detector.detect_buttons(color_image, depth_image, node.confidence_threshold)
+                        
+                        # 탐지 결과 시각화
+                        display_image = color_image.copy()
+                        if buttons:
+                            display_image = node._draw_buttons_on_image(display_image, buttons)
+                        node._add_info_text(display_image, buttons)
+                        
+                        cv2.imshow('Roomie VS RGB (YOLO Enhanced)', display_image)
+                    
+
                     
                     if depth_image is not None:
                         # 🎬 openni2_test.py와 완전히 동일한 Depth 시각화!
@@ -929,16 +1144,73 @@ def main(args=None):
                         success = node.publish_registered_event(robot_id=1)
                         if not success:
                             node.get_logger().info("💡 등록 완료 이벤트를 발행하려면 '1r' 명령으로 등록모드로 변경하세요")
+
+                    elif key == ord('b') or key == ord('B'):  # B키: 엘리베이터 객체 탐지 결과 출력
+                        if buttons:
+                            button_objects = [btn for btn in buttons if btn.get('class_name') == 'button']
+                            other_objects = [btn for btn in buttons if btn.get('class_name') != 'button']
+                            
+                            node.get_logger().info(f"'B' 키 눌림 - 엘리베이터 객체 탐지 결과:")
+                            node.get_logger().info(f"  📍 전체 객체: {len(buttons)}개")
+                            node.get_logger().info(f"  🔘 버튼: {len(button_objects)}개")
+                            node.get_logger().info(f"  📺 환경객체: {len(other_objects)}개")
+                            
+                            if button_objects:
+                                node.get_logger().info("  🔘 탐지된 버튼들:")
+                                for i, btn in enumerate(button_objects):
+                                    confidence = btn.get('confidence', 1.0)
+                                    pressed = "눌림" if btn['is_pressed'] else "안눌림"
+                                    node.get_logger().info(f"    {i+1}. button - 신뢰도:{confidence:.2f}, {pressed}, {btn['depth_mm']}mm")
+                            
+                            if other_objects:
+                                node.get_logger().info("  📺 환경 객체들:")
+                                for i, btn in enumerate(other_objects):
+                                    class_name = btn.get('class_name', 'unknown')
+                                    confidence = btn.get('confidence', 1.0)
+                                    node.get_logger().info(f"    {i+1}. {class_name} - 신뢰도:{confidence:.2f}, {btn['depth_mm']}mm")
+                        else:
+                            node.get_logger().info("'B' 키 눌림 - 탐지된 엘리베이터 객체가 없습니다")
+                    elif key == ord('f') or key == ord('F'):  # F키: 좌우반전 토글
+                        node.flip_horizontal = not node.flip_horizontal
+                        status = "켜짐" if node.flip_horizontal else "꺼짐"
+                        node.get_logger().info(f"'F' 키 눌림 - 좌우반전: {status}")
+                    elif key == ord('c') or key == ord('C'):  # C키: 신뢰도 임계값 조정
+                        current_conf = node.confidence_threshold
+                        if current_conf == 0.7:
+                            node.confidence_threshold = 0.5  # 더 민감하게
+                        elif current_conf == 0.5:
+                            node.confidence_threshold = 0.9  # 더 엄격하게
+                        else:
+                            node.confidence_threshold = 0.7  # 기본값
+                        
+                        # YOLO 모델의 신뢰도 임계값도 업데이트
+                        node.get_logger().info(f"'C' 키 눌림 - 신뢰도 임계값: {current_conf:.2f} → {node.confidence_threshold:.2f}")
+
                     elif key == ord('m') or key == ord('M'):  # M키: 현재 모드 확인
                         current_mode = node.mode_names.get(node.current_mode_id, "알 수 없음")
-                        node.get_logger().info(f"'M' 키 눌림 - 현재 모드: {current_mode} (mode_id={node.current_mode_id})")
+                        model_loaded = "✅" if node.button_detector.yolo_model else "❌"
+                        
+                        node.get_logger().info(f"'M' 키 눌림 - 현재 상태:")
+                        node.get_logger().info(f"  VS 모드: {current_mode} (mode_id={node.current_mode_id})")
+                        node.get_logger().info(f"  YOLO 모델: {model_loaded}")
+                        node.get_logger().info(f"  좌우반전: {'ON' if node.flip_horizontal else 'OFF'}")
+                        node.get_logger().info(f"  신뢰도 임계값: {node.confidence_threshold} (높은 정확도)")
+                        
+                        # 지원하는 엘리베이터 객체 클래스 표시
+                        supported_classes = node.button_detector.class_names
+                        node.get_logger().info(f"  감지 가능한 객체: {supported_classes}")
+                        node.get_logger().info(f"  버튼 클래스: button (나머지는 환경 객체)")
+                        
                         node.get_logger().info("💡 기본 모드: 1(대기), 1r(등록), 1t(추적), 1e(엘리베이터)")
                         node.get_logger().info("💡 시뮬레이션 모드: 100(배송), 101(호출), 102(길안내), 103(복귀), 104(엘리베이터)")
+                        node.get_logger().info("💡 키보드: F(좌우반전), C(신뢰도조정)")
                         node.get_logger().info("   테스트 클라이언트에서 모드 변경 가능")
                     elif key != 255:  # 다른 키가 눌렸을 때
                         if 32 <= key <= 126:  # 출력 가능한 ASCII 문자
                             node.get_logger().info(f"'{chr(key)}' 키 눌림")
-                            node.get_logger().info("💡 사용 가능한 키: R(추적시뮬레이션), T(추적이벤트), G(등록완료), M(모드확인), ESC(종료)")
+                            node.get_logger().info("💡 사용 가능한 키:")
+                            node.get_logger().info("   R(추적시뮬레이션), T(추적이벤트), G(등록완료)")
+                            node.get_logger().info("   B(버튼정보), M(상태확인), F(좌우반전), C(신뢰도), ESC(종료)")
                         else:
                             node.get_logger().info(f"키 코드 {key} 눌림")
                         
