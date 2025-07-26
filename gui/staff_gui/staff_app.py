@@ -275,8 +275,66 @@ class StaffGUI:
     
     def show_robot_arrival(self, task_id, robot_id):
         """로봇 도착 알림"""
-        messagebox.showinfo("로봇 도착", 
-                           f"로봇 {robot_id}이 주문 #{task_id} 픽업을 위해 도착했습니다!")
+        # 팝업 창 생성
+        popup = tk.Toplevel(self.root)
+        popup.title(f"{robot_id} 도착")
+        popup.geometry("400x300")
+        popup.configure(bg="white")
+        
+        # 팝업을 화면 중앙에 위치
+        popup.transient(self.root)
+        popup.grab_set()
+        
+        # 창을 화면 중앙에 배치
+        x = self.root.winfo_x() + (self.root.winfo_width() // 2) - 200
+        y = self.root.winfo_y() + (self.root.winfo_height() // 2) - 150
+        popup.geometry(f"+{x}+{y}")
+        
+        # 메인 프레임
+        main_frame = tk.Frame(popup, bg="white")
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+        
+        # 로봇 아이콘 (텍스트로 표현)
+        icon_label = tk.Label(main_frame, text="🤖", font=("Arial", 48), 
+                             bg="white", fg="#3498db")
+        icon_label.pack(pady=(20, 10))
+        
+        # 제목
+        title_label = tk.Label(main_frame, text=f"{robot_id} 도착", 
+                              font=("Arial", 20, "bold"), 
+                              bg="white", fg="#2c3e50")
+        title_label.pack(pady=(0, 10))
+        
+        # 메시지
+        message_label = tk.Label(main_frame, 
+                                text=f"{robot_id}이 픽업 장소에 도착했습니다.",
+                                font=("Arial", 12), 
+                                bg="white", fg="#7f8c8d",
+                                wraplength=300)
+        message_label.pack(pady=(0, 20))
+        
+        # 주문 정보 (해당 주문이 있는 경우)
+        if task_id in self.orders:
+            order_info = self.orders[task_id]
+            order_text = f"주문 #{task_id}"
+            if 'request_location' in order_info:
+                order_text += f" ({order_info['request_location']})"
+            
+            order_label = tk.Label(main_frame, text=order_text,
+                                  font=("Arial", 11, "bold"),
+                                  bg="white", fg="#e74c3c")
+            order_label.pack(pady=(0, 20))
+        
+        # 확인 버튼
+        ok_button = tk.Button(main_frame, text="확인", 
+                             font=("Arial", 12, "bold"),
+                             bg="#3498db", fg="white",
+                             relief=tk.FLAT, padx=30, pady=8,
+                             command=popup.destroy)
+        ok_button.pack(pady=(0, 10))
+        
+        # 5초 후 자동으로 닫기
+        popup.after(5000, popup.destroy)
     
     def start_websocket_connection(self):
         """WebSocket 연결 시작"""

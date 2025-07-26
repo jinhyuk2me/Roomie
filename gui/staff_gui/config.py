@@ -1,8 +1,8 @@
 # RMS 서버 설정
-RMS_HOST = "localhost"
+RMS_HOST = "192.168.0.47"
 RMS_PORT = 8000
-RMS_WS_URL = f"ws://{RMS_HOST}:{RMS_PORT}/ws"
-RMS_HTTP_URL = f"http://{RMS_HOST}:{RMS_PORT}"
+RMS_WS_URL = f"ws://{RMS_HOST}:{RMS_PORT}/api/gui/ws/staff/staff_01"
+RMS_HTTP_URL = f"http://{RMS_HOST}:{RMS_PORT}/api/gui"
 
 # 음식 타입 매핑
 FOOD_TYPES = {
