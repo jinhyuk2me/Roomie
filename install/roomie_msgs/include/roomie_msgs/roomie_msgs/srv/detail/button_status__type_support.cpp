@@ -436,7 +436,7 @@ void resize_function__ButtonStatus_Response__timestamp(void * untyped_member, si
   member->resize(size);
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember ButtonStatus_Response_message_member_array[6] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ButtonStatus_Response_message_member_array[7] = {
   {
     "robot_id",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
@@ -447,6 +447,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ButtonStatus_
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs::srv::ButtonStatus_Response, robot_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "success",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs::srv::ButtonStatus_Response, success),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -550,7 +568,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ButtonStatus_
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ButtonStatus_Response_message_members = {
   "roomie_msgs::srv",  // message namespace
   "ButtonStatus_Response",  // message name
-  6,  // number of fields
+  7,  // number of fields
   sizeof(roomie_msgs::srv::ButtonStatus_Response),
   false,  // has_any_key_member_
   ButtonStatus_Response_message_member_array,  // message members

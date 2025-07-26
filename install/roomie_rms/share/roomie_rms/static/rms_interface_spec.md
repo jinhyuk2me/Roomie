@@ -173,20 +173,22 @@ string message
   "type": "event",
   "action": "food_order_creation",
   "payload": {
-    "task_id": "TASK_001",
-    "location": "ROOM_307",
-    "order_details": [
-      {
-        "name": "스파게티",
-        "quantity": 2,
-        "price": 15000
-      },
-      {
-        "name": "피자",
-        "quantity": 1,
-        "price": 15000
-      }
-    ]
+    "task_id": "12",
+    "request_location": "ROOM_307",
+    "order_details": {
+      "items": [
+        {
+          "name": "스파게티",
+          "quantity": 2,
+          "price" : 15000
+        },
+        {
+          "name": "피자",
+          "quantity": 1,
+          "price" : 15000
+        }
+      ]
+    }
   }
 }
 ```
@@ -235,17 +237,19 @@ string message
   "action": "supply_order_creation",
   "payload": {
     "task_id": "TASK_002",
-    "location": "ROOM_307",
-    "order_details": [
-      {
-        "name": "타월",
-        "quantity": 3
-      },
-      {
-        "name": "생수",
-        "quantity": 2
-      }
-    ]
+    "request_location": "ROOM_307",
+    "order_details": {
+      "items": [
+        {
+          "name": "타월",
+          "quantity": 3
+        },
+        {
+          "name": "생수",
+          "quantity": 2
+        }
+      ]
+    }
   }
 }
 ```

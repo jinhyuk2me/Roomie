@@ -156,6 +156,7 @@ struct Location_Response_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
+      this->success = false;
       this->location_id = 0l;
     }
   }
@@ -167,6 +168,7 @@ struct Location_Response_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
+      this->success = false;
       this->location_id = 0l;
     }
   }
@@ -175,6 +177,9 @@ struct Location_Response_
   using _robot_id_type =
     int32_t;
   _robot_id_type robot_id;
+  using _success_type =
+    bool;
+  _success_type success;
   using _location_id_type =
     int32_t;
   _location_id_type location_id;
@@ -184,6 +189,12 @@ struct Location_Response_
     const int32_t & _arg)
   {
     this->robot_id = _arg;
+    return *this;
+  }
+  Type & set__success(
+    const bool & _arg)
+  {
+    this->success = _arg;
     return *this;
   }
   Type & set__location_id(
@@ -236,6 +247,9 @@ struct Location_Response_
   bool operator==(const Location_Response_ & other) const
   {
     if (this->robot_id != other.robot_id) {
+      return false;
+    }
+    if (this->success != other.success) {
       return false;
     }
     if (this->location_id != other.location_id) {

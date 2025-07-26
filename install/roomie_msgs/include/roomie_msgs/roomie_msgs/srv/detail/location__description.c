@@ -11,10 +11,10 @@ roomie_msgs__srv__Location__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x94, 0x1d, 0x09, 0x4a, 0xe7, 0xfe, 0xb0, 0xfc,
-      0xed, 0xe3, 0x71, 0x90, 0x32, 0x24, 0x49, 0x85,
-      0x44, 0x35, 0x86, 0x46, 0xdf, 0x14, 0x7b, 0xd1,
-      0x0d, 0xcb, 0x6e, 0xcf, 0xe0, 0x1a, 0x42, 0x75,
+      0x60, 0x9b, 0x42, 0x5e, 0x46, 0xc5, 0x0d, 0xbc,
+      0x09, 0x96, 0xeb, 0x1c, 0x5f, 0x94, 0x01, 0x6a,
+      0x50, 0x5f, 0x08, 0x70, 0xf0, 0x17, 0xc6, 0x35,
+      0xa3, 0x6d, 0xd2, 0xd5, 0x03, 0xe4, 0x82, 0x4c,
     }};
   return &hash;
 }
@@ -41,10 +41,10 @@ roomie_msgs__srv__Location_Response__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xb8, 0xa4, 0xed, 0x31, 0x22, 0xdf, 0x55, 0x0f,
-      0x8f, 0x11, 0x30, 0xf3, 0x83, 0xf5, 0x4b, 0x60,
-      0xa3, 0x41, 0x7b, 0xb5, 0x4d, 0xad, 0x02, 0x7e,
-      0x87, 0xef, 0x5e, 0x3b, 0x20, 0xba, 0xd3, 0x06,
+      0xe4, 0x60, 0x03, 0x78, 0x45, 0x65, 0x71, 0xd0,
+      0xbf, 0x8a, 0x64, 0x2f, 0x7d, 0x3e, 0x90, 0x58,
+      0xa8, 0xe3, 0x1d, 0xa0, 0x54, 0xe5, 0x72, 0x27,
+      0xdc, 0x64, 0x2f, 0x0d, 0x0b, 0x9d, 0x0e, 0xaa,
     }};
   return &hash;
 }
@@ -56,10 +56,10 @@ roomie_msgs__srv__Location_Event__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x23, 0x92, 0x69, 0x30, 0xeb, 0xb2, 0x9b, 0x55,
-      0xd0, 0x06, 0x9c, 0x2b, 0xb3, 0xa6, 0x89, 0x9c,
-      0xee, 0x30, 0xc4, 0xe8, 0x3a, 0x7e, 0x1e, 0x63,
-      0x3d, 0x38, 0x2d, 0x06, 0xa1, 0x24, 0xde, 0x0c,
+      0x84, 0x7a, 0x48, 0x14, 0x26, 0x95, 0x0b, 0xac,
+      0xae, 0xc0, 0xb9, 0x8e, 0x4c, 0x75, 0xb7, 0xd7,
+      0x0f, 0xf4, 0x44, 0x5b, 0xa6, 0xd5, 0x4d, 0xb9,
+      0x1c, 0xe4, 0x59, 0xe5, 0x74, 0x95, 0x43, 0x05,
     }};
   return &hash;
 }
@@ -68,8 +68,8 @@ roomie_msgs__srv__Location_Event__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "service_msgs/msg/detail/service_event_info__functions.h"
 #include "builtin_interfaces/msg/detail/time__functions.h"
+#include "service_msgs/msg/detail/service_event_info__functions.h"
 
 // Hashes for external referenced types
 #ifndef NDEBUG
@@ -216,6 +216,7 @@ roomie_msgs__srv__Location_Request__get_type_description(
 }
 // Define type names, field names, and default values
 static char roomie_msgs__srv__Location_Response__FIELD_NAME__robot_id[] = "robot_id";
+static char roomie_msgs__srv__Location_Response__FIELD_NAME__success[] = "success";
 static char roomie_msgs__srv__Location_Response__FIELD_NAME__location_id[] = "location_id";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__srv__Location_Response__FIELDS[] = {
@@ -223,6 +224,16 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__srv__Location_Resp
     {roomie_msgs__srv__Location_Response__FIELD_NAME__robot_id, 8, 8},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
+      0,
+      0,
+      {NULL, 0, 0},
+    },
+    {NULL, 0, 0},
+  },
+  {
+    {roomie_msgs__srv__Location_Response__FIELD_NAME__success, 7, 7},
+    {
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN,
       0,
       0,
       {NULL, 0, 0},
@@ -250,7 +261,7 @@ roomie_msgs__srv__Location_Response__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__srv__Location_Response__TYPE_NAME, 33, 33},
-      {roomie_msgs__srv__Location_Response__FIELDS, 2, 2},
+      {roomie_msgs__srv__Location_Response__FIELDS, 3, 3},
     },
     {NULL, 0, 0},
   };
@@ -348,6 +359,7 @@ static char toplevel_type_raw_source[] =
   "---\n"
   "# Response\n"
   "int32 robot_id\n"
+  "bool success\n"
   "int32 location_id\n"
   "\n"
   "# location_id values:\n"
@@ -377,7 +389,7 @@ roomie_msgs__srv__Location__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__srv__Location__TYPE_NAME, 24, 24},
     {srv_encoding, 3, 3},
-    {toplevel_type_raw_source, 300, 300},
+    {toplevel_type_raw_source, 313, 313},
   };
   return &source;
 }

@@ -2,6 +2,10 @@ action/PerformReturn.action
 action/PerformReturn.idl
 action/PerformTask.action
 action/PerformTask.idl
+action/ReturnCountdown.action
+action/ReturnCountdown.idl
+action/StartCountdown.action
+action/StartCountdown.idl
 door_elevator/DoorStatus.srv
 door_elevator/ElevatorStatus.srv
 door_elevator/ElevatorWidth.srv
@@ -41,15 +45,11 @@ srv/ElevatorWidth.idl
 srv/GetLocations.idl
 srv/Location.idl
 srv/ReadCardInfo.idl
-srv/ReturnCountdown.idl
 srv/SetVSMode.idl
 srv/SpaceAvailability.idl
-srv/StartCountdown.idl
 srv/UnlockDoor.idl
 task_management/DeliveryCompleted.msg
 task_management/PickupCompleted.msg
-task_management/ReturnCountdown.srv
-task_management/StartCountdown.srv
 task_management/TaskState.msg
 user_interface/Registered.msg
 user_interface/RobotGuiEvent.msg

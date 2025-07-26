@@ -488,7 +488,7 @@ bool roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c
   return builtin_interfaces__msg__Time__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_member_array[6] = {
+static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_member_array[7] = {
   {
     "robot_id",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
@@ -499,6 +499,24 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__Butto
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs__srv__ButtonStatus_Response, robot_id),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "success",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs__srv__ButtonStatus_Response, success),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -602,7 +620,7 @@ static rosidl_typesupport_introspection_c__MessageMember roomie_msgs__srv__Butto
 static const rosidl_typesupport_introspection_c__MessageMembers roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_members = {
   "roomie_msgs__srv",  // message namespace
   "ButtonStatus_Response",  // message name
-  6,  // number of fields
+  7,  // number of fields
   sizeof(roomie_msgs__srv__ButtonStatus_Response),
   false,  // has_any_key_member_
   roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_member_array,  // message members
@@ -624,7 +642,7 @@ static rosidl_message_type_support_t roomie_msgs__srv__ButtonStatus_Response__ro
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_roomie_msgs
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, roomie_msgs, srv, ButtonStatus_Response)() {
-  roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_member_array[5].members_ =
+  roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_member_array[6].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, builtin_interfaces, msg, Time)();
   if (!roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_type_support_handle.typesupport_identifier) {
     roomie_msgs__srv__ButtonStatus_Response__rosidl_typesupport_introspection_c__ButtonStatus_Response_message_type_support_handle.typesupport_identifier =

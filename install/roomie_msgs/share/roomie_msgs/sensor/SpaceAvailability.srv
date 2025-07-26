@@ -4,4 +4,5 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 bool space_availability 

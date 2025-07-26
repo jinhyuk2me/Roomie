@@ -42,6 +42,7 @@ typedef struct roomie_msgs__srv__DoorStatus_Request__Sequence
 typedef struct roomie_msgs__srv__DoorStatus_Response
 {
   int32_t robot_id;
+  bool success;
   bool door_opened;
 } roomie_msgs__srv__DoorStatus_Response;
 

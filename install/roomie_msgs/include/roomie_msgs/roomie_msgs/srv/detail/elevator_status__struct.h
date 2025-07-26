@@ -42,6 +42,7 @@ typedef struct roomie_msgs__srv__ElevatorStatus_Request__Sequence
 typedef struct roomie_msgs__srv__ElevatorStatus_Response
 {
   int32_t robot_id;
+  bool success;
   int32_t direction;
   int32_t position;
 } roomie_msgs__srv__ElevatorStatus_Response;

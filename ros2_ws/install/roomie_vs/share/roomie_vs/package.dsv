@@ -1,6 +1,0 @@
-source;share/roomie_vs/hook/pythonpath.ps1
-source;share/roomie_vs/hook/pythonpath.dsv
-source;share/roomie_vs/hook/pythonpath.sh
-source;share/roomie_vs/hook/ament_prefix_path.ps1
-source;share/roomie_vs/hook/ament_prefix_path.dsv
-source;share/roomie_vs/hook/ament_prefix_path.sh

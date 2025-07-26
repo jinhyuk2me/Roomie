@@ -21,22 +21,26 @@ int32 reason
 
 ---
 
-### 1.2 출발 카운트다운
-- **From**: RC → Robot GUI
-- **Protocol**: ROS2 Service
-- **Topic**: `/robot_gui/start_countdown`
+## 2. Action Interfaces
 
-```srv
-# StartCountdown.srv
-# Request
+### 2.1 출발 카운트다운
+- **From**: RC → Robot GUI
+- **Protocol**: ROS2 Action
+- **Topic**: `/robot_gui/action/start_countdown`
+
+```action
+# StartCountdown.action
+# Goal
 int32 robot_id
 int32 task_id
 int32 task_type_id
 ---
-# Response
+# Result
 int32 robot_id
 bool success
-int32 reason
+---
+# Feedback
+int32 remaining_time  # 초 단위 남은 시간
 ```
 
 **task_type_id 값:**
@@ -47,27 +51,29 @@ int32 reason
 
 ---
 
-### 1.3 복귀 카운트다운
+### 2.2 복귀 카운트다운
 - **From**: RC → Robot GUI
-- **Protocol**: ROS2 Service
-- **Topic**: `/robot_gui/start_return_countdown`
+- **Protocol**: ROS2 Action
+- **Topic**: `/robot_gui/action/return_countdown`
 
-```srv
-# ReturnCountdown.srv
-# Request
+```action
+# ReturnCountdown.action
+# Goal
 int32 robot_id
 ---
-# Response
+# Result
 int32 robot_id
 bool success
-int32 reason
+---
+# Feedback
+int32 remaining_time  # 초 단위 남은 시간
 ```
 
 ---
 
-## 2. Topic Interfaces
+## 3. Topic Interfaces
 
-### 2.1 로봇 GUI 이벤트 전송 (RC → Robot GUI)
+### 3.1 로봇 GUI 이벤트 전송 (RC → Robot GUI)
 - **From**: RC → Robot GUI
 - **Protocol**: ROS2 Topic
 - **Topic**: `/robot_gui/event`
@@ -126,6 +132,7 @@ string detail
 **detail 예시 (픽업장소 이동 종료 시):**
 ```json
 {
+    "room_number": "202",
     "items": [
       {
         "name": "스파게티",
@@ -141,7 +148,7 @@ string detail
 
 ---
 
-### 2.2 로봇 GUI 이벤트 전송 (Robot GUI → RC)
+### 3.2 로봇 GUI 이벤트 전송 (Robot GUI → RC)
 - **From**: Robot GUI → RC
 - **Protocol**: ROS2 Topic
 - **Topic**: `/robot_gui/event`
@@ -179,13 +186,14 @@ string detail
 
 ---
 
-## 3. 메시지 파일 위치
+## 4. 메시지 파일 위치
 
-모든 서비스 및 메시지 정의는 `roomie_msgs` 패키지에 정의되어 있습니다:
+모든 서비스, 액션 및 메시지 정의는 `roomie_msgs` 패키지에 정의되어 있습니다:
 
 - **Services**: 
-  - `roomie_msgs/srv/task_management/StartCountdown.srv`
-  - `roomie_msgs/srv/task_management/ReturnCountdown.srv`
   - `roomie_msgs/srv/security/ControlLock.srv` (UnlockDoor)
+- **Actions**:
+  - `roomie_msgs/action/task_management/StartCountdown.action`
+  - `roomie_msgs/action/task_management/ReturnCountdown.action`
 - **Messages**: 
   - `roomie_msgs/msg/user_interface/RobotGuiEvent.msg`

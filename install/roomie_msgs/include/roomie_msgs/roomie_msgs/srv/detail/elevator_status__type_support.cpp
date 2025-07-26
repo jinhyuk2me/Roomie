@@ -164,7 +164,7 @@ void ElevatorStatus_Response_fini_function(void * message_memory)
   typed_message->~ElevatorStatus_Response();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember ElevatorStatus_Response_message_member_array[3] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ElevatorStatus_Response_message_member_array[4] = {
   {
     "robot_id",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
@@ -175,6 +175,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ElevatorStatu
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs::srv::ElevatorStatus_Response, robot_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "success",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs::srv::ElevatorStatus_Response, success),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -224,7 +242,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ElevatorStatu
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ElevatorStatus_Response_message_members = {
   "roomie_msgs::srv",  // message namespace
   "ElevatorStatus_Response",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(roomie_msgs::srv::ElevatorStatus_Response),
   false,  // has_any_key_member_
   ElevatorStatus_Response_message_member_array,  // message members

@@ -42,6 +42,7 @@ typedef struct roomie_msgs__srv__Location_Request__Sequence
 typedef struct roomie_msgs__srv__Location_Response
 {
   int32_t robot_id;
+  bool success;
   int32_t location_id;
 } roomie_msgs__srv__Location_Response;
 

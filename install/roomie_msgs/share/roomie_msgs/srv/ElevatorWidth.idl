@@ -16,6 +16,8 @@ module roomie_msgs {
     struct ElevatorWidth_Response {
       int32 robot_id;
 
+      boolean success;
+
       float left_boundary;
 
       float right_boundary;

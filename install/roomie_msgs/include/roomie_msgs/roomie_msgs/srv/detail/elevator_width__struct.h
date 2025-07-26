@@ -42,6 +42,7 @@ typedef struct roomie_msgs__srv__ElevatorWidth_Request__Sequence
 typedef struct roomie_msgs__srv__ElevatorWidth_Response
 {
   int32_t robot_id;
+  bool success;
   float left_boundary;
   float right_boundary;
 } roomie_msgs__srv__ElevatorWidth_Response;

@@ -16,6 +16,8 @@ module roomie_msgs {
     struct SpaceAvailability_Response {
       int32 robot_id;
 
+      boolean success;
+
       boolean space_availability;
     };
   };

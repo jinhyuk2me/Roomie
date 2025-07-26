@@ -125,6 +125,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "space_availability",
             "type": {
               "type_id": 15,
@@ -186,7 +196,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/SpaceAvailability",
-      "hash_string": "RIHS01_d3359ea7ab9f34056872094f730c3ccc929b9348dd93a3605a59ac955a5a9112"
+      "hash_string": "RIHS01_07b574fe06ced6aa714edaf1beaf2e0dbdfa1f06d353290acb9d3dc172c482ff"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -194,7 +204,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/SpaceAvailability_Event",
-      "hash_string": "RIHS01_545d5df0b2e6b6acf691b504e0be4ee8fbbcd2d83ce5e7e0ce40041b2bbb226e"
+      "hash_string": "RIHS01_3a9be8c0f069dab17b52f48ffca018d0a04cae6e07e7b7d723d25cd6f20ff56e"
     },
     {
       "type_name": "roomie_msgs/srv/SpaceAvailability_Request",
@@ -202,7 +212,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/SpaceAvailability_Response",
-      "hash_string": "RIHS01_301d136ae2592c1ddf22d9f98888f8848df9a65c04ee7742df228fcda77dc67e"
+      "hash_string": "RIHS01_f78a69bfd5835c929a410aa7ba8c06209e3fcf82a6992320a6463c8f4ba88f62"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

@@ -242,6 +242,7 @@ roomie_msgs__srv__ElevatorStatus_Response__init(roomie_msgs__srv__ElevatorStatus
     return false;
   }
   // robot_id
+  // success
   // direction
   // position
   return true;
@@ -254,6 +255,7 @@ roomie_msgs__srv__ElevatorStatus_Response__fini(roomie_msgs__srv__ElevatorStatus
     return;
   }
   // robot_id
+  // success
   // direction
   // position
 }
@@ -266,6 +268,10 @@ roomie_msgs__srv__ElevatorStatus_Response__are_equal(const roomie_msgs__srv__Ele
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
+    return false;
+  }
+  // success
+  if (lhs->success != rhs->success) {
     return false;
   }
   // direction
@@ -289,6 +295,8 @@ roomie_msgs__srv__ElevatorStatus_Response__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
+  // success
+  output->success = input->success;
   // direction
   output->direction = input->direction;
   // position

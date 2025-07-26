@@ -242,6 +242,7 @@ roomie_msgs__srv__DoorStatus_Response__init(roomie_msgs__srv__DoorStatus_Respons
     return false;
   }
   // robot_id
+  // success
   // door_opened
   return true;
 }
@@ -253,6 +254,7 @@ roomie_msgs__srv__DoorStatus_Response__fini(roomie_msgs__srv__DoorStatus_Respons
     return;
   }
   // robot_id
+  // success
   // door_opened
 }
 
@@ -264,6 +266,10 @@ roomie_msgs__srv__DoorStatus_Response__are_equal(const roomie_msgs__srv__DoorSta
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
+    return false;
+  }
+  // success
+  if (lhs->success != rhs->success) {
     return false;
   }
   // door_opened
@@ -283,6 +289,8 @@ roomie_msgs__srv__DoorStatus_Response__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
+  // success
+  output->success = input->success;
   // door_opened
   output->door_opened = input->door_opened;
   return true;

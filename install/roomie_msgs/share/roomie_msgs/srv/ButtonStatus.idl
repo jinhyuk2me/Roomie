@@ -19,6 +19,8 @@ module roomie_msgs {
     struct ButtonStatus_Response {
       int32 robot_id;
 
+      boolean success;
+
       sequence<float> xs;
 
       sequence<float> ys;

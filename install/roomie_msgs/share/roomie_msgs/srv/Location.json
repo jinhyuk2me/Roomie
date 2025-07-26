@@ -125,6 +125,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "location_id",
             "type": {
               "type_id": 6,
@@ -186,7 +196,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/Location",
-      "hash_string": "RIHS01_941d094ae7feb0fcede371903224498544358646df147bd10dcb6ecfe01a4275"
+      "hash_string": "RIHS01_609b425e46c50dbc0996eb1c5f94016a505f0870f017c635a36dd2d503e4824c"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -194,7 +204,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/Location_Event",
-      "hash_string": "RIHS01_23926930ebb29b55d0069c2bb3a6899cee30c4e83a7e1e633d382d06a124de0c"
+      "hash_string": "RIHS01_847a481426950bacaec0b98e4c75b7d70ff4445ba6d54db91ce459e574954305"
     },
     {
       "type_name": "roomie_msgs/srv/Location_Request",
@@ -202,7 +212,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/Location_Response",
-      "hash_string": "RIHS01_b8a4ed3122df550f8f1130f383f54b60a3417bb54dad027e87ef5e3b20bad306"
+      "hash_string": "RIHS01_e4600378456571d0bf8a642f7d3e9058a8e31da054e57227dc642f0d0b9d0eaa"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

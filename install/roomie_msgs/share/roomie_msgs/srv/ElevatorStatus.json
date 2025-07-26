@@ -125,6 +125,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "direction",
             "type": {
               "type_id": 6,
@@ -196,7 +206,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/ElevatorStatus",
-      "hash_string": "RIHS01_ea57de64d6008e187e32e2211ff2788cd533069f6543069e482dd3d55e1af853"
+      "hash_string": "RIHS01_04e61b9fecf873164cfa14cbdb81f1bb9d2599735e41f8e19366d686b2f3fc04"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -204,7 +214,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorStatus_Event",
-      "hash_string": "RIHS01_2b4cd442023d5ea28b6d3b9153ad26329cf8326e4375b4c6b23dd92d49f2496f"
+      "hash_string": "RIHS01_28aa7546cf8b95b84d81bae3c47fe9b28a05a43ffd6b6d7d4fa60053be087026"
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorStatus_Request",
@@ -212,7 +222,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorStatus_Response",
-      "hash_string": "RIHS01_317bde5e88c6fd451a26e6706164c8b7c7c8eea4e07be2a3000c4524cc03f7a2"
+      "hash_string": "RIHS01_3eb289b5b1b5a8f55c3224c57a5828ad15561ca9ab271650e00f736f5972bf90"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

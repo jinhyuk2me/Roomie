@@ -1,0 +1,12 @@
+# StartCountdown.action
+# Goal
+int32 robot_id
+int32 task_id
+int32 task_type_id
+---
+# Result
+int32 robot_id
+bool success
+---
+# Feedback
+int32 remaining_time  # 초 단위 남은 시간 

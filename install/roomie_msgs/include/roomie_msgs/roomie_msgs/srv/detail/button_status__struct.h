@@ -57,6 +57,7 @@ typedef struct roomie_msgs__srv__ButtonStatus_Request__Sequence
 typedef struct roomie_msgs__srv__ButtonStatus_Response
 {
   int32_t robot_id;
+  bool success;
   rosidl_runtime_c__float__Sequence xs;
   rosidl_runtime_c__float__Sequence ys;
   rosidl_runtime_c__float__Sequence depths;

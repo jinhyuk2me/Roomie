@@ -48,9 +48,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/sensor/CheckItemLoaded.srv"
   "srv/sensor/CheckDoorState.srv"
   
-  # Services - Task Management
-  "srv/task_management/StartCountdown.srv"
-  "srv/task_management/ReturnCountdown.srv"
+
   
   # Services - Security
   "srv/security/ControlLock.srv"
@@ -58,6 +56,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   # Actions
   "action/PerformTask.action"
   "action/PerformReturn.action"
+  "action/StartCountdown.action"
+  "action/ReturnCountdown.action"
   
   DEPENDENCIES
     geometry_msgs

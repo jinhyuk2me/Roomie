@@ -4,3 +4,6 @@ source;share/roomie_rgui/hook/pythonpath.sh
 source;share/roomie_rgui/hook/ament_prefix_path.ps1
 source;share/roomie_rgui/hook/ament_prefix_path.dsv
 source;share/roomie_rgui/hook/ament_prefix_path.sh
+source;../../build/roomie_rgui/share/roomie_rgui/hook/pythonpath_develop.ps1
+source;../../build/roomie_rgui/share/roomie_rgui/hook/pythonpath_develop.dsv
+source;../../build/roomie_rgui/share/roomie_rgui/hook/pythonpath_develop.sh

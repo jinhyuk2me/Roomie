@@ -275,6 +275,7 @@ roomie_msgs__srv__ButtonStatus_Response__init(roomie_msgs__srv__ButtonStatus_Res
     return false;
   }
   // robot_id
+  // success
   // xs
   if (!rosidl_runtime_c__float__Sequence__init(&msg->xs, 0)) {
     roomie_msgs__srv__ButtonStatus_Response__fini(msg);
@@ -310,6 +311,7 @@ roomie_msgs__srv__ButtonStatus_Response__fini(roomie_msgs__srv__ButtonStatus_Res
     return;
   }
   // robot_id
+  // success
   // xs
   rosidl_runtime_c__float__Sequence__fini(&msg->xs);
   // ys
@@ -330,6 +332,10 @@ roomie_msgs__srv__ButtonStatus_Response__are_equal(const roomie_msgs__srv__Butto
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
+    return false;
+  }
+  // success
+  if (lhs->success != rhs->success) {
     return false;
   }
   // xs
@@ -375,6 +381,8 @@ roomie_msgs__srv__ButtonStatus_Response__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
+  // success
+  output->success = input->success;
   // xs
   if (!rosidl_runtime_c__float__Sequence__copy(
       &(input->xs), &(output->xs)))

@@ -11,10 +11,10 @@ roomie_msgs__srv__DoorStatus__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xbf, 0x4d, 0x01, 0x25, 0x74, 0x0a, 0xc2, 0x13,
-      0x04, 0x1e, 0xf3, 0xd2, 0x2c, 0xb4, 0x49, 0x79,
-      0x6b, 0xe3, 0xec, 0x47, 0x59, 0x8e, 0x97, 0xd2,
-      0xc5, 0x8c, 0x6d, 0x63, 0x3c, 0x38, 0x84, 0x5f,
+      0xfe, 0x76, 0xa1, 0xc5, 0x76, 0x51, 0x6a, 0x23,
+      0x69, 0xa7, 0x1b, 0x19, 0xe0, 0x19, 0x24, 0xc9,
+      0x18, 0x45, 0x9e, 0xbc, 0xe4, 0xab, 0x2b, 0x61,
+      0xd4, 0x21, 0xce, 0x6a, 0x54, 0x05, 0xdb, 0x05,
     }};
   return &hash;
 }
@@ -41,10 +41,10 @@ roomie_msgs__srv__DoorStatus_Response__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x61, 0x93, 0x20, 0x7d, 0x93, 0x0d, 0xb2, 0x04,
-      0x14, 0xcf, 0x48, 0x16, 0xbc, 0x05, 0x96, 0x1e,
-      0xd6, 0x05, 0x3f, 0x81, 0xff, 0xe3, 0x0a, 0x2e,
-      0x36, 0x53, 0xeb, 0x5e, 0x30, 0x96, 0x6b, 0xac,
+      0xb6, 0xac, 0xd4, 0x87, 0xed, 0x8e, 0x03, 0xdf,
+      0x81, 0x55, 0x1c, 0x26, 0x06, 0x23, 0x21, 0x9f,
+      0x26, 0x44, 0x56, 0x53, 0x96, 0x86, 0x11, 0x83,
+      0xc8, 0xf4, 0x0f, 0xcc, 0x35, 0xfb, 0xea, 0x6e,
     }};
   return &hash;
 }
@@ -56,10 +56,10 @@ roomie_msgs__srv__DoorStatus_Event__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x09, 0xa0, 0x38, 0xfd, 0x3c, 0x0b, 0x2f, 0x3c,
-      0x6d, 0xb7, 0x8a, 0x49, 0x01, 0x57, 0x81, 0x3f,
-      0x8f, 0x0e, 0x03, 0xe4, 0xe9, 0x40, 0x3f, 0xd2,
-      0x5f, 0xa3, 0xa3, 0x47, 0x33, 0x2f, 0xc4, 0x55,
+      0x42, 0xbf, 0xce, 0x70, 0x08, 0xd8, 0xf3, 0x72,
+      0xff, 0xa8, 0x9a, 0xf8, 0xe7, 0x22, 0x24, 0xb6,
+      0x6c, 0xbd, 0x32, 0x59, 0x29, 0x53, 0xb1, 0x00,
+      0x23, 0x5f, 0xba, 0x18, 0x27, 0xd3, 0x6b, 0x6c,
     }};
   return &hash;
 }
@@ -68,8 +68,8 @@ roomie_msgs__srv__DoorStatus_Event__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "service_msgs/msg/detail/service_event_info__functions.h"
 #include "builtin_interfaces/msg/detail/time__functions.h"
+#include "service_msgs/msg/detail/service_event_info__functions.h"
 
 // Hashes for external referenced types
 #ifndef NDEBUG
@@ -216,6 +216,7 @@ roomie_msgs__srv__DoorStatus_Request__get_type_description(
 }
 // Define type names, field names, and default values
 static char roomie_msgs__srv__DoorStatus_Response__FIELD_NAME__robot_id[] = "robot_id";
+static char roomie_msgs__srv__DoorStatus_Response__FIELD_NAME__success[] = "success";
 static char roomie_msgs__srv__DoorStatus_Response__FIELD_NAME__door_opened[] = "door_opened";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__srv__DoorStatus_Response__FIELDS[] = {
@@ -223,6 +224,16 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__srv__DoorStatus_Re
     {roomie_msgs__srv__DoorStatus_Response__FIELD_NAME__robot_id, 8, 8},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
+      0,
+      0,
+      {NULL, 0, 0},
+    },
+    {NULL, 0, 0},
+  },
+  {
+    {roomie_msgs__srv__DoorStatus_Response__FIELD_NAME__success, 7, 7},
+    {
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN,
       0,
       0,
       {NULL, 0, 0},
@@ -250,7 +261,7 @@ roomie_msgs__srv__DoorStatus_Response__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__srv__DoorStatus_Response__TYPE_NAME, 35, 35},
-      {roomie_msgs__srv__DoorStatus_Response__FIELDS, 2, 2},
+      {roomie_msgs__srv__DoorStatus_Response__FIELDS, 3, 3},
     },
     {NULL, 0, 0},
   };
@@ -348,6 +359,7 @@ static char toplevel_type_raw_source[] =
   "---\n"
   "# Response\n"
   "int32 robot_id\n"
+  "bool success\n"
   "bool door_opened\n"
   "\n"
   "# door_opened values:\n"
@@ -367,7 +379,7 @@ roomie_msgs__srv__DoorStatus__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__srv__DoorStatus__TYPE_NAME, 26, 26},
     {srv_encoding, 3, 3},
-    {toplevel_type_raw_source, 143, 143},
+    {toplevel_type_raw_source, 156, 156},
   };
   return &source;
 }

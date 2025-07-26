@@ -1,1 +1,0 @@
-/home/jinhyuk2me/project_ws/Roomie/ros2_ws/build/roomie_msgs/rosidl_generator_c/roomie_msgs/srv/detail/start_countdown__struct.h

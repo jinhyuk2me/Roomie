@@ -125,6 +125,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "left_boundary",
             "type": {
               "type_id": 10,
@@ -196,7 +206,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/ElevatorWidth",
-      "hash_string": "RIHS01_fd586f2123d58cba6971cf21e01121deaddbca3583db2125bc06856778bbc478"
+      "hash_string": "RIHS01_6b5fe466b7548ff1575a8c9546eb1c0a75ebe86f55bc15913463310791bb79e0"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -204,7 +214,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorWidth_Event",
-      "hash_string": "RIHS01_d792b2129bc8745b2e0a502c027cebc29b2d656f8a1e0ca3ed8ab2de26daa635"
+      "hash_string": "RIHS01_a1eff8d77341150b1dc454b97e06c1d97932b5979aaa4d2062fc233089ec7df4"
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorWidth_Request",
@@ -212,7 +222,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ElevatorWidth_Response",
-      "hash_string": "RIHS01_cded0bd066894b4d6c79d20641af28f004c6326ac83850ae60a46a54bf1f9012"
+      "hash_string": "RIHS01_77cca14bb751b0c03063037bd86bf778f3d829fb187e7920222b72d390964e59"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

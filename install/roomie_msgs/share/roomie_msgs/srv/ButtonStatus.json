@@ -135,6 +135,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "xs",
             "type": {
               "type_id": 154,
@@ -236,7 +246,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/ButtonStatus",
-      "hash_string": "RIHS01_ab9c09fd057dfc566c13a064e82e799272a8136d893f7a3b0223125660dad1a5"
+      "hash_string": "RIHS01_558e10f0e8cff1a07dfc4d4fd38d7c6dd155224b24c638df0ab2c20c437e8416"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -244,7 +254,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ButtonStatus_Event",
-      "hash_string": "RIHS01_31b50cd432fafb44322652f7c61bd4991ee384c1b420689b2581fdf38ea05838"
+      "hash_string": "RIHS01_83c81bbacad882442006e8ae336dd70b7754b17d4bb867153b0d80952ce766c8"
     },
     {
       "type_name": "roomie_msgs/srv/ButtonStatus_Request",
@@ -252,7 +262,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/ButtonStatus_Response",
-      "hash_string": "RIHS01_f5103afca73ef9d04df213fa8737152d3f676efe556e6c66f75cbbefee3f5f75"
+      "hash_string": "RIHS01_04131a2da9f94b1c7a20980f11eb724cb103741492d6b9afbfd0c927adeede24"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

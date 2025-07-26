@@ -242,6 +242,7 @@ roomie_msgs__srv__Location_Response__init(roomie_msgs__srv__Location_Response * 
     return false;
   }
   // robot_id
+  // success
   // location_id
   return true;
 }
@@ -253,6 +254,7 @@ roomie_msgs__srv__Location_Response__fini(roomie_msgs__srv__Location_Response * 
     return;
   }
   // robot_id
+  // success
   // location_id
 }
 
@@ -264,6 +266,10 @@ roomie_msgs__srv__Location_Response__are_equal(const roomie_msgs__srv__Location_
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
+    return false;
+  }
+  // success
+  if (lhs->success != rhs->success) {
     return false;
   }
   // location_id
@@ -283,6 +289,8 @@ roomie_msgs__srv__Location_Response__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
+  // success
+  output->success = input->success;
   // location_id
   output->location_id = input->location_id;
   return true;

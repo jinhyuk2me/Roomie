@@ -42,6 +42,7 @@ typedef struct roomie_msgs__srv__SpaceAvailability_Request__Sequence
 typedef struct roomie_msgs__srv__SpaceAvailability_Response
 {
   int32_t robot_id;
+  bool success;
   bool space_availability;
 } roomie_msgs__srv__SpaceAvailability_Response;
 
