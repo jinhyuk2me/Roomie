@@ -1,1 +1,1 @@
-# roomie_rc 패키지 초기화 파일 
+# roomie_rc package initialization 
