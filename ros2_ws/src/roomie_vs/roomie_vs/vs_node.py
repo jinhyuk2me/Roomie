@@ -503,10 +503,12 @@ class VSNode(Node):
         # VS 모드 상태 관리
         self.current_mode_id = 0
         self.mode_names = {
-            0: "대기모드",
-            1: "등록모드", 
-            2: "추적모드",
-            3: "엘리베이터모드",
+            0: "대기모드 (후방)",
+            1: "등록모드 (후방)", 
+            2: "추적모드 (후방)",
+            3: "엘리베이터 외부 모드 (전방)",
+            4: "엘리베이터 내부 모드 (전방)",
+            5: "일반모드 (전방)",
             100: "배송 시뮬레이션 모드",
             101: "호출 시뮬레이션 모드",
             102: "길안내 시뮬레이션 모드",
@@ -922,6 +924,7 @@ class VSNode(Node):
                     is_pressed.append(bool(False))
                     timestamps.append(self.get_clock().now().to_msg())
                     
+            response.success = True
             response.xs = xs
             response.ys = ys
             response.depths = depths
@@ -933,6 +936,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"버튼 상태 서비스 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.xs = []
             response.ys = []
             response.depths = []
@@ -1089,6 +1093,7 @@ class VSNode(Node):
             dummy_right = 0.85
             
             response.robot_id = request.robot_id
+            response.success = True
             response.left_boundary = float(dummy_left)
             response.right_boundary = float(dummy_right)
             
@@ -1097,6 +1102,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"엘리베이터 너비 감지 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.left_boundary = 0.0
             response.right_boundary = 0.0
         
@@ -1112,6 +1118,7 @@ class VSNode(Node):
             dummy_position = random.choice([1, 2, 3])
             
             response.robot_id = request.robot_id
+            response.success = True
             response.direction = dummy_direction
             response.position = dummy_position
             
@@ -1121,6 +1128,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"엘리베이터 상태 감지 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.direction = 0
             response.position = 1
         
@@ -1135,6 +1143,7 @@ class VSNode(Node):
             dummy_door_opened = random.choice([True, False])
             
             response.robot_id = request.robot_id
+            response.success = True
             response.door_opened = dummy_door_opened
             
             door_str = "열림" if dummy_door_opened else "닫힘"
@@ -1143,6 +1152,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"문 상태 감지 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.door_opened = False
         
         return response
@@ -1156,6 +1166,7 @@ class VSNode(Node):
             dummy_space_available = random.choice([True, False])
             
             response.robot_id = request.robot_id
+            response.success = True
             response.space_availability = dummy_space_available
             
             space_str = "확보됨" if dummy_space_available else "확보 안됨"
@@ -1164,6 +1175,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"공간 가용성 감지 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.space_availability = False
         
         return response
@@ -1174,6 +1186,7 @@ class VSNode(Node):
             self.get_logger().info(f"위치 감지 요청: robot_id={request.robot_id}")
             
             response.robot_id = request.robot_id
+            response.success = True
             
             # 시뮬레이션 모드별 위치 시나리오 처리
             if self.current_mode_id == 100:  # 배송 시뮬레이션
@@ -1224,6 +1237,7 @@ class VSNode(Node):
         except Exception as e:
             self.get_logger().error(f"위치 감지 에러: {e}")
             response.robot_id = request.robot_id
+            response.success = False
             response.location_id = self.last_detected_location_id
         
         return response
@@ -1463,7 +1477,8 @@ def main(args=None):
                         node.get_logger().info(f"  감지 가능한 객체: {supported_classes}")
                         node.get_logger().info(f"  버튼 클래스: button")
                         
-                        node.get_logger().info("기본 모드: 1(대기), 1r(등록), 1t(추적), 1e(엘리베이터)")
+                        node.get_logger().info("후방 카메라 모드: 0(대기), 1(등록), 2(추적)")
+                        node.get_logger().info("전방 카메라 모드: 3(엘리베이터 외부), 4(엘리베이터 내부), 5(일반)")
                         node.get_logger().info("시뮬레이션 모드: 100(배송), 101(호출), 102(길안내), 103(복귀), 104(엘리베이터)")
                         node.get_logger().info("키보드: A(ArUco테스트), F(좌우반전), C(신뢰도조정)")
                     elif key == ord('a') or key == ord('A'):  # A키: ArUco 감지 테스트

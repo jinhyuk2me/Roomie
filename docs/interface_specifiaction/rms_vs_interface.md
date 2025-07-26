@@ -19,21 +19,14 @@ bool success
 ```
 
 **mode_id 값:**
-- `0`: 대기모드 (후방 전용)
-- `1`: 등록모드 (후방 전용)
-- `2`: 추적모드 (후방 전용)
-- `3`: 엘리베이터 외부 모드 (전방 전용)
-- `4`: 엘리베이터 내부 모드 (전방 전용)
-- `5`: 일반모드 (전방 전용)
-
-**카메라별 모드 분리:**
-- **전방 카메라 모드**: 3(엘리베이터 외부), 4(엘리베이터 내부), 5(일반모드)
-- **후방 카메라 모드**: 0(대기모드), 1(등록모드), 2(추적모드)
-
-**엘리베이터 모드 구분 이유:**
-- **외부 모드(3)**: 엘리베이터 호출 버튼 (상행/하행 등)
-- **내부 모드(4)**: 엘리베이터 내부 버튼 (층 선택, 열기/닫기 등)
-- 외부와 내부의 버튼 배열이 다르므로 별도 모드로 분리
+- **후방 카메라 모드**
+  - `0`: 대기모드
+  - `1`: 등록모드
+  - `2`: 추적모드
+- **전방 카메라 모드**
+  - `3`: 엘리베이터 외부 모드
+  - `4`: 엘리베이터 내부 모드
+  - `5`: 일반모드
 
 ---
 
@@ -49,6 +42,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 float32 left_boundary
 float32 right_boundary
 ```
@@ -68,6 +62,7 @@ int32[] button_ids
 ---
 # Response
 int32 robot_id
+bool success
 float32[] xs
 float32[] ys
 float32[] depths
@@ -107,6 +102,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 int32 direction
 int32 position
 ```
@@ -132,6 +128,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 bool door_opened
 ```
 
@@ -153,6 +150,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 bool space_availability
 ```
 
@@ -170,6 +168,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 int32 location_id
 ```
 
