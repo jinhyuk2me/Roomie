@@ -22,7 +22,7 @@ class RobotManager:
         
         # 1. SELECT ... FOR UPDATE로 해당 로봇의 현재 상태 레코드를 잠그고 가져옵니다.
         cursor.execute(
-            "SELECT id FROM robot_current_state WHERE robot_id = %s FOR UPDATE",
+            "SELECT robot_id FROM robot_current_state WHERE robot_id = %s FOR UPDATE",
             (robot_id,)
         )
         current_state_record = cursor.fetchone()
@@ -31,7 +31,6 @@ class RobotManager:
         
         if current_state_record:
             # 2a. 레코드가 있으면 UPDATE
-            record_id = current_state_record['id']
             update_fields = ["last_updated_time = %s"]
             values = [current_time]
             
@@ -48,9 +47,9 @@ class RobotManager:
                 update_fields.append("error_id = %s")
                 values.append(error_id)
             
-            values.append(record_id)
+            values.append(robot_id)
             
-            query = f"UPDATE robot_current_state SET {', '.join(update_fields)} WHERE id = %s"
+            query = f"UPDATE robot_current_state SET {', '.join(update_fields)} WHERE robot_id = %s"
             cursor.execute(query, tuple(values))
 
         else:

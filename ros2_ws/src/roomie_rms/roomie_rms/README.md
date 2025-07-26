@@ -180,7 +180,7 @@ source /home/jay/venv/roomie_venv/bin/activate
 ### 6.2 메인 시스템 실행
 ```bash
 # RMS 노드 실행 (FastAPI + ROS2)
-cd /home/jay/project_ws/ros-repo-2_for_test/ros2_ws/src/roomie_rms/roomie_rms
+cd /home/jay/project_ws/ros-repo-2/ros2_ws/src/roomie_rms/roomie_rms
 python rms_node.py
 ```
 
@@ -189,21 +189,21 @@ python rms_node.py
 #### 6.3.1 RC 시뮬레이터
 ```bash
 # RC 시뮬레이터 실행 (ROS2 환경 필요)
-cd /home/jay/project_ws/ros-repo-2_for_test/ros2_ws/src/roomie_rms/roomie_rms
+cd /home/jay/project_ws/ros-repo-2/ros2_ws/src/roomie_rms/roomie_rms
 python testing/rc_gui.py
 ```
 
 #### 6.3.2 Staff GUI (SGUI)
 ```bash
 # Staff GUI 실행 (ROS2 환경 불필요)
-cd /home/jay/project_ws/ros-repo-2_for_test/ros2_ws/src/roomie_rms/roomie_rms
+cd /home/jay/project_ws/ros-repo-2/ros2_ws/src/roomie_rms/roomie_rms
 python testing/sgui_app.py
 ```
 
 #### 6.3.3 Guest GUI (GGUI)
 ```bash
 # Guest GUI 실행 (ROS2 환경 불필요)
-cd /home/jay/project_ws/ros-repo-2_for_test/ros2_ws/src/roomie_rms/roomie_rms
+cd /home/jay/project_ws/ros-repo-2/ros2_ws/src/roomie_rms/roomie_rms
 python testing/ggui_app.py
 ```
 

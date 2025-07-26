@@ -107,13 +107,6 @@ class WebSocketManager:
         else:
             logger.warning(f"전송 실패 | 대상을 찾을 수 없음: {client_type}({client_id})")
 
-    def send_to_client_sync(self, client_type: str, client_id: str, message: str):
-        """동기적으로 클라이언트에게 메시지를 전송합니다."""
-        try:
-            asyncio.create_task(self.send_to_client(client_type, client_id, message))
-        except Exception as e:
-            logger.error(f"동기 메시지 전송 실패: {e}")
-
     async def broadcast_to(self, client_type: str, message: str):
         """특정 타입의 모든 클라이언트에게 브로드캐스트합니다."""
         if client_type in self.connections and self.connections[client_type]:
@@ -144,96 +137,32 @@ class WebSocketManager:
         else:
             logger.warning(f"브로드캐스트 스킵 | {client_type.upper()} 그룹에 연결된 클라이언트 없음")
 
-    def send_to_client_by_location(self, client_type: str, location_name: str, message: str):
-        """특정 위치의 클라이언트에게 메시지를 전송합니다."""
-        # 현재 구현에서는 위치 정보가 client_id에 포함되어 있다고 가정
-        # 실제로는 더 정교한 위치 기반 라우팅이 필요할 수 있습니다
-        target_client_id = location_name.lower()  # 예: ROOM_101 -> room_101
+    def broadcast_to_sync(self, client_type: str, message: str):
+        """동기 함수에서 호출할 수 있는 브로드캐스트 메서드 (ROS2 콜백용)"""
+        try:
+            # 현재 실행 중인 이벤트 루프가 있는지 확인
+            loop = asyncio.get_running_loop()
+            # 이벤트 루프가 실행 중이면 create_task 사용
+            loop.create_task(self.broadcast_to(client_type, message))
+        except RuntimeError:
+            # 실행 중인 이벤트 루프가 없으면 새로운 스레드에서 실행
+            import threading
+            def run_async():
+                asyncio.run(self.broadcast_to(client_type, message))
+            
+            thread = threading.Thread(target=run_async)
+            thread.daemon = True
+            thread.start()
+
+    def send_to_client_by_location_sync(self, client_type: str, location_name: str, message: str):
+        """특정 위치의 클라이언트에게 메시지를 전송하는 동기 메서드 (ROS2 콜백용)
         
-        if client_type in self.connections and target_client_id in self.connections[client_type]:
-            try:
-                connection = self.connections[client_type][target_client_id]
-                # 비동기 메서드를 동기적으로 호출 (threading 환경에서)
-                import asyncio
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(connection.send_text(message))
-                loop.close()
-                
-                logger.info(f"위치 기반 메시지 전송 완료: {client_type}@{location_name}")
-            except Exception as e:
-                logger.error(f"위치 기반 메시지 전송 실패: {client_type}@{location_name} - {e}")
-        else:
-            logger.warning(f"위치 기반 전송 대상 없음: {client_type}@{location_name}")
-
-    def send_to_client_sync(self, client_type: str, client_id: str, message: str):
-        """동기적으로 특정 클라이언트에게 메시지를 전송합니다."""
-        if client_type in self.connections and client_id in self.connections[client_type]:
-            try:
-                connection = self.connections[client_type][client_id]
-                # 비동기 메서드를 동기적으로 호출
-                import asyncio
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(connection.send_text(message))
-                loop.close()
-                
-                logger.info(f"동기 메시지 전송 완료: {client_type}({client_id})")
-            except Exception as e:
-                logger.error(f"동기 메시지 전송 실패: {client_type}({client_id}) - {e}")
-        else:
-            logger.warning(f"동기 전송 대상 없음: {client_type}({client_id})")
-
-    def broadcast_to_group(self, client_type: str, message_dict_or_str):
-        """그룹에 메시지를 브로드캐스트합니다 (동기 버전)."""
-        if isinstance(message_dict_or_str, dict):
-            import json
-            message = json.dumps(message_dict_or_str)
-        else:
-            message = message_dict_or_str
-            
-        if client_type in self.connections and self.connections[client_type]:
-            try:
-                # 비동기 메서드를 동기적으로 호출
-                import asyncio
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(self._broadcast_to_group_async(client_type, message))
-                loop.close()
-            except Exception as e:
-                logger.error(f"동기 브로드캐스트 실패: {client_type} - {e}")
-        else:
-            logger.warning(f"동기 브로드캐스트 대상 없음: {client_type}")
-
-    async def _broadcast_to_group_async(self, client_type: str, message: str):
-        """내부 비동기 브로드캐스트 메서드"""
-        if client_type in self.connections and self.connections[client_type]:
-            connected_count = len(self.connections[client_type])
-            
-            # 메시지에서 이벤트 타입 추출 (JSON인 경우)
-            try:
-                data = json.loads(message)
-                event_type = data.get('action', 'unknown')
-            except:
-                event_type = 'text'
-            
-            logger.info(
-                f"비동기 브로드캐스트 시작 | "
-                f"대상: {client_type.upper()} 그룹 ({connected_count}개 연결) | "
-                f"이벤트: {event_type}"
-            )
-            
-            # 연결 목록을 복사하여 반복 중 딕셔너리 크기 변경 문제 방지
-            for client_id, connection in list(self.connections[client_type].items()):
-                try:
-                    await connection.send_text(message)
-                    logger.debug(f"비동기 브로드캐스트 성공: {client_type}({client_id})")
-                except Exception as e:
-                    logger.error(f"비동기 브로드캐스트 실패: {client_type}({client_id}) - {e}")
-                    
-            logger.info(f"비동기 브로드캐스트 완료 | {client_type.upper()} 그룹")
-        else:
-            logger.warning(f"비동기 브로드캐스트 대상 없음: {client_type}")
+        현재는 모든 클라이언트에게 브로드캐스트하는 방식으로 구현됨.
+        향후 위치 기반 라우팅이 필요하면 개선 가능.
+        """
+        logger.info(f"위치 기반 메시지 전송 | 타겟: {client_type}@{location_name}")
+        # 일단 모든 클라이언트에게 브로드캐스트
+        self.broadcast_to_sync(client_type, message)
 
 # 글로벌 인스턴스 생성
 manager = WebSocketManager()

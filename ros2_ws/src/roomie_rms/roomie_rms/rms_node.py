@@ -99,6 +99,17 @@ class RmsNode(RmsBaseNode, ServiceHandler, TopicHandler, ActionHandler):
 def create_app(rms_node: RmsNode) -> FastAPI:
     """FastAPI 앱 생성 및 설정"""
     app = FastAPI(title="Roomie RMS API Server")
+
+    # CORS 미들웨어 추가
+    from fastapi.middleware.cors import CORSMiddleware
+    
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # 실제 운영 환경에서는 구체적인 origin을 지정하는 것이 좋습니다
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     
     # RMS 노드 인스턴스를 앱 상태에 설정
     app.state.rms_node = rms_node

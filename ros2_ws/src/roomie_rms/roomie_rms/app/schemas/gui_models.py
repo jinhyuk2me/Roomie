@@ -6,99 +6,10 @@ from datetime import datetime, date
 class BasePayload(BaseModel):
     location_name: Optional[str] = None
 
-class BaseResponse(BaseModel):
-    success: bool = True
-    message: Optional[str] = None
-
 class OrderItem(BaseModel):
     name: str
     price: Optional[int] = None
     quantity: int
-
-# GUI <=> 서버 기본 통신 모델
-class SimpleRequest(BaseModel):
-    command: str
-    data: dict
-
-class SimpleResponse(BaseModel):
-    status: str
-    message: str
-
-# 음식 메뉴 아이템 모델
-class FoodItem(BaseModel):
-    id: int
-    name: str
-    price: int
-    image_path: str
-
-# 물품 메뉴 아이템 모델  
-class SupplyItem(BaseModel):
-    id: int
-    name: str
-    image_path: str
-
-# 위치 아이템 모델
-class LocationItem(BaseModel):
-    id: int
-    name: str
-
-# --- Get Food Menu ---
-class GetFoodMenuRequest(BaseModel):
-    payload: BasePayload
-
-class GetFoodMenuResponsePayload(BasePayload):
-    menu_items: List[FoodItem]
-    estimated_time: int
-
-class GetFoodMenuResponse(BaseModel):
-    status: str
-    message: str
-    payload: GetFoodMenuResponsePayload
-
-# --- Get Supply Menu ---
-class GetSupplyMenuRequest(BaseModel):
-    payload: BasePayload
-
-class GetSupplyMenuResponsePayload(BasePayload):
-    menu_items: List[SupplyItem]
-    estimated_time: int
-
-class GetSupplyMenuResponse(BaseModel):
-    status: str
-    message: str
-    payload: GetSupplyMenuResponsePayload
-
-# --- Get Locations ---
-class GetLocationsRequest(BaseModel):
-    payload: BasePayload
-
-class GetLocationsResponsePayload(BasePayload):
-    locations: List[LocationItem]
-
-class GetLocationsResponse(BaseModel):
-    status: str
-    message: str
-    payload: GetLocationsResponsePayload
-
-# --- Create Delivery Task ---
-class CreateDeliveryTaskRequestPayload(BasePayload):
-    location_name: str
-    task_type_name: str
-    order_details: Dict[str, List[OrderItem]]
-
-class CreateDeliveryTaskRequest(BaseModel):
-    payload: CreateDeliveryTaskRequestPayload
-
-class CreateDeliveryTaskResponsePayload(BasePayload):
-    task_id: int
-    order_id: int
-    success: bool = True
-    message: str = "주문이 성공적으로 생성되었습니다."
-    estimated_time: int = 30  # 기본 예상 시간 (분)
-    task_creation_time: str
-
-class CreateDeliveryTaskResponse(BaseResponse):
-    payload: CreateDeliveryTaskResponsePayload
 
 # --- SGUI WebSocket Event Models ---
 
@@ -226,23 +137,8 @@ class RobotStatusUpdateEvent(BaseModel):
     action: str = "robot_status_update"
     payload: RobotStatusUpdateEventPayload
 
-# --- Task Status Change ---
-class TaskStatusChangeRequestPayload(BaseModel):
-    task_id: int
-    new_status: str # e.g., "준비 완료"
-
-class TaskStatusChangeRequest(BaseModel):
-    payload: TaskStatusChangeRequestPayload
-
-class TaskStatusChangeResponsePayload(BaseModel):
-    success: bool
-    message: str
-
-class TaskStatusChangeResponse(BaseModel):
-    payload: TaskStatusChangeResponsePayload
-
 # ----------------------------------------------------------------
-# AGUI (Admin GUI) 모델
+# AGUI (Admin GUI) DB-facing Models
 # ----------------------------------------------------------------
 
 # 작업 목록 조회를 위한 개별 작업 모델
@@ -265,10 +161,6 @@ class TaskInDB(BaseModel):
         """ISO 8601 형태로 시리얼라이즈"""
         return value.isoformat() + 'Z' if value else None
 
-# 작업 목록 조회 응답 모델
-class TaskListResponse(BaseModel):
-    tasks: List[TaskInDB]
-
 # 로봇 목록 조회를 위한 개별 로봇 모델
 class RobotInDB(BaseModel):
     robot_id: int
@@ -280,11 +172,9 @@ class RobotInDB(BaseModel):
     has_error: bool
     error_code: str | None # error.name
 
-# 로봇 목록 조회 응답 모델
-class RobotListResponse(BaseModel):
-    robots: List[RobotInDB]
-
-# --- GGUI HTTP 동기 인터페이스 모델들 ---
+# ----------------------------------------------------------------
+# GGUI (Guest GUI) HTTP Interface Models
+# ----------------------------------------------------------------
 
 # 호출 작업 생성 요청/응답
 class CreateCallTaskRequestPayload(BasePayload):
@@ -310,60 +200,60 @@ class CreateCallTaskResponse(BaseModel):
     payload: CreateCallTaskResponsePayload
 
 # 음식 메뉴 요청/응답
-class GetFoodMenuGGUIRequestPayload(BasePayload):
+class GetFoodMenuRequestPayload(BasePayload):
     location_name: str
 
-class GetFoodMenuGGUIRequest(BaseModel):
+class GetFoodMenuRequest(BaseModel):
     type: str = "request"
     action: str = "get_food_menu"
-    payload: GetFoodMenuGGUIRequestPayload
+    payload: GetFoodMenuRequestPayload
 
 class FoodMenuItem(BaseModel):
     food_name: str
     price: int
     image: str
 
-class GetFoodMenuGGUIResponsePayload(BasePayload):
+class GetFoodMenuResponsePayload(BasePayload):
     food_items: List[FoodMenuItem]
 
-class GetFoodMenuGGUIResponse(BaseModel):
+class GetFoodMenuResponse(BaseModel):
     type: str = "response"
     action: str = "get_food_menu"
-    payload: GetFoodMenuGGUIResponsePayload
+    payload: GetFoodMenuResponsePayload
 
 # 비품 메뉴 요청/응답
-class GetSupplyMenuGGUIRequestPayload(BasePayload):
+class GetSupplyMenuRequestPayload(BasePayload):
     location_name: str
 
-class GetSupplyMenuGGUIRequest(BaseModel):
+class GetSupplyMenuRequest(BaseModel):
     type: str = "request"
     action: str = "get_supply_menu"
-    payload: GetSupplyMenuGGUIRequestPayload
+    payload: GetSupplyMenuRequestPayload
 
 class SupplyMenuItem(BaseModel):
     supply_name: str
     image: str
 
-class GetSupplyMenuGGUIResponsePayload(BasePayload):
+class GetSupplyMenuResponsePayload(BasePayload):
     supply_items: List[SupplyMenuItem]
 
-class GetSupplyMenuGGUIResponse(BaseModel):
+class GetSupplyMenuResponse(BaseModel):
     type: str = "response"
     action: str = "get_supply_menu"
-    payload: GetSupplyMenuGGUIResponsePayload
+    payload: GetSupplyMenuResponsePayload
 
 # 배송 작업 생성 요청/응답 (GGUI용)
-class CreateDeliveryTaskGGUIRequestPayload(BasePayload):
+class CreateDeliveryTaskRequestPayload(BasePayload):
     location_name: str
     task_type_name: str
     order_details: Dict[str, List[OrderItem]]
 
-class CreateDeliveryTaskGGUIRequest(BaseModel):
+class CreateDeliveryTaskRequest(BaseModel):
     type: str = "request"
     action: str = "create_delivery_task"
-    payload: CreateDeliveryTaskGGUIRequestPayload
+    payload: CreateDeliveryTaskRequestPayload
 
-class CreateDeliveryTaskGGUIResponsePayload(BasePayload):
+class CreateDeliveryTaskResponsePayload(BasePayload):
     location_name: str
     task_name: str
     success: bool
@@ -372,10 +262,10 @@ class CreateDeliveryTaskGGUIResponsePayload(BasePayload):
     estimated_time: int
     task_creation_time: str
 
-class CreateDeliveryTaskGGUIResponse(BaseModel):
+class CreateDeliveryTaskResponse(BaseModel):
     type: str = "response"
     action: str = "create_delivery_task"
-    payload: CreateDeliveryTaskGGUIResponsePayload
+    payload: CreateDeliveryTaskResponsePayload
 
 # 호출 내역 조회 요청/응답
 class GetCallHistoryRequestPayload(BasePayload):
@@ -430,7 +320,9 @@ class GetOrderHistoryResponse(BaseModel):
     action: str = "get_order_history"
     payload: GetOrderHistoryResponsePayload
 
-# --- AGUI HTTP 통신 인터페이스 모델들 ---
+# ----------------------------------------------------------------
+# AGUI (Admin GUI) HTTP Interface Models
+# ----------------------------------------------------------------
 
 # 작업 목록 요청
 class TaskListFilters(BaseModel):
@@ -451,7 +343,7 @@ class TaskListRequest(BaseModel):
 class TaskListResponsePayload(BasePayload):
     tasks: List[TaskInDB]
 
-class TaskListAGUIResponse(BaseModel):
+class TaskListResponse(BaseModel):
     type: str = "response"
     action: str = "task_list"
     payload: TaskListResponsePayload
@@ -493,7 +385,7 @@ class RobotListRequest(BaseModel):
 class RobotListResponsePayload(BasePayload):
     robots: List[RobotInDB]
 
-class RobotListAGUIResponse(BaseModel):
+class RobotListResponse(BaseModel):
     type: str = "response"
     action: str = "robot_list"
     payload: RobotListResponsePayload

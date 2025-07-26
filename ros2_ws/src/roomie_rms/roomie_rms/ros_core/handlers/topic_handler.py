@@ -122,7 +122,7 @@ class TopicHandler:
                                  }
                              }
                              import json
-                             websocket_manager.broadcast_to_group("staff", json.dumps(event_data))
+                             websocket_manager.broadcast_to_sync("staff", json.dumps(event_data))
                              log_websocket_event("BROADCAST", "staff", f"픽업 도착 알림 - Task {task_id}")
 
                     # 최종 목적지 도착
@@ -156,7 +156,7 @@ class TopicHandler:
                             }
                             import json
                             # 특정 위치의 게스트에게만 전송 (위치 기반 라우팅)
-                            websocket_manager.send_to_client_by_location("guest", destination_name, json.dumps(event_data))
+                            websocket_manager.send_to_client_by_location_sync("guest", destination_name, json.dumps(event_data))
                             log_websocket_event("SEND", f"guest@{destination_name}", f"배송 도착 알림 - Task {task_id}")
 
         except (DatabaseException, Exception) as e:
@@ -168,13 +168,13 @@ class TopicHandler:
         logger.info(
             "배터리 상태 수신",
             category="ROS2", subcategory="TOPIC-SUB",
-            details={"Topic": "/roomie/status/battery_status", "RobotID": msg.robot_id, "BatteryLevel": f"{msg.battery_level}%"}
+            details={"Topic": "/roomie/status/battery_status", "RobotID": msg.robot_id, "BatteryLevel": f"{msg.charge_percentage}%"}
         )
         
         try:
             with safe_database_connection(db_manager.get_connection) as conn:
                 with database_transaction(conn) as cursor:
-                    self.robot_manager.update_robot_current_state(cursor, msg.robot_id, battery_level=msg.battery_level)
+                    self.robot_manager.update_robot_current_state(cursor, msg.robot_id, battery_level=msg.charge_percentage)
             
             # TODO: WebSocket 이벤트 전송 로직 추가
 
@@ -245,7 +245,7 @@ class TopicHandler:
                     }
                 }
                 import json
-                websocket_manager.broadcast_to_group("admin", json.dumps(event_data))
+                websocket_manager.broadcast_to_sync("admin", json.dumps(event_data))
                 log_websocket_event("BROADCAST", "admin", f"픽업 완료 알림 - Task {msg.task_id}")
             
         except (DatabaseException, Exception) as e:
@@ -289,7 +289,7 @@ class TopicHandler:
                         "completion_time": datetime.now().isoformat()
                     }
                 }
-                manager.broadcast_to_group("admin", websocket_payload)
+                manager.broadcast_to_sync("admin", websocket_payload)
                 log_websocket_event("BROADCAST", "admin", f"Task {msg.task_id} 최종 완료 알림")
 
         except (DatabaseException, Exception) as e:

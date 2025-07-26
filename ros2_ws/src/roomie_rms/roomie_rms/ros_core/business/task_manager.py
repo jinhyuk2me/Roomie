@@ -62,11 +62,15 @@ class TaskManager:
 
                 # 4. 작업 유형에 따라 상세 주문 내역 처리 (order가 생성된 경우에만)
                 if order_id is not None:
-                    # order_details에서 items 추출
-                    if isinstance(order_details, dict) and 'items' in order_details:
-                        items = order_details['items']
-                    else:
-                        items = order_details  # 직접 리스트인 경우
+                    # order_details에서 items 리스트 추출 (다양한 key에 대응)
+                    items = []
+                    if isinstance(order_details, dict):
+                        for value in order_details.values():
+                            if isinstance(value, list):
+                                items = value
+                                break # 첫 번째 리스트를 아이템으로 간주
+                    elif isinstance(order_details, list):
+                        items = order_details
                     
                     if task_type_name == settings.const.TASK_TYPE_FOOD_DELIVERY:
                         total_price = self._create_food_order_details(cursor, order_id, items)
@@ -140,9 +144,10 @@ class TaskManager:
                 with database_transaction(conn) as cursor:
                     # 1. 할당할 작업 찾기
                     query = """
-                        SELECT t.id, t.type_id, t.location_id, tt.name as task_type_name
+                        SELECT t.id, t.type_id, t.location_id, tt.name as task_type_name, l.name as location_name
                         FROM task t
                         JOIN task_type tt ON t.type_id = tt.id
+                        JOIN location l ON t.location_id = l.id
                         WHERE t.task_status_id = %s
                         ORDER BY t.task_creation_time ASC LIMIT 1 FOR UPDATE
                     """
@@ -158,18 +163,20 @@ class TaskManager:
                         return
 
                     task_id = task_to_assign['id']
+                    location_id = task_to_assign['location_id']
                     logger.info(
                         f"가장 오래된 작업(Task {task_id})을 로봇 {robot_id}에 할당",
                         category="TASK", subcategory="ASSIGN",
                         details={"TaskID": task_id, "RobotID": robot_id}
                     )
 
-                    # 2. 작업에 로봇 할당 및 상태 업데이트
+                    # 2. 작업에 로봇 할당 및 상태를 '픽업 장소로 이동'으로 즉시 변경
+                    moving_status_id = settings.db_consts.task_status['픽업 장소로 이동']
                     update_query = "UPDATE task SET robot_id = %s, task_status_id = %s, robot_assignment_time = %s WHERE id = %s"
-                    cursor.execute(update_query, (robot_id, settings.db_consts.task_status['로봇 할당됨'], datetime.now(), task_id))
+                    cursor.execute(update_query, (robot_id, moving_status_id, datetime.now(), task_id))
 
                     # 3. 주문 정보 조회 (음식/비품 모두 처리하도록 수정)
-                    order_info_json = self._get_order_info_json(cursor, task_id, task_to_assign['task_type_name'])
+                    order_info_json = self._get_order_info_json(cursor, task_id, task_to_assign['task_type_name'], location_id)
 
                     # 4. 픽업 위치 결정
                     task_type_name = task_to_assign['task_type_name']
@@ -189,7 +196,7 @@ class TaskManager:
                         'task_id': task_id,
                         'robot_id': robot_id,
                         'task_type_id': task_to_assign['type_id'], # 인터페이스 명세에 따라 추가
-                        'task_status_id': settings.db_consts.task_status['로봇 할당됨'], # 인터페이스 명세에 따라 추가
+                        'task_status_id': moving_status_id, # '픽업 장소로 이동' 상태로 전송
                         'target_location_id': task_to_assign['location_id'], # 명확한 이름으로 변경
                         'pickup_location_id': pickup_location_id,
                         'order_info': order_info_json
@@ -204,6 +211,9 @@ class TaskManager:
             )
             self.action_handler.send_perform_task_goal(goal_data)
 
+            # RC에게 변경된 작업 상태를 명확히 알려줌
+            self.action_handler.publish_task_state(task_id, moving_status_id)
+
         except Exception as e:
             logger.error(
                 f"작업 할당 중 심각한 오류 발생: {e}",
@@ -214,8 +224,8 @@ class TaskManager:
             # '실패' 상태로 만드는 등의 롤백 로직을 여기에 추가
             # 예: self.rollback_task_assignment(task_id)
 
-    def _get_order_info_json(self, cursor, task_id, task_type_name):
-        """작업 ID와 유형에 따라 주문 상세 내역을 조회하여 JSON 문자열로 반환합니다."""
+    def _get_order_info_json(self, cursor, task_id, task_type_name, location_id):
+        """작업 ID, 유형, 목적지에 따라 주문 상세 내역을 조회하여 JSON 문자열로 반환합니다."""
         items = []
         base_query = """
             SELECT o.id FROM `order` o WHERE o.task_id = %s
@@ -223,7 +233,7 @@ class TaskManager:
         cursor.execute(base_query, (task_id,))
         order_result = cursor.fetchone()
         if not order_result:
-            return json.dumps({"items": []})
+            return json.dumps({"room_number": location_id, "items": []})
         order_id = order_result['id']
 
         if task_type_name == settings.const.TASK_TYPE_FOOD_DELIVERY:
@@ -241,10 +251,15 @@ class TaskManager:
                 WHERE soi.order_id = %s
             """
         else:
-            return json.dumps({"items": []})
+            return json.dumps({"room_number": location_id, "items": []})
 
         cursor.execute(item_query, (order_id,))
         order_items = cursor.fetchall()
         
         items = [{"name": item['name'], "quantity": item['quantity']} for item in order_items]
-        return json.dumps({"items": items})
+        
+        order_data = {
+            "room_number": location_id,
+            "items": items
+        }
+        return json.dumps(order_data)
