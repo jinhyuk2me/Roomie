@@ -106,7 +106,16 @@ class VSInterfaceTestClient(Node):
             
         request = ButtonStatus.Request()
         request.robot_id = 1
-        request.button_ids = [100, 101, 1, 2, 3]  # 하행, 상행, 1층, 2층, 3층
+        
+        # 🎯 새로운 버튼 ID 확장 (총 16개):
+        # 층 버튼: 1~12 (1층~12층)
+        # 특수 버튼: 100(하행), 101(상행), 102(열기), 103(닫기)
+        
+        # 기본 테스트: 대표적인 버튼들
+        request.button_ids = [100, 101, 1, 2, 3, 102, 103]  # 하행, 상행, 1-3층, 열기, 닫기
+        
+        # 전체 테스트 (옵션):
+        # request.button_ids = list(range(1, 13)) + [100, 101, 102, 103]  # 모든 16개 버튼
         
         self.get_logger().info(f"📞 버튼 상태 호출: button_ids={request.button_ids}")
         future = client.call_async(request)
@@ -121,6 +130,38 @@ class VSInterfaceTestClient(Node):
                     self.get_logger().info(f"   버튼 {request.button_ids[i]}: ({response.xs[i]:.3f}, {response.ys[i]:.3f}, {response.depths[i]:.3f}) - {pressed_str}")
             else:
                 self.get_logger().error("❌ 버튼 상태 호출 실패")
+        
+        threading.Thread(target=handle_response, daemon=True).start()
+    
+    def test_button_status_updown(self):
+        """상행/하행 버튼만 테스트 (엘리베이터 외부 모드용)"""
+        client = self.service_clients['button_status']
+        if not client.wait_for_service(timeout_sec=2.0):
+            self.get_logger().error("❌ ButtonStatus 서비스 없음")
+            return
+            
+        request = ButtonStatus.Request()
+        request.robot_id = 1
+        
+        # 🎯 상행/하행 버튼만 요청 (엘리베이터 외부 모드에 최적화)
+        request.button_ids = [100, 101]  # 하행, 상행
+        
+        self.get_logger().info(f"📞 상행/하행 버튼 상태 호출: button_ids={request.button_ids}")
+        future = client.call_async(request)
+        
+        def handle_response():
+            rclpy.spin_until_future_complete(self, future)
+            if future.result():
+                response = future.result()
+                self.get_logger().info(f"✅ 상행/하행 버튼 응답: {len(response.xs)}개 버튼")
+                
+                button_names = {100: "하행버튼", 101: "상행버튼"}
+                for i in range(len(response.xs)):
+                    pressed_str = "눌림" if response.is_pressed[i] else "안눌림"
+                    button_name = button_names.get(request.button_ids[i], f"버튼{request.button_ids[i]}")
+                    self.get_logger().info(f"   🔺🔻 {button_name}: ({response.xs[i]:.3f}, {response.ys[i]:.3f}, {response.depths[i]:.3f}) - {pressed_str}")
+            else:
+                self.get_logger().error("❌ 상행/하행 버튼 상태 호출 실패")
         
         threading.Thread(target=handle_response, daemon=True).start()
     
@@ -295,7 +336,9 @@ class VSInterfaceTestClient(Node):
         print("  1  : SetVSMode - 대기모드 (mode_id=0)")
         print("  1r : SetVSMode - 등록모드 (mode_id=1)")
         print("  1t : SetVSMode - 추적모드 (mode_id=2)")
-        print("  1e : SetVSMode - 엘리베이터모드 (mode_id=3)")
+        print("  1e : SetVSMode - 엘리베이터 외부 (mode_id=3)")
+        print("  1i : SetVSMode - 엘리베이터 내부 (mode_id=4)")
+        print("  1n : SetVSMode - 일반모드 (mode_id=5)")
         print("  1s : SetVSMode - 배송 시뮬레이션 (mode_id=100)")
         print("  1c : SetVSMode - 호출 시뮬레이션 (mode_id=101)")
         print("  1g : SetVSMode - 길안내 시뮬레이션 (mode_id=102)")
@@ -303,6 +346,7 @@ class VSInterfaceTestClient(Node):
         print("  1v : SetVSMode - 엘리베이터 시뮬레이션 (mode_id=104)")
         print("  2  : ElevatorWidth - 엘리베이터 너비 감지")
         print("  3  : ButtonStatus - 버튼 상태 감지")
+        print("  3u : ButtonStatus - 상행/하행 버튼만 감지")
         print("  4  : ElevatorStatus - 엘리베이터 상태 감지")
         print("  5  : DoorStatus - 문 상태 감지")
         print("  6  : SpaceAvailability - 공간 가용성 감지")
@@ -453,7 +497,11 @@ class VSInterfaceTestClient(Node):
                 elif cmd == "1t":
                     self.test_set_vs_mode(2)  # 추적모드
                 elif cmd == "1e":
-                    self.test_set_vs_mode(3)  # 엘리베이터모드
+                    self.test_set_vs_mode(3)  # 엘리베이터 외부 모드
+                elif cmd == "1i":
+                    self.test_set_vs_mode(4)  # 엘리베이터 내부 모드
+                elif cmd == "1n":
+                    self.test_set_vs_mode(5)  # 일반모드
                 elif cmd == "1s":
                     self.test_set_vs_mode(100) # 배송 시뮬레이션
                 elif cmd == "1c":
@@ -468,6 +516,8 @@ class VSInterfaceTestClient(Node):
                     self.test_elevator_width()
                 elif cmd == "3":
                     self.test_button_status()
+                elif cmd == "3u":
+                    self.test_button_status_updown()
                 elif cmd == "4":
                     self.test_elevator_status()
                 elif cmd == "5":

@@ -44,7 +44,7 @@ CREATE TABLE error (
 );
 
 CREATE TABLE task (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     type_id INT,
     task_status_id INT,
     location_id INT,
@@ -93,7 +93,7 @@ CREATE TABLE robot_log (
 );
 
 CREATE TABLE `order` (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     task_id INT,
     location_id INT,
     total_price INT,
@@ -109,7 +109,7 @@ CREATE TABLE food (
 );
 
 CREATE TABLE food_order_item (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
     food_id INT,
     quantity INT,
@@ -124,7 +124,7 @@ CREATE TABLE supply (
 );
 
 CREATE TABLE supply_order_item (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
     supply_id INT,
     quantity INT,
