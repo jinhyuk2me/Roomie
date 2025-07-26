@@ -5,6 +5,7 @@ int32[] button_ids
 ---
 # Response
 int32 robot_id
+bool success
 float32[] xs
 float32[] ys
 float32[] depths

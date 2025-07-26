@@ -4,6 +4,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 int32 direction
 int32 position
 
