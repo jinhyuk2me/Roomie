@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Roomie Admin Dashboard</string>
+  </property>
+  <property name="objectName">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="main_layout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="nav_panel" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="objectName">
+       <string>NavPanel</string>
+      </property>
+      <layout class="QVBoxLayout" name="nav_layout">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="title_layout">
+         <item>
+          <widget class="QLabel" name="title_label">
+            <property name="text">
+             <string>ROOMIE</string>
+            </property>
+            <property name="objectName">
+             <string>title_label</string>
+            </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="admin_label">
+            <property name="text">
+             <string>ADMIN</string>
+            </property>
+            <property name="objectName">
+             <string>admin_label</string>
+            </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="dashboard_btn">
+         <property name="text">
+          <string>Dashboard</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="objectName">
+          <string>NavButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="robot_mgmt_btn">
+         <property name="text">
+          <string>Robot management</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="objectName">
+          <string>NavButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="task_history_btn">
+         <property name="text">
+          <string>Task History</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="objectName">
+          <string>NavButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stacked_widget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_dashboard">
+       <property name="objectName">
+        <string>ContentPanel</string>
+       </property>
+       <layout class="QVBoxLayout" name="dashboard_page_layout">
+        <property name="alignment">
+         <set>Qt::AlignTop</set>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Dashboard</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="summary_layout"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="map_label">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>400</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string>background-color: #BDC3C7; border-radius: 8px; font-size: 20px; color: white;</string>
+          </property>
+          <property name="text">
+           <string>지도 표시 영역</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_robot_management">
+        <layout class="QVBoxLayout" name="robot_mgmt_page_layout">
+        <item>
+          <widget class="QLabel" name="robot_mgmt_title">
+            <property name="text">
+             <string>Robot Management</string>
+            </property>
+            <property name="objectName">
+             <string>PageTitle</string>
+            </property>
+          </widget>
+        </item>
+        <item>
+            <layout class="QHBoxLayout" name="filter_layout">
+            <item>
+                <widget class="QLineEdit" name="robot_id_filter">
+                <property name="placeholderText">
+                    <string>로봇 ID</string>
+                </property>
+                </widget>
+            </item>
+            <item>
+                <widget class="QComboBox" name="model_filter">
+                <item>
+                    <property name="text">
+                    <string>모델 선택</string>
+                    </property>
+                </item>
+                </widget>
+            </item>
+            <item>
+                <widget class="QComboBox" name="status_filter">
+                <item>
+                    <property name="text">
+                    <string>상태 선택</string>
+                    </property>
+                </item>
+                </widget>
+            </item>
+            <item>
+                <widget class="QPushButton" name="search_btn">
+                <property name="text">
+                    <string>Search</string>
+                </property>
+                <property name="objectName">
+                    <string>SearchButton</string>
+                </property>
+                </widget>
+            </item>
+            </layout>
+        </item>
+        <item>
+          <widget class="QScrollArea" name="robot_scroll_area">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scroll_content">
+             <layout class="QVBoxLayout" name="robot_list_layout">
+              <property name="spacing">
+               <number>10</number>
+              </property>
+             </layout>
+            </widget>
+          </widget>
+        </item>
+        </layout>
+      </widget>
+      <widget class="QWidget" name="page_task_history">
+        <layout class="QVBoxLayout" name="task_history_page_layout">
+        <item>
+            <layout class="QHBoxLayout" name="task_filter_layout">
+            <item>
+                <widget class="QDateEdit" name="start_date"/>
+            </item>
+            <item>
+                <widget class="QDateEdit" name="end_date"/>
+            </item>
+            <item>
+                <widget class="QComboBox" name="task_type_filter">
+                <item>
+                    <property name="text">
+                    <string>작업 유형</string>
+                    </property>
+                </item>
+                </widget>
+            </item>
+            <item>
+                <widget class="QComboBox" name="task_status_filter">
+                <item>
+                    <property name="text">
+                    <string>상태</string>
+                    </property>
+                </item>
+                </widget>
+            </item>
+            <item>
+                <widget class="QLineEdit" name="destination_filter">
+                <property name="placeholderText">
+                    <string>목적지</string>
+                </property>
+                </widget>
+            </item>
+            <item>
+                <widget class="QPushButton" name="task_search_btn">
+                <property name="text">
+                    <string>Search</string>
+                </property>
+                <property name="objectName">
+                    <string>SearchButton</string>
+                </property>
+                </widget>
+            </item>
+            </layout>
+        </item>
+        <item>
+          <widget class="QTableWidget" name="task_table">
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <column>
+             <property name="text">
+              <string>Task ID</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>작업 유형</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>상태</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>목적지</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>배정로봇</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>시간</string>
+             </property>
+            </column>
+          </widget>
+        </item>
+        <item>
+          <widget class="QPushButton" name="view_detail_btn">
+            <property name="text">
+             <string>상세정보 보기</string>
+            </property>
+            <property name="objectName">
+             <string>SearchButton</string>
+            </property>
+          </widget>
+        </item>
+        </layout>
+    </widget>
+      <widget class="QWidget" name="page_task_detail">
+       <property name="objectName">
+        <string>ContentPanel</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="alignment">
+         <set>Qt::AlignTop</set>
+        </property>
+        <item>
+         <widget class="QLabel" name="task_detail_title_label">
+          <property name="text">
+           <string>Task Detail</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="task_detail_card" native="true">
+          <property name="styleSheet">
+           <string notr="true">.Card { background-color: #FFFFFF; border-radius: 8px; padding: 20px; }</string>
+          </property>
+          <layout class="QHBoxLayout" name="task_detail_card_layout">
+           <item>
+            <layout class="QVBoxLayout" name="info_section_layout">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>&lt;b&gt;작업 정보&lt;/b&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="info_grid_layout"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="timeline_section_layout">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>&lt;b&gt;작업 타임라인&lt;/b&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="timeline_vbox"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
