@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="common.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 상품</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        :root {
+            --main-bg-color: #ffffff;
+            --primary-text-color: #2F2F2F;
+            --secondary-text-color: #5B5B5B;
+            --accent-color: #3B5E72;
+            --container-bg-color: #F5F5F5;
+            --border-radius: 10px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-image: url('asset/v14_853.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* 세로 정렬로 변경 */
+            justify-content: flex-start; /* 상단 정렬 */
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            padding-top: 70px; /* 상단 여백 추가 */
+            color: white;
+            width: 100%;
+            max-width: 480px; /* 컨테이너와 동일한 너비 */
+            /* position: absolute; top: -70px; 제거 */
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        .header .room-number {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            height: 90%; /* 또는 원하는 비율로 조정 */
+            background-color: var(--main-bg-color);
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            position: relative; /* 자식 요소의 absolute 포지셔닝 기준 */
+        }
+
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            padding-top: 30px;
+        }
+        
+        #back_button_1 {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        .cart-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--primary-text-color);
+            margin-left: 15px;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            padding: 0 20px;
+            overflow-y: auto; /* 항목이 많아지면 스크롤 */
+        }
+        
+        .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 90px;
+            height: 90px;
+            background-color: var(--container-bg-color);
+            border-radius: var(--border-radius);
+            margin-right: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .item-details {
+            flex-grow: 1;
+            display: flex;
+            align-items: center; /* 내부 요소들을 중앙 정렬 */
+            gap: 15px; /* 요소들 사이의 간격 */
+        }
+        
+        .item-name {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary-text-color);
+            flex-basis: 80px; /* 이름 영역 너비 고정 */
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+        }
+
+        .quantity {
+            font-size: 18px;
+            font-weight: 500;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--primary-text-color);
+            margin-left: auto; /* 가격을 오른쪽으로 밀어냄 */
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .delete-btn {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .notice {
+            background-color: var(--container-bg-color);
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        
+        /* CSS 추가 */
+        .total-price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5px;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--primary-text-color);
+        }
+
+        .order-button {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, opacity 0.2s;
+        }
+        
+        .order-button:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header"> <h1>ROOMIE</h1>
+        <div class="room-number">202호</div>
+    </header>
+
+    <div class="container">
+        <div class="cart-header">
+            <img id="back_button_1" src="asset/v14_863.png" alt="뒤로가기">
+            <h2 class="cart-title">주문상품</h2>
+        </div>
+
+        <div id="cart-items-container" class="cart-items">
+            </div>
+
+        <div class="footer">
+            <div class="notice">
+                장바구니에 담긴 상품은 최대 10분 보관됩니다.
+            </div>
+
+            <div class="total-price-container">
+                <span>상품금액</span>
+                <span id="total-price-display">0원</span>
+            </div>
+
+            <button id="order_food_button" class="order-button">주문하기</button>
+        </div>
+    </div>
+    <div id="global-toast" class="global-toast hidden">
+        <img id="toast-full-image" class="toast-image" src="" alt="Notification">
+    </div>
+
+    <script src="config.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const orderButton = document.getElementById('order_food_button');
+            const backButton = document.getElementById('back_button_1');
+            const totalPriceDisplay = document.getElementById('total-price-display');
+            
+            let cartItems = JSON.parse(localStorage.getItem('cartData')) || [];
+            
+            function renderCartItems() {
+                cartItemsContainer.innerHTML = ''; 
+                let totalPrice = 0;
+
+                if (cartItems.length === 0) {
+                    cartItemsContainer.innerHTML = '<p style="text-align:center; color:#888; margin-top:50px;">장바구니가 비어있습니다.</p>';
+                    orderButton.disabled = true; // 주문 버튼 비활성화
+                } else {
+                    cartItems.forEach((item, index) => {
+                        const itemSubtotal = item.price * item.quantity;
+                        totalPrice += itemSubtotal;
+
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('item');
+                        itemElement.dataset.itemIndex = index;
+                        
+                        // ✅ 수정: cartData에 저장된 이미지 경로를 사용합니다.
+                        const imageUrl = item.image || 'asset/default_food.png';
+
+                        itemElement.innerHTML = `
+                            <div class="item-image" style="background-image: url('${imageUrl}')"></div>
+                            <div class="item-details">
+                                <span class="item-name">${item.name}</span>
+                                <div class="quantity-control">
+                                    <img src="asset/v14_864.png" alt="감소" class="quantity-btn minus-btn">
+                                    <span class="quantity">${item.quantity}</span>
+                                    <img src="asset/v14_865.png" alt="증가" class="quantity-btn plus-btn">
+                                </div>
+                                <span class="item-price">${itemSubtotal.toLocaleString()}원</span>
+                            </div>
+                            <img src="asset/v14_861.png" alt="삭제" class="delete-btn">
+                        `;
+                        cartItemsContainer.appendChild(itemElement);
+                    });
+                    orderButton.disabled = false; // 주문 버튼 활성화
+                }
+                
+                totalPriceDisplay.textContent = `${totalPrice.toLocaleString()}원`;
+
+                addEventListenersToItems();
+                updateLocalStorage();
+            }
+
+            function addEventListenersToItems() {
+                document.querySelectorAll('.item').forEach(itemElement => {
+                    const itemIndex = parseInt(itemElement.dataset.itemIndex);
+
+                    itemElement.querySelector('.plus-btn').addEventListener('click', () => updateQuantity(itemIndex, 1));
+                    itemElement.querySelector('.minus-btn').addEventListener('click', () => updateQuantity(itemIndex, -1));
+                    itemElement.querySelector('.delete-btn').addEventListener('click', () => deleteItem(itemIndex));
+                });
+            }
+
+            function updateQuantity(index, change) {
+                const item = cartItems[index];
+                if (item) {
+                    const newQuantity = item.quantity + change;
+                    if (newQuantity >= 1 && newQuantity <= 10) { 
+                        item.quantity = newQuantity;
+                    }
+                    renderCartItems(); 
+                }
+            }
+            
+            function deleteItem(index) {
+                cartItems.splice(index, 1);
+                renderCartItems();
+            }
+            
+            function updateLocalStorage() {
+                localStorage.setItem('cartData', JSON.stringify(cartItems));
+            }
+
+            async function postOrder() {
+                const itemsToOrder = cartItems.filter(item => item.quantity > 0);
+
+                if (itemsToOrder.length === 0) {
+                    alert('주문할 상품이 없습니다.');
+                    return;
+                }
+
+                orderButton.disabled = true;
+                orderButton.textContent = '주문 처리 중...';
+
+                const requestBody = {
+                    type: "request",
+                    action: "create_delivery_task",
+                    payload: {
+                        location_name: "ROOM_102",
+                        task_type_name: "음식배송",
+                        // ✅ 수정: 서버 스펙(gui_models.py)에 맞춰 데이터 구조 변경
+                        order_details: {
+                            // "food"는 임의의 키, 서버에서는 이 키를 사용하지 않고 값만 사용
+                            "items": itemsToOrder.map(item => ({
+                                name: item.name,
+                                quantity: item.quantity,
+                                price: item.price
+                            }))
+                        }
+                    }
+                };
+
+
+                const serverUrl = `${CONFIG.API_BASE_URL}/create_delivery_task`;
+
+                try {
+                    const response = await fetch(serverUrl, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(requestBody),
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const responseData = await response.json();
+                    console.log('서버 응답:', responseData);
+
+                    if (responseData.type === "response" && responseData.payload.success) {
+                        alert('주문이 성공적으로 접수되었습니다!');
+                        localStorage.setItem('lastOrderResponse', JSON.stringify(responseData));
+                        localStorage.removeItem('cartData'); 
+                        window.location.href = 'page_callfood_3.html';
+                    } else {
+                        throw new Error(responseData.payload.error_message || '알 수 없는 오류');
+                    }
+
+                } catch (error) {
+                    console.error('주문 요청 실패:', error);
+                    alert(`주문 처리 중 오류가 발생했습니다: ${error.message}`);
+                    orderButton.disabled = false;
+                    orderButton.textContent = '주문하기';
+                }
+            }
+            
+            backButton.addEventListener('click', () => {
+                updateLocalStorage();
+                window.history.back(); // 뒤로가기
+            });
+            
+            orderButton.addEventListener('click', postOrder);
+            renderCartItems();
+        });
+    </script>
+</body>
+</html>

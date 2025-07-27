@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roomie - 음식 배달 현황</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        /* CSS Reset & Basic Setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px; /* 기준 폰트 크기 설정 */
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 486px; /* 최대 너비 제한 */
+            height: 100vh;
+            max-height: 801px; /* 최대 높이 제한 */
+            margin: 0 auto; /* 중앙 정렬 */
+            position: relative;
+            background: url('asset/v14_853.png'); /* 배경 이미지 경로 확인 */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            flex-shrink: 0;
+            background: rgba(0, 0, 0, 0.1);
+            position: relative; /* 자식 요소의 absolute 위치를 위한 기준 */
+            height: 70px; /* 헤더 높이 고정 */
+        }
+        
+        #button_cancel {
+            /* 기존 absolute 위치 제거 후 flex 아이템으로 배치 */
+            width: 37px;
+            height: 37px;
+            background: url('asset/v16_56.png') no-repeat center center;
+            background-size: contain;
+            border: none;
+            cursor: pointer;
+            z-index: 10; /* 다른 요소 위에 오도록 설정 */
+            position: absolute; /* 겹침 문제 해결을 위해 다시 absolute로 설정 */
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 200;
+            position: absolute; /* 중앙 정렬을 위해 absolute 사용 */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 */
+        }
+
+        .header-location {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-left: auto; /* ROOM_XX를 오른쪽으로 밀어냄 */
+        }
+
+        /* Main Content Area */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-end; /* Aligns the card to the bottom */
+            padding: 1rem;
+        }
+
+        /* Delivery Status Card */
+        .status-card {
+            width: 100%;
+            background-color: white;
+            color: #474646;
+            border-radius: 19px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* This will be the main gap between sections inside the card. */
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        #task_type_name {
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        
+        .status-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end; /* 텍스트를 오른쪽으로 정렬 */
+        }
+
+        #estimated_time {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        #request_location_name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: rgba(37, 62, 109, 0.4);
+            text-align: right;
+        }
+
+        .status-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .timeline-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .point {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #3B5E72; /* Active color */
+        }
+        
+        .line {
+            width: 4px;
+            height: 40px;
+            background-color: #3B5E72; /* Active color */
+        }
+        
+        .timeline-details {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-text {
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        .status-time {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #888;
+        }
+        
+        /* Inactive/Pending State */
+        .inactive .point,
+        .inactive .line {
+            background-color: #D9D9D9; /* Inactive color */
+        }
+        
+        .inactive .status-text {
+            color: #D9D9D9;
+        }
+
+        /* 마지막 항목의 막대 제거 */
+        .status-timeline .timeline-item:last-child .line {
+            background-color: transparent;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <button id="button_cancel" title="취소하고 돌아가기"></button>
+            <h1 class="header-title">ROOMIE</h1>
+            <div id="room_number" class="header-location"></div>
+        </header>
+
+        <main class="content">
+            <div class="status-card">
+                <div class="status-header">
+                    <h2 id="task_type_name"></h2>
+                    <div class="status-summary">
+                      <p id="estimated_time"></p>
+                      <p id="request_location_name"></p>
+                    </div>
+                </div>
+                
+                <div class="status-timeline">
+                    <div id="status_creation" class="timeline-item">
+                        <div class="timeline-point">
+                            <div class="point"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="timeline-details">
+                            <span class="status-text">주문 접수됨</span>
+                            <span class="status-time"></span>
+                        </div>
+                    </div>
+                    <div id="status_assignment" class="timeline-item">
+                        <div class="timeline-point">
+                            <div class="point"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="timeline-details">
+                            <span class="status-text">로봇 배정됨</span>
+                            <span class="status-time"></span>
+                        </div>
+                    </div>
+                    <div id="status_pickup" class="timeline-item">
+                        <div class="timeline-point">
+                            <div class="point"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="timeline-details">
+                            <span class="status-text">픽업 완료됨</span>
+                            <span class="status-time"></span>
+                        </div>
+                    </div>
+                    <div id="status_arrival" class="timeline-item">
+                        <div class="timeline-point">
+                            <div class="point"></div>
+                            <div class="line"></div> </div>
+                        <div class="timeline-details">
+                            <span class="status-text">배달 완료됨</span>
+                            <span class="status-time"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="global-toast" class="global-toast hidden">
+        <img id="toast-full-image" class="toast-image" src="" alt="Notification">
+    </div>
+
+    <script src="config.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            let orderHistoryInterval;
+            let currentTaskName = null; // 현재 페이지에서 조회 중인 task_name을 저장
+
+            /**
+             * Formats an ISO 8601 date string into "오후 H:MM" format.
+             * @param {string | null} isoString - The date string to format.
+             * @returns {string} - The formatted time string or an empty string if input is null.
+             */
+            function formatTime(isoString) {
+                if (!isoString) return '';
+                const date = new Date(isoString);
+                let hours = date.getHours();
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? '오후' : '오전';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                return `${ampm} ${hours}:${minutes}`;
+            }
+
+            /**
+             * Updates the UI based on the payload from the server.
+             * @param {object} payload - The payload object from the server response.
+             */
+            function updateStatus(payload) {
+                // Update header room number
+                document.getElementById('room_number').textContent = common.getLocationName(payload.request_location);
+                
+                // Update main card content
+                document.getElementById('task_type_name').textContent = payload.task_type_name;
+                document.getElementById('request_location_name').textContent = `목적지 ${common.getLocationName(payload.request_location)}`;
+
+                // Calculate and display estimated arrival time
+                const now = new Date();
+                // 서버에서 제공하는 estimated_time이 총 예상 시간인지, 남은 시간인지 명확해야 합니다.
+                // 여기서는 '총 소요 시간'으로 가정하고, 현재 시간 + estimated_time으로 도착 시간 계산.
+                const arrivalTime = new Date(now.getTime() + payload.estimated_time * 1000);
+                document.getElementById('estimated_time').textContent = `${formatTime(arrivalTime.toISOString())} 도착 예정`;
+                
+                // Update timeline statuses
+                const statuses = [
+                    { id: 'status_creation', time: payload.task_creation_time, text: '주문 접수됨' },
+                    { id: 'status_assignment', time: payload.robot_assignment_time, text: '로봇 배정됨' }, // 예시: 로봇 배정 시간
+                    { id: 'status_pickup', time: payload.pickup_completion_time, text: '픽업 완료됨' }, // 예시: 픽업 완료 시간
+                    { id: 'status_arrival', time: payload.delivery_arrival_time, text: '배달 완료됨' } // 예시: 배달 도착 시간
+                ];
+                
+                statuses.forEach(status => {
+                    const element = document.getElementById(status.id);
+                    const timeElement = element.querySelector('.status-time');
+                    const statusTextElement = element.querySelector('.status-text'); // 상태 텍스트 요소 참조
+
+                    if (status.time) {
+                        element.classList.remove('inactive');
+                        timeElement.textContent = formatTime(status.time);
+                        statusTextElement.textContent = status.text; // 상태 텍스트 업데이트
+                    } else {
+                        // 값이 없는 경우 inactive 클래스 추가, 시간 텍스트 제거
+                        element.classList.add('inactive');
+                        timeElement.textContent = '';
+                        statusTextElement.textContent = status.text; // 상태 텍스트는 유지
+                    }
+                });
+            }
+
+            /**
+             * Simulates a request to the server and gets a response.
+             */
+            async function getOrderHistory() {
+                const lastOrderResponse = JSON.parse(localStorage.getItem('lastOrderResponse'));
+                // `init_room_201.html`에서 넘어올 때 유효성 검사를 했으므로 여기서는 있다고 가정
+                currentTaskName = lastOrderResponse.payload.task_name; // 현재 조회 중인 태스크 이름 저장
+                const requestLocation = lastOrderResponse.payload.location_name;
+                const taskTypeName = lastOrderResponse.payload.task_type_name;
+
+
+                const request = {
+                    "type": "request",
+                    "action": "get_order_history",
+                    "payload": {
+                        "request_location": requestLocation,
+                        "task_name": currentTaskName,
+                        "task_type_name": taskTypeName 
+                    }
+                };
+                
+                console.log('Requesting order history:', request);
+                
+                // 실제 서버 요청 (fetch)
+                try {
+                    const action = "get_order_history";
+                    const serverUrl = `${CONFIG.API_BASE_URL}/${action}`; // URL을 올바르게 조합
+                    // CONFIG.API_BASE_URL 사용
+                    const response = await fetch(serverUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(request),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const responseData = await response.json();
+                    console.log('Received server response:', responseData);
+                    
+                    if (responseData.type === "response" && responseData.action === "get_order_history") {
+                        updateStatus(responseData.payload);
+                    } else {
+                        console.error('Invalid or error response from server:', responseData);
+                        showToast('asset/error_toast.png', 'error'); // 에러 토스트 표시
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching order history:', error);
+                    showToast('asset/error_toast.png', 'error'); // 네트워크 오류 토스트 표시
+
+                    // Mock 데이터로 대체 (디버깅용 - 실제 배포 시에는 제거)
+                    // const mockResponse = {
+                    //      "type": "response",
+                    //      "action": "get_order_history",
+                    //      "payload": {
+                    //          "request_location": "ROOM_201",
+                    //          "task_name": "TASK_BC8D92AE",
+                    //          "task_type_name": "음식배달",
+                    //          "estimated_time": 55, // in seconds
+                    //          "task_creation_time": "2025-07-23T17:52:11.397933+09:00",
+                    //          "robot_assignment_time": "2025-07-23T17:53:11.397933+09:00",
+                    //          "pickup_completion_time": "2025-07-23T17:57:11.397933+09:00",
+                    //          "delivery_arrival_time": null, // 이 부분이 null이므로 '배달완료'는 inactive로 표시
+                    //      }
+                    // };
+                    // updateStatus(mockResponse.payload);
+                }
+            }
+
+            // --- Event Listeners and Initial Setup ---
+
+            // Cancel button functionality
+            const cancelButton = document.getElementById('button_cancel');
+            cancelButton.addEventListener('click', () => {
+                console.log('Cancel button clicked. Stopping updates and redirecting.');
+                clearInterval(orderHistoryInterval); // Stop periodic requests
+                localStorage.removeItem('lastOrderResponse'); // 주문 정보 삭제
+                localStorage.removeItem('lastHistoryResponse'); // 조회 이력 정보 삭제
+                window.location.href = 'init_room_201.html'; // Redirect
+            });
+
+            // 초기 호출 및 주기적 요청 설정
+            getOrderHistory(); 
+            orderHistoryInterval = setInterval(getOrderHistory, 15000); // 15초마다 주기적 요청
+
+            // WebSocket 메시지 수신 시 처리
+            // common.js에서 WebSocket 메시지 수신 이벤트를 전역으로 발행하도록 개선하거나,
+            // 이 페이지에서 직접 common.js의 socket 객체에 접근해야 합니다.
+            // 여기서는 common.js의 WebSocket 로직이 전역적으로 `window.socket`에 할당된다고 가정합니다.
+            // (common.js에서 socket 객체를 외부에 노출해야 합니다.)
+            /*
+            if (window.socket) {
+                window.socket.addEventListener("message", (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.type === "event" && data.payload && data.payload.task_name === currentTaskName) {
+                            // 현재 보고 있는 태스크와 관련된 이벤트인 경우, 상태를 업데이트합니다.
+                            // 이 부분은 서버에서 전송하는 이벤트의 payload 구조에 따라 달라집니다.
+                            // 예: 서버가 'robot_assigned'와 같은 이벤트를 보내고 그 안에 `task_creation_time`, `robot_assignment_time` 등을 포함한다면
+                            // 해당 데이터를 기존 payload와 병합하여 updateStatus를 호출할 수 있습니다.
+                            console.log("WebSocket 이벤트 수신, UI 업데이트 시도:", data);
+                            // getOrderHistory()를 다시 호출하여 최신 상태를 가져오는 것이 가장 간단합니다.
+                            getOrderHistory(); 
+                        }
+                    } catch (e) {
+                        console.error("WebSocket 메시지 파싱 오류 (page_callfood_4.html):", e, "원본 데이터:", event.data);
+                    }
+                });
+            }
+            */
+        });
+    </script>
+
+</body>
+</html>

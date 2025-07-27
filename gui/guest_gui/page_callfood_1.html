@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="common.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roomie - 음식 주문</title> <style>
+        /* Google Fonts Noto Sans KR 불러오기 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        /* --- 기본 스타일 리셋 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 전체 페이지 레이아웃 --- */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('asset/v13_116.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- 컨테이너 (스마트폰 화면) --- */
+        .container {
+            width: 100%;
+            max-width: 486px;
+            height: 801px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 상단 헤더 (룸 번호) --- */
+        .header {
+            display: flex; /* Flexbox 추가 */
+            justify-content: space-between; /* 양 끝 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            padding: 70px 30px 0;
+            color: white;
+            font-size: 36px;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .header .logo {
+            font-weight: 300; /* ROOMIE 텍스트 얇게 */
+        }
+
+        .header .room-number {
+            font-weight: 500; /* 202호 텍스트 중간 굵기 */
+        }
+
+        /* --- 메인 컨텐츠 영역 --- */
+        .main-content {
+            flex-grow: 1;
+            background-color: white;
+            margin: 20px 11px 0;
+            border-radius: 19px;
+            padding: 20px; /* 내부 패딩 유지 */
+            padding-top: 50px; /* 뒤로가기 버튼과 메뉴 목록 사이 공간 확보 */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* 뒤로가기 버튼 */
+        .back-button {
+            position: absolute;
+            top: 15px; /* main-content 상단에 배치 */
+            left: 15px;
+            width: 39px;
+            height: 39px;
+            background-image: url('asset/v13_163.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        /* 메뉴 아이템 목록 */
+        .menu-list {
+            /* margin-top: 50px; 제거됨. padding-top이 main-content에 적용됨. */
+            flex-grow: 1;
+            overflow-y: auto; /* 내용이 많아지면 스크롤 */
+        }
+
+        /* 기존 CSS는 유지 */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .menu-image {
+            width: 170px;
+            height: 170px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .menu-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 25px;
+        }
+
+        .menu-name {
+            font-size: clamp(20px, 4.5vw, 24px);
+            font-weight: 500;
+            color: #5b5b5b;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            background-size: contain;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+        }
+
+        .minus-btn { background-image: url('asset/v13_187.png'); }
+        .plus-btn { background-image: url('asset/v13_188.png'); }
+
+        .quantity {
+            font-size: 20px;
+            font-weight: 500;
+            color: #5b5b5b;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .select-button {
+            background-color: #3b5e72;
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 5px;
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 300;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .select-button:hover { background-color: #2a4350; }
+        .select-button.added {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* --- 하단 푸터 (총액, 장바구니) --- */
+        .footer {
+            width: calc(100% - 22px);
+            height: 69px;
+            background-color: #3b5e72;
+            position: absolute;
+            bottom: 0;
+            left: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            padding: 0 25px;
+            font-size: clamp(20px, 4.5vw, 24px);
+        }
+
+        .total-price {
+            font-weight: 500;
+        }
+
+        .divider {
+            width: 1px;
+            height: 40px;
+            background-color: white;
+            opacity: 0.7;
+            margin: 0 15px;
+        }
+
+        .cart-button {
+            font-weight: 400;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: inherit;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <script src="config.js"></script>
+    <script src="common.js"></script>
+
+    <div class="container">
+        <header class="header">
+            <span class="logo">ROOMIE</span> <span class="room-number"></span>
+        </header>
+
+        <main class="main-content">
+            <div id="back_button_1" class="back-button"></div>
+            <div class="menu-list" id="menu-list-container">
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span class="total-price" id="total_price">총 0원</span>
+            <div class="divider"></div>
+            <button id="button_cart" class="cart-button">장바구니 보기</button>
+        </footer>
+    </div>
+    <div id="global-toast" class="global-toast hidden">
+        <img id="toast-full-image" class="toast-image" src="" alt="Notification">
+    </div>
+ 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 데이터 관리 ---
+            const serverMenu = JSON.parse(localStorage.getItem('foodMenuData')) || [];
+
+            // 서버 데이터를 프론트엔드에서 사용할 형식으로 변환 (id, quantity 추가)
+            const menuData = serverMenu.map((item, index) => ({
+                id: index + 1,
+                name: item.food_name,
+                price: item.price,
+                image: item.image, // 이미지 경로 추가
+                quantity: 0
+            }));
+
+            let cartItems = JSON.parse(localStorage.getItem('cartData')) || [];
+
+            // --- DOM 요소 참조 ---
+            const menuListContainer = document.getElementById('menu-list-container');
+            const cartButton = document.getElementById('button_cart');
+            const totalPriceElement = document.getElementById('total_price');
+
+            /** 메뉴 아이템을 동적으로 생성하고 화면에 렌더링하는 함수 */
+            function renderMenu() {
+                menuListContainer.innerHTML = ''; // 기존 목록 초기화
+                menuData.forEach(item => {
+                    const menuItemElement = document.createElement('div');
+                    menuItemElement.className = 'menu-item';
+                    menuItemElement.dataset.id = item.id;
+                    
+                    // 서버에서 받은 이미지 경로(item.image)를 사용합니다.
+                    menuItemElement.innerHTML = `
+                        <div class="menu-image" style="background-image: url('${item.image}');"></div>
+                        <div class="menu-details">
+                            <span class="menu-name">${item.name}</span>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus-btn"></button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn plus-btn"></button>
+                            </div>
+                            <button class="select-button">선택</button>
+                        </div>
+                    `;
+                    menuListContainer.appendChild(menuItemElement);
+                });
+                addEventListenersToMenuItems(); // 동적으로 생성된 요소에 이벤트 리스너 추가
+            }
+
+            /** 총액을 계산하고 화면에 업데이트하는 함수 */
+            function updateTotalPrice() {
+                const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                totalPriceElement.textContent = `총 ${total.toLocaleString()}원`;
+            }
+            
+            /** 장바구니 버튼의 텍스트를 업데이트하는 함수 */
+            function updateCartButtonText() {
+                const itemCount = cartItems.length;
+                cartButton.textContent = itemCount > 0 ? `장바구니 보기 (${itemCount})` : '장바구니 보기';
+            }
+
+            /** 수량 변경 처리 함수 */
+            function handleQuantityChange(id, change) {
+                const item = menuData.find(menu => menu.id === id);
+                if (!item) return;
+
+                const newQuantity = item.quantity + change;
+                if (newQuantity >= 0 && newQuantity <= 10) {
+                    item.quantity = newQuantity;
+                    document.querySelector(`.menu-item[data-id='${id}'] .quantity`).textContent = item.quantity;
+                }
+            }
+            
+            /** '선택' 버튼 처리 함수 */
+            function handleSelect(id) {
+                const item = menuData.find(menu => menu.id === id);
+                const selectButton = document.querySelector(`.menu-item[data-id='${id}'] .select-button`);
+                
+                if (!item || item.quantity === 0) {
+                    alert('수량을 1개 이상 선택해주세요.');
+                    return;
+                }
+
+                const existingCartItemIndex = cartItems.findIndex(cartItem => cartItem.name === item.name);
+
+                if (existingCartItemIndex > -1) {
+                    cartItems[existingCartItemIndex].quantity = item.quantity;
+                } else {
+                    cartItems.push({
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price,
+                        image: item.image // 장바구니에도 이미지 경로 저장
+                    });
+                }
+                
+                selectButton.textContent = '추가됨';
+                selectButton.classList.add('added');
+                
+                updateCartButtonText();
+                updateTotalPrice(); // 총액 업데이트
+                
+                console.log('장바구니 현황:', cartItems);
+            }
+
+            /** 동적으로 생성된 메뉴 아이템에 이벤트 리스너를 추가하는 함수 */
+            function addEventListenersToMenuItems() {
+                document.querySelectorAll('.menu-item').forEach(menuElement => {
+                    const id = parseInt(menuElement.dataset.id);
+                    if(menuElement._hasListener) return; // 중복 방지
+
+                    menuElement.querySelector('.minus-btn').addEventListener('click', () => handleQuantityChange(id, -1));
+                    menuElement.querySelector('.plus-btn').addEventListener('click', () => handleQuantityChange(id, 1));
+                    menuElement.querySelector('.select-button').addEventListener('click', () => handleSelect(id));
+                    menuElement._hasListener = true;
+                });
+            }
+
+            // --- 이벤트 리스너 설정 ---
+            cartButton.addEventListener('click', () => {
+                if (cartItems.length === 0) {
+                    alert('장바구니에 담긴 상품이 없습니다.');
+                    return;
+                }
+                localStorage.setItem('cartData', JSON.stringify(cartItems));
+                window.location.href = 'page_callfood_2.html';
+            });
+
+            // --- 초기화 ---
+            renderMenu(); // 페이지 로드 시 메뉴 렌더링
+            updateTotalPrice();
+            updateCartButtonText();
+        });
+    </script>
+</body>
+</html>
