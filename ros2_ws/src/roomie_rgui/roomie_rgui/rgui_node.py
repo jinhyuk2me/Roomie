@@ -1,10 +1,12 @@
 import sys
 import rclpy
 from rclpy.node import Node
+from rclpy.action import ActionServer
 from PyQt6.QtWidgets import QApplication
 import threading
 from roomie_msgs.msg import RobotGuiEvent
-from roomie_msgs.srv import UnlockDoor, StartCountdown, ReturnCountdown
+from roomie_msgs.srv import UnlockDoor
+from roomie_msgs.action import StartCountdown, ReturnCountdown
 
 from .screen_manager import ScreenManager
 from .service_client import call_service
@@ -25,19 +27,25 @@ class RobotGuiNode(Node):
         # Service Client
         self.unlock_door_cli = self.create_client(UnlockDoor, '/robot_gui/unlock_door')
         
-        # Service Servers
-        self.departure_srv = self.create_service(StartCountdown, '/robot_gui/start_departure_countdown', self.handle_start_departure_countdown)
-        self.return_srv = self.create_service(ReturnCountdown, '/robot_gui/start_return_countdown', self.handle_start_return_countdown)
+        # Action Servers
+        self.departure_action_srv = ActionServer(
+            self, 
+            StartCountdown, 
+            '/robot_gui/action/start_countdown', 
+            self.handle_start_departure_countdown
+        )
+        self.return_action_srv = ActionServer(
+            self, 
+            ReturnCountdown, 
+            '/robot_gui/action/return_countdown', 
+            self.handle_start_return_countdown
+        )
         
-        # 카운트다운 관련 변수
+        # 내부 카운트다운 관련 변수 (기존 호환성용)
         self.countdown_timer = None
         self.countdown_remaining = 0
-        self.countdown_request = None
-        self.countdown_response = None
-        self.countdown_future = None
-        self.countdown_action_text = ""  # 카운트다운 행동 텍스트
-        self.is_delivery_countdown = False  # 배송 출발 카운트다운 플래그
-        self.is_return_countdown = False  # 복귀 카운트다운 플래그
+        self.countdown_action_text = ""
+        self.is_delivery_countdown = False
 
     def publish_event(self, event_id: int, robot_id: int, task_id: int = 0, detail: str = ""):
         from builtin_interfaces.msg import Time
@@ -51,63 +59,109 @@ class RobotGuiNode(Node):
         msg.timestamp = Clock().now().to_msg()
         self.event_pub.publish(msg)
 
-    def handle_start_departure_countdown(self, request, response):
-        """출발 카운트다운 시작 요청 처리"""
-        self.get_logger().info(f"출발 카운트다운 요청: robot_id={request.robot_id}, task_id={request.task_id}, task_type_id={request.task_type_id}")
+    def handle_start_departure_countdown(self, goal_handle):
+        """출발 카운트다운 시작 요청 처리 (액션)"""
+        goal = goal_handle.request
+        self.get_logger().info(f"출발 카운트다운 액션 요청: robot_id={goal.robot_id}, task_id={goal.task_id}, task_type_id={goal.task_type_id}")
         
         # 카운트다운 화면으로 전환
         self.screen.show_screen("COUNTDOWN")
         
-        # 카운트다운 시작 (5초)
-        self.countdown_remaining = 5
-        self.countdown_request = request
-        self.countdown_response = response
-        
         # 현재 화면 상태에 따라 카운트다운 행동 텍스트 결정
         current_screen = self.screen.get_current_screen_name()
-        if request.task_type_id in [0, 1]:  # 배송 작업
+        if goal.task_type_id in [0, 1]:  # 배송 작업
             if current_screen in ["TOUCH_SCREEN", "COUNTDOWN", None]:
-                self.countdown_action_text = "픽업장소로 이동"
+                action_text = "픽업장소로 이동"
             elif current_screen in ["PICKUP_DRAWER_CONTROL", "CHECKING_ORDER", "PICKUP_ARRIVED"]:
-                self.countdown_action_text = "배송지로 이동"
+                action_text = "배송지로 이동"
             else:
-                self.countdown_action_text = "픽업장소로 이동"  # 기본값
-        elif request.task_type_id == 2:  # 호출
-            self.countdown_action_text = "호출장소로 이동"
-        elif request.task_type_id == 3:  # 길안내
-            self.countdown_action_text = "길안내 시작"
+                action_text = "픽업장소로 이동"  # 기본값
+        elif goal.task_type_id == 2:  # 호출
+            action_text = "호출장소로 이동"
+        elif goal.task_type_id == 3:  # 길안내
+            action_text = "길안내 시작"
         else:
-            self.countdown_action_text = "이동"
+            action_text = "이동"
         
-        self.get_logger().info(f"⏰ 카운트다운 시작: {self.countdown_remaining}초 ({self.countdown_action_text})")
-        self.update_countdown_display()
+        self.get_logger().info(f"⏰ 카운트다운 시작: 5초 ({action_text})")
         
-        # threading.Timer로 카운트다운 시작
-        self.start_countdown_timer()
+        # 액션에서 직접 카운트다운 처리 (5초)
+        import time
+        from roomie_msgs.action import StartCountdown
         
-        # 카운트다운 완료 후 응답
-        response.robot_id = request.robot_id
-        response.success = True
-        response.reason = 0
+        for remaining in range(5, 0, -1):
+            # 화면 업데이트
+            self.update_countdown_display_direct(remaining, action_text)
+            
+            # 피드백 발송
+            feedback = StartCountdown.Feedback()
+            feedback.remaining_time = remaining
+            goal_handle.publish_feedback(feedback)
+            self.get_logger().info(f"📤 액션 피드백 발송: remaining_time={remaining}")
+            
+            # 1초 대기
+            time.sleep(1.0)
         
-        return response
+        # 카운트다운 완료
+        self.get_logger().info("🎉 카운트다운 완료!")
+        
+        # 화면 전환
+        self.handle_countdown_completed_direct(goal.task_type_id)
+        
+        # 결과 반환
+        result = StartCountdown.Result()
+        result.robot_id = goal.robot_id
+        result.success = True
+        
+        goal_handle.succeed()
+        self.get_logger().info(f"📤 액션 완료: success=True, robot_id={result.robot_id}")
+        
+        return result
+    
+    def update_countdown_display_direct(self, remaining_time, action_text):
+        """카운트다운 화면 직접 업데이트"""
+        try:
+            countdown_widget = self.screen.screen_widgets.get("COUNTDOWN")
+            if not countdown_widget:
+                self.get_logger().warn("COUNTDOWN 화면 위젯을 찾을 수 없음")
+                return
+            
+            from PyQt6.QtWidgets import QLabel
+            
+            # countdownNumber 라벨 업데이트
+            countdown_label = countdown_widget.findChild(QLabel, "countdownNumber")
+            if countdown_label:
+                countdown_label.setText(str(remaining_time))
+                
+            # countdownTitle 라벨 업데이트
+            title_label = countdown_widget.findChild(QLabel, "countdownTitle")
+            if title_label:
+                title_label.setText(f"{remaining_time}초후에 {action_text}합니다.")
+                
+        except Exception as e:
+            self.get_logger().error(f"카운트다운 화면 업데이트 실패: {e}")
+    
+    def handle_countdown_completed_direct(self, task_type_id):
+        """카운트다운 완료 후 화면 전환 처리"""
+        if task_type_id in [0, 1]:  # 배송 작업
+            self.get_logger().info("🚚 픽업 출발 카운트다운 완료 - 픽업장소 이동중 화면으로 전환")
+            self.screen.show_screen("PICKUP_MOVING")
+        elif task_type_id == 2:  # 호출
+            self.get_logger().info("📞 호출 작업 카운트다운 완료")
+            self.screen.show_screen("TOUCH_SCREEN")
+        elif task_type_id == 3:  # 길안내
+            self.get_logger().info("🗺️ 길안내 작업 카운트다운 완료")
+            self.screen.show_screen("TOUCH_SCREEN")
+        else:
+            self.get_logger().warn(f"알 수 없는 task_type_id: {task_type_id}")
+            self.screen.show_screen("TOUCH_SCREEN")
     
     def start_delivery_countdown(self):
-        """배송 출발 카운트다운 시작"""
-        from roomie_msgs.srv import StartCountdown
-        
+        """배송 출발 카운트다운 시작 (내부 호출용)"""
         # 배송 출발 카운트다운 플래그 설정
         self.is_delivery_countdown = True
         
-        # 가상의 request/response 생성 (배송 출발용)
-        self.countdown_request = StartCountdown.Request()
-        self.countdown_request.robot_id = 98
-        self.countdown_request.task_type_id = 1  # 배송 작업
-        
-        self.countdown_response = StartCountdown.Response()
-        self.countdown_response.robot_id = 98
-        self.countdown_response.success = True
-        self.countdown_response.reason = 0
+
         
         # 카운트다운 데이터 먼저 설정 (화면 전환 전에)
         self.countdown_remaining = 5
@@ -163,9 +217,9 @@ class RobotGuiNode(Node):
             self.countdown_timer.start()
     
     def on_countdown_tick(self):
-        """카운트다운 타이머 틱 (1초마다 호출)"""
+        """카운트다운 타이머 틱 (1초마다 호출) - 내부 카운트다운용"""
         self.countdown_remaining -= 1
-        self.get_logger().info(f"⏰ 카운트다운: {self.countdown_remaining}초 남음")
+        self.get_logger().info(f"⏰ 내부 카운트다운: {self.countdown_remaining}초 남음")
         
         if self.countdown_remaining > 0:
             # 남은 시간 표시 업데이트
@@ -174,10 +228,10 @@ class RobotGuiNode(Node):
             self.start_countdown_timer()
         else:
             # 카운트다운 완료
-            self.get_logger().info("🎉 카운트다운 완료!")
+            self.get_logger().info("🎉 내부 카운트다운 완료!")
             
-            # 카운트다운 완료 후 다음 화면으로 전환
-            self.handle_countdown_completed()
+            # 내부 카운트다운 완료 후 화면 전환
+            self.handle_internal_countdown_completed()
             
     def update_countdown_display(self):
         """카운트다운 화면의 시간 표시 업데이트"""
@@ -206,87 +260,66 @@ class RobotGuiNode(Node):
         except Exception as e:
             self.get_logger().error(f"카운트다운 화면 업데이트 실패: {e}")
     
-    def handle_countdown_completed(self):
-        """카운트다운 완료 후 처리"""
-        if not self.countdown_request or not self.countdown_response:
-            self.get_logger().error("❌ 카운트다운 완료했지만 request/response가 없음")
-            return
-        
-        request = self.countdown_request
-        response = self.countdown_response
-        
-        # 복귀 카운트다운인지 확인
-        if self.is_return_countdown:
-            # 복귀 카운트다운 완료
-            self.get_logger().info("🏠 복귀 카운트다운 완료 - 대기장소 복귀 화면으로 전환")
-            self.screen.show_screen("RETURN_TO_BASE")
+    def handle_internal_countdown_completed(self):
+        """내부 카운트다운 완료 후 처리 (start_delivery_countdown용)"""
+        if self.is_delivery_countdown:
+            # 배송 출발 카운트다운 완료
+            self.get_logger().info("🚛 배송 출발 카운트다운 완료 - 배송장소 이동중 화면으로 전환")
+            self.screen.show_screen("DELIVERY_MOVING")
             # 플래그 초기화
-            self.is_return_countdown = False
-            
-        elif hasattr(request, 'task_type_id') and request.task_type_id in [0, 1]:  # 0: 음식배송, 1: 비품배송
-            # 배송 출발 카운트다운 플래그로 구분
-            if self.is_delivery_countdown:
-                # 배송 출발 카운트다운
-                self.get_logger().info("🚛 배송 출발 카운트다운 완료 - 배송장소 이동중 화면으로 전환")
-                self.screen.show_screen("DELIVERY_MOVING")
-                # 플래그 초기화
-                self.is_delivery_countdown = False
-            else:
-                # 픽업 출발 카운트다운
-                self.get_logger().info("🚚 픽업 출발 카운트다운 완료 - 픽업장소 이동중 화면으로 전환")
-                self.screen.show_screen("PICKUP_MOVING")
-        elif hasattr(request, 'task_type_id') and request.task_type_id == 2:  # 2: 호출
-            self.get_logger().info("📞 호출 작업 카운트다운 완료")
-            # TODO: 호출 관련 화면 추가 시 수정
-            self.screen.show_screen("TOUCH_SCREEN")
-        elif hasattr(request, 'task_type_id') and request.task_type_id == 3:  # 3: 길안내
-            self.get_logger().info("🗺️ 길안내 작업 카운트다운 완료")
-            # TODO: 길안내 관련 화면 추가 시 수정
-            self.screen.show_screen("TOUCH_SCREEN")
+            self.is_delivery_countdown = False
         else:
-            self.get_logger().warn(f"알 수 없는 task_type_id: {request.task_type_id}")
+            self.get_logger().info("내부 카운트다운 완료 - 기본 화면으로 전환")
             self.screen.show_screen("TOUCH_SCREEN")
-        
-        # 로그로 완료 표시
-        self.get_logger().info(f"📤 카운트다운 완료 처리: success=True")
         
         # 변수 초기화
-        self.countdown_request = None
-        self.countdown_response = None
         self.countdown_action_text = ""
+        self.get_logger().info("📤 내부 카운트다운 완료 처리: success=True")
     
-    def handle_start_return_countdown(self, request, response):
-        """복귀 카운트다운 시작 요청 처리"""
-        self.get_logger().info(f"🏠 복귀 카운트다운 요청: robot_id={request.robot_id}")
-        
-        # 복귀 카운트다운 플래그 설정
-        self.is_return_countdown = True
-        
-        # request/response 저장
-        self.countdown_request = request
-        self.countdown_response = response
+    def handle_start_return_countdown(self, goal_handle):
+        """복귀 카운트다운 시작 요청 처리 (액션)"""
+        goal = goal_handle.request
+        self.get_logger().info(f"🏠 복귀 카운트다운 액션 요청: robot_id={goal.robot_id}")
         
         # 카운트다운 화면으로 전환
         self.screen.show_screen("COUNTDOWN")
         
-        # 카운트다운 시작 (10초)
-        self.countdown_remaining = 10
-        self.countdown_action_text = "대기장소로 복귀"
+        action_text = "대기장소로 복귀"
+        self.get_logger().info(f"⏰ 복귀 카운트다운 시작: 10초 ({action_text})")
         
-        # 화면 전환 직후 바로 텍스트 업데이트
-        self.update_countdown_text()
+        # 액션에서 직접 카운트다운 처리 (10초)
+        import time
+        from roomie_msgs.action import ReturnCountdown
         
-        # 카운트다운 타이머 시작
-        self.start_countdown_timer()
+        for remaining in range(10, 0, -1):
+            # 화면 업데이트
+            self.update_countdown_display_direct(remaining, action_text)
+            
+            # 피드백 발송
+            feedback = ReturnCountdown.Feedback()
+            feedback.remaining_time = remaining
+            goal_handle.publish_feedback(feedback)
+            self.get_logger().info(f"📤 복귀 액션 피드백 발송: remaining_time={remaining}")
+            
+            # 1초 대기
+            time.sleep(1.0)
         
-        self.get_logger().info("🏠 복귀 카운트다운 시작 (10초)")
+        # 카운트다운 완료
+        self.get_logger().info("🎉 복귀 카운트다운 완료!")
         
-        # 응답 설정
-        response.robot_id = request.robot_id
-        response.success = True
-        response.reason = 0
+        # 화면 전환
+        self.get_logger().info("🏠 복귀 카운트다운 완료 - 대기장소 복귀 화면으로 전환")
+        self.screen.show_screen("RETURN_TO_BASE")
         
-        return response
+        # 결과 반환
+        result = ReturnCountdown.Result()
+        result.robot_id = goal.robot_id
+        result.success = True
+        
+        goal_handle.succeed()
+        self.get_logger().info(f"📤 복귀 액션 완료: success=True, robot_id={result.robot_id}")
+        
+        return result
 
     def on_robot_event(self, msg):
         """RC로부터 받은 이벤트 처리"""
@@ -297,7 +330,25 @@ class RobotGuiNode(Node):
         if event_id == 12:  # 픽업장소 이동 시작
             self.screen.show_screen("PICKUP_MOVING")
         elif event_id == 13:  # 픽업장소 이동 종료
+            # 주문 내역이 detail에 있으면 파싱해서 화면에 전달
+            import json
+            items = []
+            room_number = "202"  # 기본값
+            if msg.detail:
+                try:
+                    data = json.loads(msg.detail)
+                    items = data.get("items", [])
+                    room_number = data.get("room_number", "202")
+                except Exception as e:
+                    self.get_logger().warn(f"주문 내역 detail 파싱 실패: {e}")
             self.screen.show_screen("PICKUP_ARRIVED")
+            if items:
+                # 주문 내역을 화면에 표시
+                delivery_controller = self.screen.get_screen_controller("CHECKING_ORDER")
+                if delivery_controller and hasattr(delivery_controller, 'show_pickup_order'):
+                    delivery_controller.show_pickup_order(items, room_number)
+                else:
+                    self.get_logger().info(f"주문 내역: {items}, 호실: {room_number}호")
         elif event_id == 14:  # 배송장소 이동 시작
             self.screen.show_screen("DELIVERY_MOVING")
         elif event_id == 15:  # 배송장소 도착 완료

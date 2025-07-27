@@ -1,0 +1,26 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from roomie_msgs/action/ReturnCountdown.action
+// generated code does not contain a copyright notice
+
+
+module roomie_msgs {
+  module action {
+    @verbatim (language="comment", text=
+      "Goal")
+    struct ReturnCountdown_Goal {
+      int32 robot_id;
+    };
+    @verbatim (language="comment", text=
+      "Result")
+    struct ReturnCountdown_Result {
+      int32 robot_id;
+
+      boolean success;
+    };
+    @verbatim (language="comment", text=
+      "Feedback")
+    struct ReturnCountdown_Feedback {
+      int32 remaining_time;
+    };
+  };
+};

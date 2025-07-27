@@ -125,6 +125,16 @@
             "default_value": ""
           },
           {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
             "name": "door_opened",
             "type": {
               "type_id": 15,
@@ -186,7 +196,7 @@
   "type_hashes": [
     {
       "type_name": "roomie_msgs/srv/DoorStatus",
-      "hash_string": "RIHS01_bf4d0125740ac213041ef3d22cb449796be3ec47598e97d2c58c6d633c38845f"
+      "hash_string": "RIHS01_fe76a1c576516a2369a71b19e01924c918459ebce4ab2b61d421ce6a5405db05"
     },
     {
       "type_name": "builtin_interfaces/msg/Time",
@@ -194,7 +204,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/DoorStatus_Event",
-      "hash_string": "RIHS01_09a038fd3c0b2f3c6db78a490157813f8f0e03e4e9403fd25fa3a347332fc455"
+      "hash_string": "RIHS01_42bfce7008d8f372ffa89af8e72224b66cbd32592953b100235fba1827d36b6c"
     },
     {
       "type_name": "roomie_msgs/srv/DoorStatus_Request",
@@ -202,7 +212,7 @@
     },
     {
       "type_name": "roomie_msgs/srv/DoorStatus_Response",
-      "hash_string": "RIHS01_6193207d930db20414cf4816bc05961ed6053f81ffe30a2e3653eb5e30966bac"
+      "hash_string": "RIHS01_b6acd487ed8e03df81551c260623219f2644565396861183c8f40fcc35fbea6e"
     },
     {
       "type_name": "service_msgs/msg/ServiceEventInfo",

@@ -19,10 +19,14 @@ bool success
 ```
 
 **mode_id 값:**
-- `0`: 대기모드
-- `1`: 등록모드  
-- `2`: 추적모드
-- `3`: 엘리베이터모드
+- **후방 카메라 모드**
+  - `0`: 대기모드
+  - `1`: 등록모드
+  - `2`: 추적모드
+- **전방 카메라 모드**
+  - `3`: 엘리베이터 외부 모드
+  - `4`: 엘리베이터 내부 모드
+  - `5`: 일반모드
 
 ---
 
@@ -38,6 +42,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 float32 left_boundary
 float32 right_boundary
 ```
@@ -57,6 +62,7 @@ int32[] button_ids
 ---
 # Response
 int32 robot_id
+bool success
 float32[] xs
 float32[] ys
 float32[] depths
@@ -65,11 +71,22 @@ builtin_interfaces/Time[] timestamp
 ```
 
 **button_id 값:**
-- `100`: 하행버튼
-- `101`: 상행버튼
 - `1`: 1층
 - `2`: 2층
 - `3`: 3층
+- `4`: 4층
+- `5`: 5층
+- `6`: 6층
+- `7`: 7층
+- `8`: 8층
+- `9`: 9층
+- `10`: 10층
+- `11`: 11층
+- `12`: 12층
+- `100`: 하행버튼
+- `101`: 상행버튼
+- `102`: 열기버튼
+- `103`: 닫기버튼
 
 ---
 
@@ -85,6 +102,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 int32 direction
 int32 position
 ```
@@ -110,6 +128,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 bool door_opened
 ```
 
@@ -131,6 +150,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 bool space_availability
 ```
 
@@ -148,6 +168,7 @@ int32 robot_id
 ---
 # Response
 int32 robot_id
+bool success
 int32 location_id
 ```
 

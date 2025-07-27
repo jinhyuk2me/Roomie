@@ -11,10 +11,10 @@ roomie_msgs__srv__SpaceAvailability__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xd3, 0x35, 0x9e, 0xa7, 0xab, 0x9f, 0x34, 0x05,
-      0x68, 0x72, 0x09, 0x4f, 0x73, 0x0c, 0x3c, 0xcc,
-      0x92, 0x9b, 0x93, 0x48, 0xdd, 0x93, 0xa3, 0x60,
-      0x5a, 0x59, 0xac, 0x95, 0x5a, 0x5a, 0x91, 0x12,
+      0x07, 0xb5, 0x74, 0xfe, 0x06, 0xce, 0xd6, 0xaa,
+      0x71, 0x4e, 0xda, 0xf1, 0xbe, 0xaf, 0x2e, 0x0d,
+      0xbd, 0xfa, 0x1f, 0x06, 0xd3, 0x53, 0x29, 0x0a,
+      0xcb, 0x9d, 0x3d, 0xc1, 0x72, 0xc4, 0x82, 0xff,
     }};
   return &hash;
 }
@@ -41,10 +41,10 @@ roomie_msgs__srv__SpaceAvailability_Response__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x30, 0x1d, 0x13, 0x6a, 0xe2, 0x59, 0x2c, 0x1d,
-      0xdf, 0x22, 0xd9, 0xf9, 0x88, 0x88, 0xf8, 0x84,
-      0x8d, 0xf9, 0xa6, 0x5c, 0x04, 0xee, 0x77, 0x42,
-      0xdf, 0x22, 0x8f, 0xcd, 0xa7, 0x7d, 0xc6, 0x7e,
+      0xf7, 0x8a, 0x69, 0xbf, 0xd5, 0x83, 0x5c, 0x92,
+      0x9a, 0x41, 0x0a, 0xa7, 0xba, 0x8c, 0x06, 0x20,
+      0x9e, 0x3f, 0xcf, 0x82, 0xa6, 0x99, 0x23, 0x20,
+      0xa6, 0x46, 0x3c, 0x8f, 0x4b, 0xa8, 0x8f, 0x62,
     }};
   return &hash;
 }
@@ -56,10 +56,10 @@ roomie_msgs__srv__SpaceAvailability_Event__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x54, 0x5d, 0x5d, 0xf0, 0xb2, 0xe6, 0xb6, 0xac,
-      0xf6, 0x91, 0xb5, 0x04, 0xe0, 0xbe, 0x4e, 0xe8,
-      0xfb, 0xbc, 0xd2, 0xd8, 0x3c, 0xe5, 0xe7, 0xe0,
-      0xce, 0x40, 0x04, 0x1b, 0x2b, 0xbb, 0x22, 0x6e,
+      0x3a, 0x9b, 0xe8, 0xc0, 0xf0, 0x69, 0xda, 0xb1,
+      0x7b, 0x52, 0xf4, 0x8f, 0xfc, 0xa0, 0x18, 0xd0,
+      0xa0, 0x4c, 0xae, 0x6e, 0x07, 0xe7, 0xb7, 0xd7,
+      0x23, 0xd2, 0x5c, 0xd6, 0xf2, 0x0f, 0xf5, 0x6e,
     }};
   return &hash;
 }
@@ -68,8 +68,8 @@ roomie_msgs__srv__SpaceAvailability_Event__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "service_msgs/msg/detail/service_event_info__functions.h"
 #include "builtin_interfaces/msg/detail/time__functions.h"
+#include "service_msgs/msg/detail/service_event_info__functions.h"
 
 // Hashes for external referenced types
 #ifndef NDEBUG
@@ -216,6 +216,7 @@ roomie_msgs__srv__SpaceAvailability_Request__get_type_description(
 }
 // Define type names, field names, and default values
 static char roomie_msgs__srv__SpaceAvailability_Response__FIELD_NAME__robot_id[] = "robot_id";
+static char roomie_msgs__srv__SpaceAvailability_Response__FIELD_NAME__success[] = "success";
 static char roomie_msgs__srv__SpaceAvailability_Response__FIELD_NAME__space_availability[] = "space_availability";
 
 static rosidl_runtime_c__type_description__Field roomie_msgs__srv__SpaceAvailability_Response__FIELDS[] = {
@@ -223,6 +224,16 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__srv__SpaceAvailabi
     {roomie_msgs__srv__SpaceAvailability_Response__FIELD_NAME__robot_id, 8, 8},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
+      0,
+      0,
+      {NULL, 0, 0},
+    },
+    {NULL, 0, 0},
+  },
+  {
+    {roomie_msgs__srv__SpaceAvailability_Response__FIELD_NAME__success, 7, 7},
+    {
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN,
       0,
       0,
       {NULL, 0, 0},
@@ -250,7 +261,7 @@ roomie_msgs__srv__SpaceAvailability_Response__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__srv__SpaceAvailability_Response__TYPE_NAME, 42, 42},
-      {roomie_msgs__srv__SpaceAvailability_Response__FIELDS, 2, 2},
+      {roomie_msgs__srv__SpaceAvailability_Response__FIELDS, 3, 3},
     },
     {NULL, 0, 0},
   };
@@ -348,6 +359,7 @@ static char toplevel_type_raw_source[] =
   "---\n"
   "# Response\n"
   "int32 robot_id\n"
+  "bool success\n"
   "bool space_availability ";
 
 static char srv_encoding[] = "srv";
@@ -363,7 +375,7 @@ roomie_msgs__srv__SpaceAvailability__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__srv__SpaceAvailability__TYPE_NAME, 33, 33},
     {srv_encoding, 3, 3},
-    {toplevel_type_raw_source, 103, 103},
+    {toplevel_type_raw_source, 116, 116},
   };
   return &source;
 }

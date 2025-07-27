@@ -16,6 +16,8 @@ module roomie_msgs {
     struct DoorStatus_Response {
       int32 robot_id;
 
+      boolean success;
+
       boolean door_opened;
     };
   };

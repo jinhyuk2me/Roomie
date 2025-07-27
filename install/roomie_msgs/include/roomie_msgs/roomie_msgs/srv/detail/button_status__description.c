@@ -11,10 +11,10 @@ roomie_msgs__srv__ButtonStatus__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xab, 0x9c, 0x09, 0xfd, 0x05, 0x7d, 0xfc, 0x56,
-      0x6c, 0x13, 0xa0, 0x64, 0xe8, 0x2e, 0x79, 0x92,
-      0x72, 0xa8, 0x13, 0x6d, 0x89, 0x3f, 0x7a, 0x3b,
-      0x02, 0x23, 0x12, 0x56, 0x60, 0xda, 0xd1, 0xa5,
+      0x55, 0x8e, 0x10, 0xf0, 0xe8, 0xcf, 0xf1, 0xa0,
+      0x7d, 0xfc, 0x4d, 0x4f, 0xd3, 0x8d, 0x7c, 0x6d,
+      0xd1, 0x55, 0x22, 0x4b, 0x24, 0xc6, 0x38, 0xdf,
+      0x0a, 0xb2, 0xc2, 0x0c, 0x43, 0x7e, 0x84, 0x16,
     }};
   return &hash;
 }
@@ -41,10 +41,10 @@ roomie_msgs__srv__ButtonStatus_Response__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xf5, 0x10, 0x3a, 0xfc, 0xa7, 0x3e, 0xf9, 0xd0,
-      0x4d, 0xf2, 0x13, 0xfa, 0x87, 0x37, 0x15, 0x2d,
-      0x3f, 0x67, 0x6e, 0xfe, 0x55, 0x6e, 0x6c, 0x66,
-      0xf7, 0x5c, 0xbb, 0xef, 0xee, 0x3f, 0x5f, 0x75,
+      0x04, 0x13, 0x1a, 0x2d, 0xa9, 0xf9, 0x4b, 0x1c,
+      0x7a, 0x20, 0x98, 0x0f, 0x11, 0xeb, 0x72, 0x4c,
+      0xb1, 0x03, 0x74, 0x14, 0x92, 0xd6, 0xb9, 0xaf,
+      0xbf, 0xd0, 0xc9, 0x27, 0xad, 0xee, 0xde, 0x24,
     }};
   return &hash;
 }
@@ -56,10 +56,10 @@ roomie_msgs__srv__ButtonStatus_Event__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0x31, 0xb5, 0x0c, 0xd4, 0x32, 0xfa, 0xfb, 0x44,
-      0x32, 0x26, 0x52, 0xf7, 0xc6, 0x1b, 0xd4, 0x99,
-      0x1e, 0xe3, 0x84, 0xc1, 0xb4, 0x20, 0x68, 0x9b,
-      0x25, 0x81, 0xfd, 0xf3, 0x8e, 0xa0, 0x58, 0x38,
+      0x83, 0xc8, 0x1b, 0xba, 0xca, 0xd8, 0x82, 0x44,
+      0x20, 0x06, 0xe8, 0xae, 0x33, 0x6d, 0xd7, 0x0b,
+      0x77, 0x54, 0xb1, 0x7d, 0x4b, 0xb8, 0x67, 0x15,
+      0x3b, 0x0d, 0x80, 0x95, 0x2c, 0xe7, 0x66, 0xc8,
     }};
   return &hash;
 }
@@ -68,8 +68,8 @@ roomie_msgs__srv__ButtonStatus_Event__get_type_hash(
 #include <string.h>
 
 // Include directives for referenced types
-#include "service_msgs/msg/detail/service_event_info__functions.h"
 #include "builtin_interfaces/msg/detail/time__functions.h"
+#include "service_msgs/msg/detail/service_event_info__functions.h"
 
 // Hashes for external referenced types
 #ifndef NDEBUG
@@ -227,6 +227,7 @@ roomie_msgs__srv__ButtonStatus_Request__get_type_description(
 }
 // Define type names, field names, and default values
 static char roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__robot_id[] = "robot_id";
+static char roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__success[] = "success";
 static char roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__xs[] = "xs";
 static char roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__ys[] = "ys";
 static char roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__depths[] = "depths";
@@ -238,6 +239,16 @@ static rosidl_runtime_c__type_description__Field roomie_msgs__srv__ButtonStatus_
     {roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__robot_id, 8, 8},
     {
       rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32,
+      0,
+      0,
+      {NULL, 0, 0},
+    },
+    {NULL, 0, 0},
+  },
+  {
+    {roomie_msgs__srv__ButtonStatus_Response__FIELD_NAME__success, 7, 7},
+    {
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN,
       0,
       0,
       {NULL, 0, 0},
@@ -312,7 +323,7 @@ roomie_msgs__srv__ButtonStatus_Response__get_type_description(
   static const rosidl_runtime_c__type_description__TypeDescription description = {
     {
       {roomie_msgs__srv__ButtonStatus_Response__TYPE_NAME, 37, 37},
-      {roomie_msgs__srv__ButtonStatus_Response__FIELDS, 6, 6},
+      {roomie_msgs__srv__ButtonStatus_Response__FIELDS, 7, 7},
     },
     {roomie_msgs__srv__ButtonStatus_Response__REFERENCED_TYPE_DESCRIPTIONS, 1, 1},
   };
@@ -413,6 +424,7 @@ static char toplevel_type_raw_source[] =
   "---\n"
   "# Response\n"
   "int32 robot_id\n"
+  "bool success\n"
   "float32[] xs\n"
   "float32[] ys\n"
   "float32[] depths\n"
@@ -439,7 +451,7 @@ roomie_msgs__srv__ButtonStatus__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {roomie_msgs__srv__ButtonStatus__TYPE_NAME, 28, 28},
     {srv_encoding, 3, 3},
-    {toplevel_type_raw_source, 260, 260},
+    {toplevel_type_raw_source, 273, 273},
   };
   return &source;
 }

@@ -82,16 +82,32 @@ private:
   ::roomie_msgs::srv::DoorStatus_Response msg_;
 };
 
+class Init_DoorStatus_Response_success
+{
+public:
+  explicit Init_DoorStatus_Response_success(::roomie_msgs::srv::DoorStatus_Response & msg)
+  : msg_(msg)
+  {}
+  Init_DoorStatus_Response_door_opened success(::roomie_msgs::srv::DoorStatus_Response::_success_type arg)
+  {
+    msg_.success = std::move(arg);
+    return Init_DoorStatus_Response_door_opened(msg_);
+  }
+
+private:
+  ::roomie_msgs::srv::DoorStatus_Response msg_;
+};
+
 class Init_DoorStatus_Response_robot_id
 {
 public:
   Init_DoorStatus_Response_robot_id()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_DoorStatus_Response_door_opened robot_id(::roomie_msgs::srv::DoorStatus_Response::_robot_id_type arg)
+  Init_DoorStatus_Response_success robot_id(::roomie_msgs::srv::DoorStatus_Response::_robot_id_type arg)
   {
     msg_.robot_id = std::move(arg);
-    return Init_DoorStatus_Response_door_opened(msg_);
+    return Init_DoorStatus_Response_success(msg_);
   }
 
 private:

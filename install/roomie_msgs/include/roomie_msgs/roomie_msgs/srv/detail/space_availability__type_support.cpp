@@ -164,7 +164,7 @@ void SpaceAvailability_Response_fini_function(void * message_memory)
   typed_message->~SpaceAvailability_Response();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember SpaceAvailability_Response_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember SpaceAvailability_Response_message_member_array[3] = {
   {
     "robot_id",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
@@ -175,6 +175,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember SpaceAvailabi
     0,  // array size
     false,  // is upper bound
     offsetof(roomie_msgs::srv::SpaceAvailability_Response, robot_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "success",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(roomie_msgs::srv::SpaceAvailability_Response, success),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -206,7 +224,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember SpaceAvailabi
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers SpaceAvailability_Response_message_members = {
   "roomie_msgs::srv",  // message namespace
   "SpaceAvailability_Response",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(roomie_msgs::srv::SpaceAvailability_Response),
   false,  // has_any_key_member_
   SpaceAvailability_Response_message_member_array,  // message members

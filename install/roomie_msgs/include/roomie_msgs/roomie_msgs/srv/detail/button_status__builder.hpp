@@ -162,16 +162,32 @@ private:
   ::roomie_msgs::srv::ButtonStatus_Response msg_;
 };
 
+class Init_ButtonStatus_Response_success
+{
+public:
+  explicit Init_ButtonStatus_Response_success(::roomie_msgs::srv::ButtonStatus_Response & msg)
+  : msg_(msg)
+  {}
+  Init_ButtonStatus_Response_xs success(::roomie_msgs::srv::ButtonStatus_Response::_success_type arg)
+  {
+    msg_.success = std::move(arg);
+    return Init_ButtonStatus_Response_xs(msg_);
+  }
+
+private:
+  ::roomie_msgs::srv::ButtonStatus_Response msg_;
+};
+
 class Init_ButtonStatus_Response_robot_id
 {
 public:
   Init_ButtonStatus_Response_robot_id()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_ButtonStatus_Response_xs robot_id(::roomie_msgs::srv::ButtonStatus_Response::_robot_id_type arg)
+  Init_ButtonStatus_Response_success robot_id(::roomie_msgs::srv::ButtonStatus_Response::_robot_id_type arg)
   {
     msg_.robot_id = std::move(arg);
-    return Init_ButtonStatus_Response_xs(msg_);
+    return Init_ButtonStatus_Response_success(msg_);
   }
 
 private:

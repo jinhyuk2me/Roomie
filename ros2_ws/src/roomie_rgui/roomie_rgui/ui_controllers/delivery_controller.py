@@ -181,6 +181,50 @@ class DeliveryController(BaseController):
                 pickup_button.setStyleSheet("background-color: #e74c3c; font-size: 18px; font-weight: bold;")
                 self.log_info("✅ 수령완료 버튼이 활성화되었습니다")
     
+    def show_pickup_order(self, items, room_number="202"):
+        """주문 내역을 화면에 표시 (rgui_node.py에서 호출됨)"""
+        from PyQt6.QtWidgets import QLabel
+        
+        self.log_info(f"📋 주문 내역 표시 요청: {len(items)}개 항목, 호실: {room_number}호")
+        
+        # menuItems 위젯 찾기
+        menu_items_label = self.widget.findChild(QLabel, "menuItems")
+        if not menu_items_label:
+            self.log_error("menuItems 라벨을 찾을 수 없습니다")
+            return
+        
+        # 주문 내역 텍스트 생성
+        menu_text = ""
+        for item in items:
+            name = item.get("name", "알 수 없는 메뉴")
+            quantity = item.get("quantity", 1)
+            menu_text += f"{name} {quantity}개\n"
+        
+        # 텍스트가 비어있으면 기본값 설정
+        if not menu_text.strip():
+            menu_text = "주문 내역이 없습니다"
+        
+        # 화면에 표시
+        menu_items_label.setText(menu_text.strip())
+        self.log_info(f"✅ 주문 내역 표시 완료:\n{menu_text}")
+        
+        # 호실 번호 업데이트
+        room_number_label = self.widget.findChild(QLabel, "roomNumber")
+        if room_number_label:
+            room_number_label.setText(f"{room_number}호")
+            self.log_info(f"✅ 호실 번호 표시: {room_number}호")
+    
+    def show_room_number(self, room_number):
+        """호실 번호를 화면에 표시"""
+        from PyQt6.QtWidgets import QLabel
+        
+        room_number_label = self.widget.findChild(QLabel, "roomNumber")
+        if room_number_label:
+            room_number_label.setText(f"{room_number}호")
+            self.log_info(f"✅ 호실 번호 표시: {room_number}호")
+        else:
+            self.log_error("roomNumber 라벨을 찾을 수 없습니다")
+    
     # 🎉 DELI_8: 감사 인사
     def setup_thank_you_events(self):
         """감사 인사 화면"""

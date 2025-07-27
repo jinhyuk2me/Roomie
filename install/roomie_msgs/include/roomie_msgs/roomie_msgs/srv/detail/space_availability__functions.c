@@ -242,6 +242,7 @@ roomie_msgs__srv__SpaceAvailability_Response__init(roomie_msgs__srv__SpaceAvaila
     return false;
   }
   // robot_id
+  // success
   // space_availability
   return true;
 }
@@ -253,6 +254,7 @@ roomie_msgs__srv__SpaceAvailability_Response__fini(roomie_msgs__srv__SpaceAvaila
     return;
   }
   // robot_id
+  // success
   // space_availability
 }
 
@@ -264,6 +266,10 @@ roomie_msgs__srv__SpaceAvailability_Response__are_equal(const roomie_msgs__srv__
   }
   // robot_id
   if (lhs->robot_id != rhs->robot_id) {
+    return false;
+  }
+  // success
+  if (lhs->success != rhs->success) {
     return false;
   }
   // space_availability
@@ -283,6 +289,8 @@ roomie_msgs__srv__SpaceAvailability_Response__copy(
   }
   // robot_id
   output->robot_id = input->robot_id;
+  // success
+  output->success = input->success;
   // space_availability
   output->space_availability = input->space_availability;
   return true;

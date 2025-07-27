@@ -156,6 +156,7 @@ struct ElevatorWidth_Response_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
+      this->success = false;
       this->left_boundary = 0.0f;
       this->right_boundary = 0.0f;
     }
@@ -168,6 +169,7 @@ struct ElevatorWidth_Response_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->robot_id = 0l;
+      this->success = false;
       this->left_boundary = 0.0f;
       this->right_boundary = 0.0f;
     }
@@ -177,6 +179,9 @@ struct ElevatorWidth_Response_
   using _robot_id_type =
     int32_t;
   _robot_id_type robot_id;
+  using _success_type =
+    bool;
+  _success_type success;
   using _left_boundary_type =
     float;
   _left_boundary_type left_boundary;
@@ -189,6 +194,12 @@ struct ElevatorWidth_Response_
     const int32_t & _arg)
   {
     this->robot_id = _arg;
+    return *this;
+  }
+  Type & set__success(
+    const bool & _arg)
+  {
+    this->success = _arg;
     return *this;
   }
   Type & set__left_boundary(
@@ -247,6 +258,9 @@ struct ElevatorWidth_Response_
   bool operator==(const ElevatorWidth_Response_ & other) const
   {
     if (this->robot_id != other.robot_id) {
+      return false;
+    }
+    if (this->success != other.success) {
       return false;
     }
     if (this->left_boundary != other.left_boundary) {

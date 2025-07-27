@@ -6,10 +6,11 @@ Robot GUI 테스트 클라이언트
 
 import rclpy
 from rclpy.node import Node
+from rclpy.action import ActionClient
 import threading
 import time
 from roomie_msgs.msg import RobotGuiEvent
-from roomie_msgs.srv import StartCountdown, ReturnCountdown
+from roomie_msgs.action import StartCountdown, ReturnCountdown
 
 
 class TestServiceClient(Node):
@@ -19,9 +20,9 @@ class TestServiceClient(Node):
         # Publisher - Robot GUI로 이벤트 발행
         self.event_pub = self.create_publisher(RobotGuiEvent, '/robot_gui/event', 10)
         
-        # Service Clients
-        self.departure_cli = self.create_client(StartCountdown, '/robot_gui/start_departure_countdown')
-        self.return_cli = self.create_client(ReturnCountdown, '/robot_gui/start_return_countdown')
+        # Action Clients
+        self.departure_cli = ActionClient(self, StartCountdown, '/robot_gui/action/start_countdown')
+        self.return_cli = ActionClient(self, ReturnCountdown, '/robot_gui/action/return_countdown')
         
         self.get_logger().info("🧪 Robot GUI 테스트 클라이언트 시작")
         self.show_menu()
@@ -42,49 +43,48 @@ class TestServiceClient(Node):
         self.get_logger().info(f"📤 이벤트 발행: ID={event_id}, detail='{detail}'")
     
     def call_departure_countdown(self):
-        """출발 카운트다운 서비스 호출"""
-        if not self.departure_cli.wait_for_service(timeout_sec=2.0):
-            self.get_logger().error("❌ 출발 카운트다운 서비스를 찾을 수 없습니다")
+        """출발 카운트다운 액션 호출"""
+        if not self.departure_cli.wait_for_server(timeout_sec=2.0):
+            self.get_logger().error("❌ 출발 카운트다운 액션 서버를 찾을 수 없습니다")
             return
         
-        request = StartCountdown.Request()
-        request.robot_id = 98
-        request.task_id = 1
+        goal = StartCountdown.Goal()
+        goal.robot_id = 98
+        goal.task_id = 1
+        goal.task_type_id = 0  # 음식배송
         
-        self.get_logger().info("📞 출발 카운트다운 서비스 호출 중...")
-        future = self.departure_cli.call_async(request)
+        self.get_logger().info("📞 카운트다운 액션 호출 중...")
         
-        def handle_response():
-            rclpy.spin_until_future_complete(self, future)
-            if future.result():
-                response = future.result()
-                self.get_logger().info(f"✅ 출발 카운트다운 응답: success={response.success}, reason={response.reason}")
-            else:
-                self.get_logger().error("❌ 출발 카운트다운 서비스 호출 실패")
+        def feedback_callback(feedback):
+            self.get_logger().info(f"⏰ 액션 피드백: 남은 시간 {feedback.feedback.remaining_time}초")
         
-        threading.Thread(target=handle_response, daemon=True).start()
+        def done_callback(future):
+            result = future.result().result
+            self.get_logger().info(f"✅ 카운트다운 완료: success={result.success}, robot_id={result.robot_id}")
+        
+        send_goal_future = self.departure_cli.send_goal_async(goal, feedback_callback=feedback_callback)
+        send_goal_future.add_done_callback(lambda future: future.result().get_result_async().add_done_callback(done_callback))
     
     def call_return_countdown(self):
-        """복귀 카운트다운 서비스 호출"""
-        if not self.return_cli.wait_for_service(timeout_sec=2.0):
-            self.get_logger().error("❌ 복귀 카운트다운 서비스를 찾을 수 없습니다")
+        """복귀 카운트다운 액션 호출"""
+        if not self.return_cli.wait_for_server(timeout_sec=2.0):
+            self.get_logger().error("❌ 복귀 카운트다운 액션 서버를 찾을 수 없습니다")
             return
         
-        request = ReturnCountdown.Request()
-        request.robot_id = 98
+        goal = ReturnCountdown.Goal()
+        goal.robot_id = 98
         
-        self.get_logger().info("📞 복귀 카운트다운 서비스 호출 중...")
-        future = self.return_cli.call_async(request)
+        self.get_logger().info("📞 복귀 카운트다운 액션 호출 중...")
         
-        def handle_response():
-            rclpy.spin_until_future_complete(self, future)
-            if future.result():
-                response = future.result()
-                self.get_logger().info(f"✅ 복귀 카운트다운 응답: success={response.success}, reason={response.reason}")
-            else:
-                self.get_logger().error("❌ 복귀 카운트다운 서비스 호출 실패")
+        def feedback_callback(feedback):
+            self.get_logger().info(f"⏰ 액션 피드백: 남은 시간 {feedback.feedback.remaining_time}초")
         
-        threading.Thread(target=handle_response, daemon=True).start()
+        def done_callback(future):
+            result = future.result().result
+            self.get_logger().info(f"✅ 복귀 카운트다운 완료: success={result.success}, robot_id={result.robot_id}")
+        
+        send_goal_future = self.return_cli.send_goal_async(goal, feedback_callback=feedback_callback)
+        send_goal_future.add_done_callback(lambda future: future.result().get_result_async().add_done_callback(done_callback))
     
     def show_menu(self):
         """사용 가능한 명령어 표시"""
@@ -93,9 +93,9 @@ class TestServiceClient(Node):
         print("="*60)
         print("📋 사용 가능한 명령어:")
         print()
-        print("🔧 서비스 호출:")
-        print("  1  : 출발 카운트다운 서비스 호출")
-        print("  2  : 복귀 카운트다운 서비스 호출")
+        print("🔧 액션 호출:")
+        print("  1  : 출발 카운트다운 액션 호출")
+        print("  2  : 복귀 카운트다운 액션 호출")
         print()
         print("📡 이벤트 발행 (RC → Robot GUI):")
         print("  12 : 픽업장소 이동 시작")
@@ -159,7 +159,44 @@ class TestServiceClient(Node):
                     self.call_return_countdown()
                 elif cmd in ["12", "13", "14", "15", "16", "19", "20", "24", "25"]:
                     event_id = int(cmd)
-                    self.publish_event(event_id)
+                    # 13번(픽업장소 이동 종료) 이벤트는 주문 내역 detail 포함
+                    if event_id == 13:
+                        import json
+                        import random
+                        
+                        # 랜덤 메뉴 목록
+                        menu_list = [
+                            "스파게티", "피자", "햄버거", "치킨", "샐러드", 
+                            "파스타", "스테이크", "초밥", "라면", "김치찌개",
+                            "된장찌개", "비빔밥", "불고기", "갈비찜", "삼겹살"
+                        ]
+                        
+                        # 랜덤으로 1~4개 메뉴 선택
+                        num_items = random.randint(1, 4)
+                        random_items = []
+                        
+                        for _ in range(num_items):
+                            menu_name = random.choice(menu_list)
+                            quantity = random.randint(1, 3)  # 1~3개
+                            random_items.append({
+                                "name": menu_name,
+                                "quantity": quantity
+                            })
+                        
+                        detail = json.dumps({
+                            "room_number": str(random.randint(101, 999)),  # 101~999호 랜덤
+                            "items": random_items
+                        }, ensure_ascii=False)
+                        
+                        self.get_logger().info(f"🎲 랜덤 주문 내역 생성: {len(random_items)}개 메뉴")
+                        room_num = json.loads(detail)["room_number"]
+                        self.get_logger().info(f"   🏠 호실: {room_num}호")
+                        for item in random_items:
+                            self.get_logger().info(f"   - {item['name']} {item['quantity']}개")
+                        
+                        self.publish_event(event_id, detail=detail)
+                    else:
+                        self.publish_event(event_id)
                 else:
                     print(f"❌ 알 수 없는 명령어: {cmd}")
                     print("'menu'를 입력하면 사용 가능한 명령어를 볼 수 있습니다.")

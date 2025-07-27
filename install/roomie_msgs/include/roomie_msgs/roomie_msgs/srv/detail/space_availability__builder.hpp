@@ -82,16 +82,32 @@ private:
   ::roomie_msgs::srv::SpaceAvailability_Response msg_;
 };
 
+class Init_SpaceAvailability_Response_success
+{
+public:
+  explicit Init_SpaceAvailability_Response_success(::roomie_msgs::srv::SpaceAvailability_Response & msg)
+  : msg_(msg)
+  {}
+  Init_SpaceAvailability_Response_space_availability success(::roomie_msgs::srv::SpaceAvailability_Response::_success_type arg)
+  {
+    msg_.success = std::move(arg);
+    return Init_SpaceAvailability_Response_space_availability(msg_);
+  }
+
+private:
+  ::roomie_msgs::srv::SpaceAvailability_Response msg_;
+};
+
 class Init_SpaceAvailability_Response_robot_id
 {
 public:
   Init_SpaceAvailability_Response_robot_id()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_SpaceAvailability_Response_space_availability robot_id(::roomie_msgs::srv::SpaceAvailability_Response::_robot_id_type arg)
+  Init_SpaceAvailability_Response_success robot_id(::roomie_msgs::srv::SpaceAvailability_Response::_robot_id_type arg)
   {
     msg_.robot_id = std::move(arg);
-    return Init_SpaceAvailability_Response_space_availability(msg_);
+    return Init_SpaceAvailability_Response_success(msg_);
   }
 
 private:

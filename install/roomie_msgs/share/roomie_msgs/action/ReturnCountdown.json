@@ -1,0 +1,532 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "roomie_msgs/action/ReturnCountdown",
+      "fields": [
+        {
+          "name": "goal",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_Goal"
+          },
+          "default_value": ""
+        },
+        {
+          "name": "result",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_Result"
+          },
+          "default_value": ""
+        },
+        {
+          "name": "feedback",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_Feedback"
+          },
+          "default_value": ""
+        },
+        {
+          "name": "send_goal_service",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal"
+          },
+          "default_value": ""
+        },
+        {
+          "name": "get_result_service",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult"
+          },
+          "default_value": ""
+        },
+        {
+          "name": "feedback_message",
+          "type": {
+            "type_id": 1,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": "roomie_msgs/action/ReturnCountdown_FeedbackMessage"
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": [
+      {
+        "type_name": "builtin_interfaces/msg/Time",
+        "fields": [
+          {
+            "name": "sec",
+            "type": {
+              "type_id": 6,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "nanosec",
+            "type": {
+              "type_id": 7,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_Feedback",
+        "fields": [
+          {
+            "name": "remaining_time",
+            "type": {
+              "type_id": 6,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_FeedbackMessage",
+        "fields": [
+          {
+            "name": "goal_id",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "unique_identifier_msgs/msg/UUID"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "feedback",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_Feedback"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_GetResult",
+        "fields": [
+          {
+            "name": "request_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Request"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "response_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Response"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "event_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Event"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Event",
+        "fields": [
+          {
+            "name": "info",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "service_msgs/msg/ServiceEventInfo"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "request",
+            "type": {
+              "type_id": 97,
+              "capacity": 1,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Request"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "response",
+            "type": {
+              "type_id": 97,
+              "capacity": 1,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Response"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Request",
+        "fields": [
+          {
+            "name": "goal_id",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "unique_identifier_msgs/msg/UUID"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Response",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "type_id": 2,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "result",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_Result"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_Goal",
+        "fields": [
+          {
+            "name": "robot_id",
+            "type": {
+              "type_id": 6,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_Result",
+        "fields": [
+          {
+            "name": "robot_id",
+            "type": {
+              "type_id": 6,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "success",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal",
+        "fields": [
+          {
+            "name": "request_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Request"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "response_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Response"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "event_message",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Event"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Event",
+        "fields": [
+          {
+            "name": "info",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "service_msgs/msg/ServiceEventInfo"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "request",
+            "type": {
+              "type_id": 97,
+              "capacity": 1,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Request"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "response",
+            "type": {
+              "type_id": 97,
+              "capacity": 1,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Response"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Request",
+        "fields": [
+          {
+            "name": "goal_id",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "unique_identifier_msgs/msg/UUID"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "goal",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "roomie_msgs/action/ReturnCountdown_Goal"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Response",
+        "fields": [
+          {
+            "name": "accepted",
+            "type": {
+              "type_id": 15,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "stamp",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "builtin_interfaces/msg/Time"
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "service_msgs/msg/ServiceEventInfo",
+        "fields": [
+          {
+            "name": "event_type",
+            "type": {
+              "type_id": 3,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "stamp",
+            "type": {
+              "type_id": 1,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": "builtin_interfaces/msg/Time"
+            },
+            "default_value": ""
+          },
+          {
+            "name": "client_gid",
+            "type": {
+              "type_id": 51,
+              "capacity": 16,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          },
+          {
+            "name": "sequence_number",
+            "type": {
+              "type_id": 8,
+              "capacity": 0,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "type_name": "unique_identifier_msgs/msg/UUID",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": {
+              "type_id": 51,
+              "capacity": 16,
+              "string_capacity": 0,
+              "nested_type_name": ""
+            },
+            "default_value": ""
+          }
+        ]
+      }
+    ]
+  },
+  "type_hashes": [
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown",
+      "hash_string": "RIHS01_67750e79f53d0f30d8780966be4f5ec16822fccb59f439352f84e4b075354290"
+    },
+    {
+      "type_name": "builtin_interfaces/msg/Time",
+      "hash_string": "RIHS01_b106235e25a4c5ed35098aa0a61a3ee9c9b18d197f398b0e4206cea9acf9c197"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_Feedback",
+      "hash_string": "RIHS01_d1215718b42f73fec2457d34b7a957f7e68b63169854cb29da8bad2e9a0eb295"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_FeedbackMessage",
+      "hash_string": "RIHS01_d278c6ffafa9c17af4da36d1ea3ce5e95ee43fbb967b33849dcb3507dbc9f1d3"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_GetResult",
+      "hash_string": "RIHS01_25c3aca054bdaa3e02686d64e079e271ec7c8aec355646979a7d08f033bb8365"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Event",
+      "hash_string": "RIHS01_1cbd9873c54d3f8dce5f192fbfda13175e4068f729566bd69de64fc9e04d3931"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Request",
+      "hash_string": "RIHS01_5c1fea9d99fc1b3dc294e1f5f62ee1e25a8ade97758cbdeb271eb14372caca99"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_GetResult_Response",
+      "hash_string": "RIHS01_0393a0b7c02a5293f0b6a88a72bea93b25c4e561c598fd3a6b595a50ec1cd814"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_Goal",
+      "hash_string": "RIHS01_d0c51a53b1aced8460090477f2025c63dba748fedb5125e0e73cb981d8f252bf"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_Result",
+      "hash_string": "RIHS01_b633f712e4738fb6cd9c29c5ef2c975563fe72ead13e5dce1fcc88042f65095c"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal",
+      "hash_string": "RIHS01_3d9d0beec42a7b9dfc2bab68756ec420e4646284ae3d7ac15dcbb9d273ec2442"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Event",
+      "hash_string": "RIHS01_2d5548a3b0df82fd887b8886ac31ad8d06d150ceadde7f80df5f40e8cdddc8ab"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Request",
+      "hash_string": "RIHS01_16f6b4cb622d9a928bfdf1e97dc65f2688daf386bb22b53881d906bfec6d8017"
+    },
+    {
+      "type_name": "roomie_msgs/action/ReturnCountdown_SendGoal_Response",
+      "hash_string": "RIHS01_693c98356f080fcfee51ccb118bfadb7663fec10481546f03ea944e0eac95ffd"
+    },
+    {
+      "type_name": "service_msgs/msg/ServiceEventInfo",
+      "hash_string": "RIHS01_41bcbbe07a75c9b52bc96bfd5c24d7f0fc0a08c0cb7921b3373c5732345a6f45"
+    },
+    {
+      "type_name": "unique_identifier_msgs/msg/UUID",
+      "hash_string": "RIHS01_1b8e8aca958cbea28fe6ef60bf6c19b683c97a9ef60bb34752067d0f2f7ab437"
+    }
+  ]
+}
