@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700&display=swap" rel="stylesheet" />
+    <title>ROOMIE</title>
+    <style>
+        /* --- 기본 스타일 초기화 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 전체 페이지 레이아웃 --- */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: white;
+            
+            /* 배경 이미지와 어두운 오버레이 처리 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('asset/background_1.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+
+            /* Flexbox를 사용해 내용물을 세로로 정렬 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 상단, 중앙, 하단으로 공간 배분 */
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        /* --- 상단 '201호' 텍스트 --- */
+        .header {
+            width: 100%;
+            text-align: right;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* --- 중앙 콘텐츠 영역 --- */
+        .main-content {
+            /* Flexbox 자식 요소가 남는 공간을 차지하지 않도록 설정 */
+            flex-grow: 0; 
+        }
+        
+        .main-content h1 {
+            font-size: 75px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .main-content .subtitle {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .main-content .welcome {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        /* --- 하단 버튼 그리드 영역 --- */
+        .button-grid {
+            width: 100%;
+            max-width: 420px; /* 버튼 영역의 최대 너비 제한 */
+            
+            /* CSS Grid를 사용해 2x2 격자 레이아웃 생성 */
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2개의 동일한 너비의 열 */
+            gap: 15px; /* 버튼 사이의 간격 */
+            margin-top: 40px;
+        }
+        
+        /* --- 버튼 공통 스타일 --- */
+        .grid-button {
+            background-color: #3B5E72;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 25px 10px; /* 위아래 패딩을 늘려 높이 확보 */
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .grid-button:hover {
+            background-color: #4a758f;
+        }
+
+        /* --- 반응형 처리: 화면 너비가 600px 이하일 때 --- */
+        @media (max-width: 600px) {
+            .main-content h1 {
+                font-size: 60px;
+            }
+            .main-content .subtitle, .main-content .welcome {
+                font-size: 16px;
+            }
+            .grid-button {
+                font-size: 20px;
+                padding: 20px 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <script src="config.js"></script>
+    <script src="common.js"></script>
+    <header class="header">
+        <span class="room-number">201호</span>
+    </header> 
+    <main class="main-content">
+        <h1>ROOMIE</h1>
+        <p class="subtitle">호텔 안내 & 주문 배송 서비스</p>
+        <p class="welcome">ROOMIE에 오신 걸 환영합니다.</p>
+    </main>
+
+    <div class="button-grid">
+        <button class="grid-button" id="button_call_robot">로봇호출</button>
+        <button class="grid-button" id="button_order_history">요청조회</button>
+        <button class="grid-button" id="button_order_food">음식주문</button>
+        <button class="grid-button" id="button_order_supply">비품주문</button>
+    </div>
+    <div id="global-toast" class="global-toast hidden">
+        <img id="toast-full-image" class="toast-image" src="" alt="">
+    </div>
+    <script>
+        // --- 공통 변수 설정 ---
+        const locationName = "ROOM_102"; // 이 객실의 고유 이름
+        document.querySelector('.room-number').textContent = locationName.replace('_', ' ');
+
+        /**
+         * 서버로 API 요청을 보내는 범용 함수
+         * @param {string} action - 요청할 작업 (예: 'create_call_task')
+         * @param {object} payload - 요청 시 보낼 데이터
+         * @returns {Promise<object>} - 서버 응답 데이터
+         */
+        async function postToServer(action, payload) {
+            // gui_models.py에 정의된 Request 모델 형식에 맞춰 요청 데이터를 구성합니다.
+            const requestData = {
+                type: "request",
+                action: action,
+                payload: payload
+            };
+            
+            // http_manager.py에 정의된 API 경로를 action을 기반으로 완성합니다.
+            const serverUrl = `${CONFIG.API_BASE_URL}/${action}`;
+
+            try {
+                const response = await fetch(serverUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || '서버 응답에 문제가 있습니다.');
+                }
+
+                return await response.json();
+
+            } catch (error) {
+                console.error(`'${action}' 요청 실패:`, error);
+                // 사용자에게 일관된 오류 메시지를 보여줍니다.
+                alert(`요청 처리 중 오류가 발생했습니다: ${error.message}`);
+                // 오류가 발생했음을 나타내기 위해 null을 반환합니다.
+                return null; 
+            }
+        }
+
+        // --- 버튼 클릭 이벤트 리스너 설정 ---
+
+        // '로봇호출' 버튼
+        document.getElementById('button_call_robot').addEventListener('click', async () => {
+            const payload = { location: locationName };
+            const data = await postToServer('create_call_task', payload);
+
+            if (data && data.payload.success) {
+                alert(`로봇을 호출했습니다. (작업명: ${data.payload.task_name})`);
+                // 호출 상태를 확인할 수 있도록 작업 정보를 저장하고 다음 페이지로 이동
+                localStorage.setItem('lastCallTask', JSON.stringify(data.payload));
+                window.location.href = 'page_call_status.html'; // 예시: 호출 상태 페이지
+            }
+        });
+
+        // '요청조회' 버튼
+        // 참고: 특정 task_name 없이 모든 기록을 가져오는 페이지로 이동하는 것이 더 자연스러운 UI 흐름입니다.
+        // 여기서는 '요청 내역' 페이지로 단순히 이동하는 것으로 수정합니다.
+        document.getElementById('button_order_history').addEventListener('click', () => {
+             // 이 페이지에서는 어떤 요청을 조회할지 알 수 없으므로,
+             // 모든 요청 목록을 보여주는 페이지로 이동시키는 것이 좋습니다.
+            window.location.href = 'page_history_list.html'; // 예시: 전체 요청 목록 페이지
+        });
+        
+        // '음식주문' 버튼
+        document.getElementById('button_order_food').addEventListener('click', async () => {
+            const payload = { location_name: locationName };
+            const data = await postToServer('get_food_menu', payload);
+
+            if (data) {
+                // 성공 시, 응답 데이터를 localStorage에 저장하고 메뉴 페이지로 이동
+                localStorage.setItem('foodMenuData', JSON.stringify(data.payload.food_items));
+                window.location.href = 'page_callfood_1.html';
+            }
+        });
+
+        // '비품주문' 버튼
+        document.getElementById('button_order_supply').addEventListener('click', async () => {
+            const payload = { location_name: locationName };
+            const data = await postToServer('get_supply_menu', payload);
+            
+            if (data) {
+                // 성공 시, 음식 주문과 마찬가지로 데이터를 저장하고 메뉴 페이지로 이동
+                localStorage.setItem('supplyMenuData', JSON.stringify(data.payload.supply_items));
+                window.location.href = 'page_callsupply_1.html';
+            }
+        });
+
+    </script>
+</body>
+</html>
