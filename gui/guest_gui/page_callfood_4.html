@@ -363,7 +363,9 @@
                 
                 // 실제 서버 요청 (fetch)
                 try {
-                    const serverUrl = CONFIG.API_BASE_URL; // CONFIG.API_BASE_URL 사용
+                    const action = "get_order_history";
+                    const serverUrl = `${CONFIG.API_BASE_URL}/${action}`; // URL을 올바르게 조합
+                    // CONFIG.API_BASE_URL 사용
                     const response = await fetch(serverUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },

@@ -179,7 +179,11 @@
 
         // '로봇호출' 버튼
         document.getElementById('button_call_robot').addEventListener('click', async () => {
-            const payload = { location: locationName };
+
+            const payload = { 
+                location: locationName, 
+                task_type: 2 
+            };
             const data = await postToServer('create_call_task', payload);
 
             if (data && data.payload.success) {
